@@ -1,0 +1,44 @@
+@import url(http://fonts.googleapis.com/css?family=Montserrat);
+body {
+    font-family: "Montserrat", sans-serif !important;
+    overflow: auto;
+    margin: 0px;
+    background-color: #f0f0f0;
+    padding: 68px 0;
+    color: #000;
+}
+
+.ibm-tab-section {
+    margin-bottom: 116px;
+}
+
+.ibm-tabs-content {
+    display: none;
+}
+
+.ibm-tabs li {
+    text-align: center;
+    list-style: none;
+    padding: 4px 0;
+    text-transform: uppercase;
+    font-size: 20px;
+}
+
+.ibm-tabs li:hover, 
+.ibm-tabs li.active {
+    border-bottom: 2px solid green;
+}
+
+.ibm-tabs li a{
+    color: #000;
+    text-decoration: none;
+}
+
+#desk-intro .container ol {
+    padding-left: 1.5rem;
+}
+
+button a {
+    color: #fff;
+    text-decoration: none;
+}
