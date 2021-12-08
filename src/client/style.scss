@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Montserrat);
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
 body {
     font-family: "Montserrat", sans-serif !important;
     overflow: auto;
@@ -61,5 +61,9 @@ button a {
     box-shadow: none;
 }
 .dropdown-block button.active img {
-    content: url(dropdown-up-black.png);
+    content: url(assets/dropdown-up-black.png);
+}
+
+input:hover {
+    cursor: pointer;
 }
