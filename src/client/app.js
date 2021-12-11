@@ -1,6 +1,6 @@
 $(function () {
     $("#desk-intro").show();
-    $('canvas').hide();
+    // $('canvas').hide();
 });
 
 $('.ibm-tabs li a').on('click', function (e) {
