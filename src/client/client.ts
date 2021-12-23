@@ -3,7 +3,7 @@ import "./app.js";
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { DragControls } from 'three/examples/jsm/controls/DragControls';
-import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+// import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xbfa4a4);
@@ -14,8 +14,8 @@ camera.position.z = 17
 
 const renderer = new THREE.WebGLRenderer()
 renderer.setSize(width, height)
-// $('#desk-progress .container div.d-flex div.canvas').append(renderer.domElement);
-$('#desk-intro div.canvas').append(renderer.domElement);
+$('#desk-progress .container div.d-flex div.canvas').append(renderer.domElement);
+// $('#desk-intro div.canvas').append(renderer.domElement);
 
 const deskGeometry = new THREE.BoxBufferGeometry(24,24, 1)
 const deskMaterial = new THREE.MeshBasicMaterial({
@@ -48,15 +48,12 @@ cone.rotation.set(Math.PI / 2, 0, 0);
 
 const sphereGeometry = new THREE.SphereGeometry(.35,32,16);
 
-var pawnGeometry = THREE.BufferGeometryUtils.mergeBufferGeometries([coneGeometry, sphereGeometry]);
+// var pawnGeometry = THREE.BufferGeometryUtils.mergeBufferGeometries([coneGeometry, sphereGeometry]);
 const sphere = new THREE.Mesh(sphereGeometry);
 sphere.position.set(0,0.63,0);
 
 
-const pawn = new THREE.Mesh(pawnGeometry);
-
-
-
+const pawn = cone.add(sphere);
 
 pawn.castShadow = true;
 pawn.receiveShadow = true;
@@ -71,7 +68,7 @@ scene.add(pawn)
 //     renderer.setSize(window.innerWidth, window.innerHeight)
 //     render()
 // }
-// const orbitControls = new OrbitControls(camera, renderer.domElement)
+const orbitControls = new OrbitControls(camera, renderer.domElement)
 const dragControls = new DragControls([pawn,cube], camera, renderer.domElement)
 
 function init() {
@@ -92,7 +89,7 @@ function animate() {
     // cube.rotation.x += 0.01
     // cube.rotation.y += 0.01
 
-    // orbitControls.update();
+    orbitControls.update();
 
     render();
 }
