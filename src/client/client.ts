@@ -14,8 +14,8 @@ camera.position.z = 17
 
 const renderer = new THREE.WebGLRenderer()
 renderer.setSize(width, height)
-$('#desk-progress .container div.d-flex div.canvas').append(renderer.domElement);
-// $('#desk-intro div.canvas').append(renderer.domElement);
+// $('#desk-progress .container div.d-flex div.canvas').append(renderer.domElement);
+$('#desk-intro div.canvas').append(renderer.domElement);
 
 const deskGeometry = new THREE.BoxBufferGeometry(24,24, 1)
 const deskMaterial = new THREE.MeshBasicMaterial({
@@ -35,7 +35,7 @@ const secondCube = new THREE.Mesh(cubeGeometry);
 secondCube.position.set(0,0,1.15);
 cubeDouble.add(secondCube);
 
-const cubeTriple = cube.clone();
+const cubeTriple = cubeDouble.clone();
 const thirdCube = new THREE.Mesh(cubeGeometry);
 thirdCube.position.set(0,0,2.3);
 cubeTriple.add(thirdCube);
@@ -58,8 +58,10 @@ const pawn = cone.add(sphere);
 pawn.castShadow = true;
 pawn.receiveShadow = true;
 
+scene.add(new THREE.AxesHelper(500))
 scene.add(desk)
-scene.add(pawn)
+// scene.add(pawn)
+scene.add(cubeTriple)
 
 // window.addEventListener('resize', onWindowResize, false)
 // function onWindowResize() {
@@ -69,7 +71,8 @@ scene.add(pawn)
 //     render()
 // }
 const orbitControls = new OrbitControls(camera, renderer.domElement)
-const dragControls = new DragControls([pawn,cube], camera, renderer.domElement)
+const dragControls = new DragControls([cubeTriple], camera, renderer.domElement)
+dragControls.transformGroup = true;
 
 function init() {
     var ambientLight = new THREE.AmbientLight(0x0f0f0f);
