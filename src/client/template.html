@@ -5,6 +5,30 @@
     <title>3Desk</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+          <style>
+            .annotationLabel {
+                color: #000000;
+                font-family: monospace;
+                pointer-events: none;
+                font-size: 17px;
+            }
+
+            .annotationDescription {
+                color: #ffffff;
+                font-family: monospace;
+                pointer-events: none;
+                font-size: 14px;
+                position: absolute;
+                left: 25px;
+                padding: 1em;
+                width: 200px;
+                background: rgba(0, 0, 0, 0.66);
+                border-radius: 0.5em;
+                transition: opacity 0.5s;
+                display: none;
+            }
+        </style>
 </head>
 
 <body>
@@ -21,7 +45,7 @@
 
 <section id="desk-intro" class="ibm-tabs-content" style="font-size:18px;">
     <div class="container">
-        <h4 class="text-uppercase text-center" style="margin-bottom:48px;">3D Emociju kompozīcija Supervīzijā </h4>
+        <h4 class="text-center" style="margin-bottom:48px;">3D Emociju kompozīcija Supervīzijā </h4>
         <div class="col-10 mx-auto d-flex justify-content-between">
             <img class="col-6 mx-3" src="assets/threejs-course-image.png" />
             <div class="d-flex flex-column col-6 mx-3">
@@ -31,6 +55,11 @@
                 <a href="#desk-intro-prepare" class="btn btn-success btn-lg text-uppercase rounded-0">Sākt</a>
             </div>
         </div>
+        <button class="view-switch">Switch</button>
+        <button class="add-happiness">Happy</button>
+        <button class="add-emotion">Sad</button>
+
+
         <div class="canvas">
         </div>
     </div>
@@ -38,7 +67,7 @@
 
 <section id="desk-intro-prepare" class="ibm-tabs-content" style="font-size:18px;">
     <div class="container">
-        <h3 class="text-uppercase text-center" style="font-size: 32px; margin-bottom:48px;">Sagatavošanās</h3>
+        <h3 class="text-center" style="font-size: 32px; margin-bottom:48px;">Sagatavošanās</h3>
 
         <div style="height: 475px;">
             <div style="margin-bottom:24px;">
@@ -111,23 +140,23 @@
 
 <section id="desk-intro-self" class="ibm-tabs-content" style="font-size:18px;">
     <div class="container">
-        <h3 class="text-uppercase text-center" style="font-size: 32px; margin-bottom:48px;">Izvēlies simbolisko
+        <h3 class="text-center" style="font-size: 32px; margin-bottom:48px;">Izvēlies simbolisko
             “Es”</h3>
 
-        <form class="col-8 mx-auto d-flex justify-content-between" style="height: 475px;">
+        <form id="selfForm" class="col-8 mx-auto d-flex justify-content-between" style="height: 475px;">
             <div class="d-flex flex-column align-items-center">
                 <img src="assets/fig_1.png"/>
-                <input type="radio" id="small" name="self" value="small" style="width:40px;height:40px;">
+                <input type="radio" id="small" name="self" value="1" style="width:40px;height:40px;">
             </div>
 
             <div class="d-flex flex-column align-items-center">
                 <img src="assets/fig_2.png"/>
-                <input type="radio" id="normal" name="self" value="normal" checked style="width:40px;height:40px;">
+                <input type="radio" id="normal" name="self" value="2" checked style="width:40px;height:40px;">
             </div>
 
             <div class="d-flex flex-column align-items-center">
                 <img src="assets/fig_3.png"/>
-                <input type="radio" id="big" name="self" value="big" style="width:40px;height:40px;">
+                <input type="radio" id="big" name="self" value="3" style="width:40px;height:40px;">
             </div>
         </form>
 
@@ -521,7 +550,7 @@
     </div>
 </section>
 
-<section id="desk-progress" class="ibm-tabs-content">
+<section id="desk-progress" class="ibm-tabs-content me">
     <div class="container">
         <div class="d-flex justify-content-between">
             <div class="d-flex flex-column align-items center justify-content-between col-3">
@@ -529,11 +558,11 @@
                     <img width="116" height="69" src="assets/view-front.png" class="img-fluid lazyload" />
                     <p class="mb-0">3D SKATS<br /> pagriez plakni</p>
                 </button>
-                <button class="btn-desk d-flex align-items-center">
+                <button class="btn-desk d-flex align-items-center top-view">
                     <img width="116" height="69" src="assets/view-top.png" class="img-fluid lazyload" />
                     <p class="text-uppercase mb-0">Skats no augšas</p>
                 </button>
-                <button class="btn-desk d-flex align-items-center">
+                <button class="btn-desk d-flex align-items-center person-view">
                     <img width="116" height="69" src="assets/view-self.png" class="img-fluid lazyload" />
                     <p class="text-uppercase mb-0">"Es" skats</p>
                 </button>
@@ -565,26 +594,28 @@
             <div class="canvas">
             </div>
 
-            <div class="d-flex flex-column align-items center justify-content-between col-3">
-                <p class="mb-0">Izvēlies emociju intensitāti:</p>
-                <p class="text-uppercase fw-bold mb-0 px-3 py-2" style="background: #DFDDDE; width: fit-content;">Skumjas</p>
+            <div class="d-flex flex-column align-items-center justify-content-between col-3">
+                <div class="invisible">
+                    <p class="mb-0">Izvēlies emociju intensitāti:</p>
+                    <p class="text-uppercase fw-bold mb-0 px-3 py-2 emotion-name" style="background: #DFDDDE; width: fit-content;">Skumjas</p>
 
-                <div class="d-flex justify-content-evenly text-center">
-                    <button class="btn-desk d-flex flex-column align-items-center" style="max-width: 60px;">
-                        <img width="60" height="128" src="assets/cube-1x.png" class="img-fluid lazyload mb-3" />
-                        <p class="mb-0">Vāji izteikta</p>
-                    </button>
-                    <button class="btn-desk d-flex flex-column align-items-center" style="max-width: 60px;">
-                        <img width="60" height="128" src="assets/cube-2x.png" class="img-fluid lazyload mb-3" />
-                        <p class="mb-0">Vidēji izteikta</p>
-                    </button>
-                    <button class="btn-desk d-flex flex-column align-items-center" style="max-width: 60px;">
-                        <img width="60" height="128" src="assets/cube-3x.png" class="img-fluid lazyload mb-3" />
-                        <p class="mb-0">Ļoti izteikta</p>
-                    </button>
+                    <div class="d-flex justify-content-evenly text-center">
+                        <button class="btn-desk d-flex flex-column align-items-center" style="max-width: 60px;">
+                            <img width="60" height="128" src="assets/cube-1x.png" class="img-fluid lazyload mb-3" />
+                            <p class="mb-0">Vāji izteikta</p>
+                        </button>
+                        <button class="btn-desk d-flex flex-column align-items-center" style="max-width: 60px;">
+                            <img width="60" height="128" src="assets/cube-2x.png" class="img-fluid lazyload mb-3" />
+                            <p class="mb-0">Vidēji izteikta</p>
+                        </button>
+                        <button class="btn-desk d-flex flex-column align-items-center" style="max-width: 60px;">
+                            <img width="60" height="128" src="assets/cube-3x.png" class="img-fluid lazyload mb-3" />
+                            <p class="mb-0">Ļoti izteikta</p>
+                        </button>
+                    </div>
+                    <button class="add-emotion">Pievienot</button>   
+                    <p class="text-justify mb-0">Uz lapas kubi jānovieto, tuvāk vai tālāk no simboliskās “Es” figūras, ņemot vērā to cik bieži vai piedzīvo šo emociju. </p>
                 </div>
-
-                <p class="text-justify mb-0">Uz lapas kubi jānovieto, tuvāk vai tālāk no simboliskās “Es” figūras, ņemot vērā to cik bieži vai piedzīvo šo emociju. </p>
 
                 <a class="continue btn btn-success btn-lg col-6 text-uppercase rounded-0 align-self-center">Tālāk</a>
             </div>
