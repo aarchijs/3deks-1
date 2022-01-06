@@ -3,35 +3,13 @@
 <head>
     <meta charset="utf-8"/>
     <title>3Desk</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-          <style>
-            .annotationLabel {
-                color: #000000;
-                font-family: monospace;
-                pointer-events: none;
-                font-size: 17px;
-            }
-
-            .annotationDescription {
-                color: #ffffff;
-                font-family: monospace;
-                pointer-events: none;
-                font-size: 14px;
-                position: absolute;
-                left: 25px;
-                padding: 1em;
-                width: 200px;
-                background: rgba(0, 0, 0, 0.66);
-                border-radius: 0.5em;
-                transition: opacity 0.5s;
-                display: none;
-            }
-        </style>
 </head>
 
 <body>
+<div class="fireworks-container invisible"></div>
 <section class="ibm-tab-section">
     <div class="container">
         <ul class="d-flex justify-content-between ibm-tabs ps-0" role="tablist">
@@ -44,6 +22,7 @@
 </section>
 
 <section id="desk-intro" class="ibm-tabs-content" style="font-size:18px;">
+
     <div class="container">
         <h4 class="text-center" style="margin-bottom:48px;">3D Emociju kompozīcija Supervīzijā </h4>
         <div class="col-10 mx-auto d-flex justify-content-between">
@@ -54,13 +33,6 @@
                     atbalstu. </p>
                 <a href="#desk-intro-prepare" class="btn btn-success btn-lg text-uppercase rounded-0">Sākt</a>
             </div>
-        </div>
-        <button class="view-switch">Switch</button>
-        <button class="add-happiness">Happy</button>
-        <button class="add-emotion">Sad</button>
-
-
-        <div class="canvas">
         </div>
     </div>
 </section>
@@ -200,7 +172,7 @@
         </ol>
         <div class="d-flex justify-content-center">
             <button type="submit" class="btn btn-secondary btn-lg col-4 text-uppercase rounded-0 mx-5 download"
-                    onclick="window.open('../../src/client/assets/annotations.pdf')">Instrukcija
+                    onclick="window.open('/client/assets/annotations.pdf')">Instrukcija
             </button>
             <a class="btn btn-success btn-lg col-4 text-uppercase rounded-0 mx-5">Sākt metodi
                 "3deks"
@@ -554,7 +526,7 @@
     <div class="container">
         <div class="d-flex justify-content-between">
             <div class="d-flex flex-column align-items center justify-content-between col-3">
-                <button class="btn-desk d-flex align-items-center">
+                <button class="btn-desk d-flex align-items-center side-view">
                     <img width="116" height="69" src="assets/view-front.png" class="img-fluid lazyload" />
                     <p class="mb-0">3D SKATS<br /> pagriez plakni</p>
                 </button>
@@ -591,30 +563,55 @@
                 </div>
             </div>
 
-            <div class="canvas">
-            </div>
+            <div class="desk-canvas"></div>
 
             <div class="d-flex flex-column align-items-center justify-content-between col-3">
-                <div class="invisible">
-                    <p class="mb-0">Izvēlies emociju intensitāti:</p>
-                    <p class="text-uppercase fw-bold mb-0 px-3 py-2 emotion-name" style="background: #DFDDDE; width: fit-content;">Skumjas</p>
 
-                    <div class="d-flex justify-content-evenly text-center">
-                        <button class="btn-desk d-flex flex-column align-items-center" style="max-width: 60px;">
+                <div id="emotionForm" class="d-flex flex-column justify-content-between invisible" style="height:80%;">
+                    <p class="mb-0">Izvēlies emociju intensitāti:</p>
+                    <input type="text" minlength="5" maxlength="25" name="emotion" disabled="disabled" value="SKUMJAS" class="text-uppercase fw-bold mb-0 px-3 py-2" style="background: #DFDDDE; width: fit-content;">
+                    
+                    <div class="d-flex justify-content-evenly text-center emotion-intensity">
+                        <div class="d-flex flex-column align-items-center col-3">
                             <img width="60" height="128" src="assets/cube-1x.png" class="img-fluid lazyload mb-3" />
                             <p class="mb-0">Vāji izteikta</p>
-                        </button>
-                        <button class="btn-desk d-flex flex-column align-items-center" style="max-width: 60px;">
+                            <input type="radio" id="small" name="intensity" value="1" style="width:20px;height:20px;">
+                        </div>
+
+                        <div class="d-flex flex-column align-items-center col-3">
                             <img width="60" height="128" src="assets/cube-2x.png" class="img-fluid lazyload mb-3" />
                             <p class="mb-0">Vidēji izteikta</p>
-                        </button>
-                        <button class="btn-desk d-flex flex-column align-items-center" style="max-width: 60px;">
+                            <input type="radio" id="medium" name="intensity" value="2" style="width:20px;height:20px;" checked>
+                        </div>
+
+                        <div class="d-flex flex-column align-items-center col-3">
                             <img width="60" height="128" src="assets/cube-3x.png" class="img-fluid lazyload mb-3" />
                             <p class="mb-0">Ļoti izteikta</p>
-                        </button>
+                            <input type="radio" id="large" name="intensity" value="3" style="width:20px;height:20px;">
+                        </div>
                     </div>
+
                     <button class="add-emotion">Pievienot</button>   
                     <p class="text-justify mb-0">Uz lapas kubi jānovieto, tuvāk vai tālāk no simboliskās “Es” figūras, ņemot vērā to cik bieži vai piedzīvo šo emociju. </p>
+                </div>
+
+                <div id="sightDirection" class="w-100 d-flex flex-column justify-content-center d-none" style="height:80%;">
+                    <p class="fs-20" style="margin-bottom: 2rem;">Uz kuru pusi skatās simboliskais "Es"?</p>
+                    <p class="fs-20" style="margin-bottom: 2.75rem;">NORĀDI VIRZIENU:</p>
+
+                    <div id="slider"></div>
+                </div>
+
+                <div id="reflectionsOne" class="w-100 d-flex flex-column justify-content-center d-none" style="height:80%;">
+                    <p class="fs-20" style="margin-bottom: 2rem;">Uz kuru pusi skatās simboliskais "Es"?</p>
+                </div>
+
+                <div id="emotionExplanations" class="w-100 d-flex flex-column justify-content-center d-none" style="height:80%;">
+                    <p class="fs-20" style="margin-bottom: 2rem;">Uz kuru pusi skatās simboliskais "Es"?</p>
+                </div>
+
+                <div id="reflectionsTwo" class="w-100 d-flex flex-column justify-content-center d-none" style="height:80%;">
+                    <p class="fs-20" style="margin-bottom: 2rem;">Uz kuru pusi skatās simboliskais "Es"?</p>
                 </div>
 
                 <a class="continue btn btn-success btn-lg col-6 text-uppercase rounded-0 align-self-center">Tālāk</a>
@@ -623,19 +620,16 @@
     </div>
 </section>
 
-<style>
-    button.btn-desk {
-        border:none;
-    }
-    button.btn-desk:hover {
-        background: #dedede;
-    }
-</style>
+<section id="finish" class="ibm-tabs-content text-center">
+    <div class="container">
+        <h1>Paldies,<br />ka veltiji laiku sev!</h1>
+    </div>
+</section>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://rawgithub.com/mrdoob/three.js/r104/examples/js/utils/BufferGeometryUtils.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
 
 </body>
 </html>

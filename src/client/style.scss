@@ -34,6 +34,28 @@ body {
     text-decoration: none;
 }
 
+.annotationLabel {
+    color: #000000;
+    font-family: monospace;
+    pointer-events: none;
+    font-size: 17px;
+}
+
+.annotationDescription {
+    color: #ffffff;
+    font-family: monospace;
+    pointer-events: none;
+    font-size: 14px;
+    position: absolute;
+    left: 25px;
+    padding: 1em;
+    width: 200px;
+    background: rgba(0, 0, 0, 0.66);
+    border-radius: 0.5em;
+    transition: opacity 0.5s;
+    display: none;
+}
+
 #desk-intro .container ol {
     padding-left: 1.5rem;
 }
@@ -68,6 +90,24 @@ input:hover {
     cursor: pointer;
 }
 
-.canvas {
+.desk-canvas {
     position: relative;
+}
+
+.not-active {
+    pointer-events: none;
+    opacity: 0.25;
+}
+
+button.btn-desk {
+    border:none;
+}
+
+button.btn-desk:hover {
+    background: #dedede;
+}
+
+.fireworks-container {
+    position: absolute;
+    top: 0;
 }
