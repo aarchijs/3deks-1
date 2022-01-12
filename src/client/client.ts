@@ -1,268 +1,319 @@
 import './style.scss'
 import './app.js'
 import * as THREE from 'three'
-import { GUI, GUIController } from 'dat.gui'
 import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import { Fireworks } from 'fireworks-js'
+import { DragControls } from 'three/examples/jsm/controls/DragControls'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { ArrowHelper, GeometryUtils, Object3D, Scene } from 'three'
 
-const scene = new THREE.Scene()
-scene.background = new THREE.Color(0xbfa4a4)
-const width = 610
-const height = 548
-const aspectRatio = width / height
-const viewSize = 548
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xbfa4a4);
+const width = 610;
+const height = 548;
+const aspectRatio = width / height;
+const viewSize = 548;
 
-const camera = new THREE.PerspectiveCamera(75, aspectRatio, 0.1, 1000)
-camera.position.z = 17
+let topView = 1;
+let personView = 0;
 
-var light = new THREE.AmbientLight(0xffffff)
-scene.add(light)
+const gridHelper = new THREE.GridHelper(24, 22);
+scene.add(gridHelper);
+gridHelper.position.y = 0.501;
 
-const renderer = new THREE.WebGLRenderer()
-renderer.setSize(width, height)
-renderer.domElement.style.zIndex = '8'
-$('#desk-progress .container div.d-flex div.desk-canvas').append(renderer.domElement)
+const camera = new THREE.PerspectiveCamera(75, aspectRatio, 0.1, 1000);
+camera.position.y = 17;
 
-let labelRenderer = new CSS2DRenderer()
-labelRenderer.setSize(width, height)
-labelRenderer.domElement.style.position = 'absolute'
-labelRenderer.domElement.style.zIndex = '10'
-labelRenderer.domElement.style.top = '0'
+var light = new THREE.AmbientLight(0xffffff);
+scene.add(light);
 
-$('#desk-progress .container div.d-flex div.desk-canvas').append(labelRenderer.domElement)
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(width, height);
+renderer.domElement.style.zIndex = '8';
 
-const deskGeometry = new THREE.BoxBufferGeometry(24, 24, 1)
+$('#desk-progress .container div.d-flex div.desk-canvas').append(renderer.domElement);
+
+let labelRenderer = new CSS2DRenderer();
+labelRenderer.setSize(width, height);
+labelRenderer.domElement.style.position = 'absolute';
+labelRenderer.domElement.style.pointerEvents = 'none';
+labelRenderer.domElement.style.top = '0';
+
+$('#desk-progress .container div.d-flex div.desk-canvas').append(labelRenderer.domElement);
+
+const deskGeometry = new THREE.BoxBufferGeometry(24, 24, 1);
 const deskMaterial = new THREE.MeshBasicMaterial({
     color: 0xddd5d2,
-})
-const desk = new THREE.Mesh(deskGeometry, deskMaterial)
-const deskBorderValue = 11.5
-const cubeGeometry = new THREE.BoxBufferGeometry(1, 1, 1)
+});
+const desk = new THREE.Mesh(deskGeometry, deskMaterial);
+desk.rotation.set(Math.PI / 2, 0, 0);
+scene.add(desk);
 
-const cube = new THREE.Mesh(cubeGeometry)
-cube.castShadow = true
-cube.receiveShadow = true
-cube.position.set(0, 0, 1)
+const deskBorderValue = 11.5;
+const cubeGeometry = new THREE.BoxBufferGeometry(1, 1, 1);
 
-const cubeDouble = cube.clone()
-const secondCube = new THREE.Mesh(cubeGeometry)
-secondCube.position.set(0, 0, 1.15)
-cubeDouble.add(secondCube)
+const cube = new THREE.Mesh(cubeGeometry);
+cube.position.set(11.75, 1, 0);
 
-const cubeTriple = cubeDouble.clone()
-const thirdCube = new THREE.Mesh(cubeGeometry)
-thirdCube.position.set(0, 0, 2.3)
-cubeTriple.add(thirdCube)
-
-const loader = new GLTFLoader()
-loader.load('assets/pawn2.glb', handle_load)
-var pawn = new THREE.Object3D()
-scene.add(pawn)
-
+const loader = new GLTFLoader();
 function handle_load(gltf) {
-    var object = gltf.scene.children[0]
-    object.rotation.set(Math.PI / 2 , 0, 0)
-    object.position.set(0, 0, 2)
-    pawn.add(object)
+    var object = gltf.scene.children[0].children[0];
+    let annotationDiv = document.createElement('div');
+    annotationDiv.className = 'annotationLabel';
+    annotationDiv.textContent = 'ES';
+    annotationDiv.style.marginTop = '-1em';
+    let annotationLabel = new CSS2DObject(annotationDiv);
+    annotationLabel.position.set(0, 1.5, 0);
+    object.add(gltf.scene.children[0].children[1]);
+    object.add(annotationLabel);
+    pawn.add(object);
 }
+loader.load('assets/pawn2.glb', handle_load);
+let pawn = new THREE.Mesh();
+pawn.position.set(0, 0.5, 0);
+pawn.name = 'ES';
+
+scene.add(pawn);
 
 $('#desk-intro-self a.continue').on('click', function (e) {
-    e.preventDefault()
-    let selfSize = $('#selfForm input[name=self]:checked').val()
+    e.preventDefault();
 
-    switch (selfSize) {
-        case '1':
-            pawn.scale.set(0.23, 0.23, 0.23)
-            break
-        case '2':
-            pawn.scale.set(0.46, 0.46, 0.46)
-            break
-        case '3':
-            pawn.scale.set(0.73, 0.73, 0.73)
-            break
-        default:
-            break
-    }
+    let selfSize = $('#selfForm input[name=self]:checked').val();
+    //@ts-ignore
+    pawn.children[0].scale.set(selfSize, selfSize, selfSize);
 })
 
-let annotationDiv = document.createElement('div')
-annotationDiv.className = 'annotationLabel'
-annotationDiv.textContent = 'ES'
-annotationDiv.style.marginTop = '-1em'
-let annotationLabel = new CSS2DObject(annotationDiv)
-annotationLabel.position.set(0, 0, 0)
-pawn.add(annotationLabel)
+scene.add(new THREE.AxesHelper(500));
 
-const gui = new GUI()
+//@ts-ignore
+let objects = [];
+//@ts-ignore
+objects.push(pawn);
 
-const cameraFolder = gui.addFolder('SKATS')
-cameraFolder.add(camera.rotation, 'y', 0, Math.PI * 2)
-cameraFolder.add(camera.position, 'z', 0, 20)
-cameraFolder.open()
+//8 main emotions + option to add 8 more additional emotions
+let emotions = [
+    'Skumjas',
+    'Bailes',
+    'Dusmas',
+    'Prieks',
+    'Kauns',
+    'Vaina',
+    'Riebums',
+    'Interese',
+    'additional-1',
+    'additional-2',
+    'additional-3',
+    'additional-4',
+    'additional-5',
+    'additional-6',
+    'additional-7',
+    'additional-8',
+];
 
-const pawnFolder = gui.addFolder('ES')
-pawnFolder.add(pawn.position, 'x', -deskBorderValue, deskBorderValue)
-pawnFolder.add(pawn.position, 'y', -deskBorderValue, deskBorderValue)
+let item;
+emotions.forEach(function (emotion) {
+    item = cube.clone();
+    item.visible = false;
+    item.name = emotion;
 
-const emotionsFolder = gui.addFolder('EMOCIJAS')
-// gui.close()
+    let annotationDiv = document.createElement('div');
+    annotationDiv.className = 'annotationLabel';
+    annotationDiv.textContent = emotion;
+    annotationDiv.style.marginTop = '-1em';
+    let annotationLabel = new CSS2DObject(annotationDiv);
+    annotationLabel.visible = false;
+    annotationLabel.position.set(0, 1, 0);
+    item.add(annotationLabel);
 
-scene.add(new THREE.AxesHelper(500))
-scene.add(desk)
+    scene.add(item);
 
-// window.addEventListener('resize', onWindowResize, false)
-// function onWindowResize() {
-//     camera.aspect = window.innerWidth / window.innerHeight
-//     camera.updateProjectionMatrix()
-//     renderer.setSize(window.innerWidth, window.innerHeight)
-//     render()
-// }
+    //@ts-ignore
+    objects.push(item);
+})
 
-var sideView = 0
+const controls = new DragControls(objects, camera, renderer.domElement);
+const orbitControls = new OrbitControls(camera, renderer.domElement);
+//first view is top view, these to restrict desk rotation to y axis
+orbitControls.minPolarAngle = 0;
+orbitControls.maxPolarAngle = 0;
+
+//DragControls events
+let dragObjectYPosition;
+controls.addEventListener('dragstart', function (event) {
+    orbitControls.enabled = false;
+
+    dragObjectYPosition =
+        event.object.parent.name === 'ES' ? pawn.position.y : event.object.position.y;
+});
+controls.addEventListener('drag', function (event) {
+    if (
+        event.object.position.y > dragObjectYPosition ||
+        event.object.position.y < dragObjectYPosition
+    ) {
+        event.object.position.y = dragObjectYPosition;
+    }
+
+    if (event.object.parent.name === 'ES') {
+        arrowHelper.position.x = event.object.position.x;
+        arrowHelper.position.z = event.object.position.z;
+    }
+});
+controls.addEventListener('dragend', function (event) {
+    orbitControls.enabled = true;
+});
+
+//View switcher events
+var sideView = 0;
 $('.side-view').on('click', function () {
-    camera.position.z = 2
-    camera.rotation.set(Math.PI / 2, 0, 0)
+    controls.enabled = orbitControls.enabled = true;
 
-    if (topView) {
-        topView = 0
+    if (topView || personView) {
+        topView = personView = 0;
+        orbitControls.minPolarAngle = Math.PI / 3;
+        orbitControls.maxPolarAngle = Math.PI * 0.1;
     }
     if (!pawn.visible) {
-        pawn.visible = true
+        pawn.visible = true;
     }
 
-    sideView++
+    sideView++;
 
     switch (sideView) {
         case 1:
-            camera.position.set(0, -16, 2)
-            break
+            camera.position.set(0, 2, 16);
+            break;
         case 2:
-            camera.position.set(-16, 0, 2)
-            camera.rotation.set(Math.PI / 2, -Math.PI / 2, 0)
-            break
+            camera.position.set(-16, 2, 0);
+            break;
         case 3:
-            camera.position.set(0, 16, 2)
-            camera.rotation.set(Math.PI / 2, -Math.PI, 0)
-            break
+            camera.position.set(0, 2, -16);
+            break;
         case 4:
-            camera.position.set(16, 0, 2)
-            camera.rotation.set(Math.PI / 2, Math.PI / 2, 0)
-            break
+            camera.position.set(16, 2, 0);
+            break;
         default:
-            sideView = 1
-            camera.position.set(0, -16, 2)
-            camera.rotation.set(Math.PI / 2, 0, 0)
-            break
+            sideView = 1;
+            camera.position.set(0, 2, 16);
+            break;
     }
-
-    // $('.close-button.close-bottom').css('display', 'none')
-    camera.position.x
-    render()
-})
-
-var topView = 1
-
+    camera.lookAt(0, 2, 0);
+    render();
+});
 $('.top-view').on('click', function () {
-    pawn.visible = true
-
+    pawn.visible = true;
     if (!topView) {
-        topView = 1
-        // $('.close-button.close-bottom').css('display', 'none')
-        camera.position.set(0, 0, 17)
-        camera.rotation.set(0, 0, 0)
-        render()
+        topView = 1;
     }
-})
+    if (personView) {
+        personView = 0;
+    }
+    controls.enabled = orbitControls.enabled = true;
 
+    orbitControls.minPolarAngle = 0;
+    orbitControls.maxPolarAngle = 0;
+    camera.position.set(0, 17, 0);
+    camera.lookAt(0, 0, 0);
+
+    render();
+});
 $('.person-view').on('click', function () {
     if (topView) {
         topView = 0
-        // $('.close-button.close-bottom').css('display', 'block')
-        pawn.visible = false
-        camera.position.set(0, 0, 2)
-        camera.rotation.set(Math.PI / 2, 0, 0)
-        render()
     }
-})
+    if (!personView) {
+        personView = 1
+    }
+
+    pawn.visible = false
+    let self = pawn.children[0]
+    camera.position.set(self.position.x, self.scale.y, self.position.z)
+    camera.lookAt(self.position.x + arrowHelper.cone.position.y, self.scale.y, self.position.z)
+    camera.rotation.y = arrowHelper.rotation.y - Math.PI / 2
+    controls.enabled = orbitControls.enabled = false
+
+    render()
+});
 
 //Simboliska Es skata virziens
-const dir = new THREE.Vector3(0, 1, 0)
-dir.normalize()
-const origin = new THREE.Vector3(0, 0, 0)
-const length = 2.5
-const hex = 0x000000
-const arrowHelper = new THREE.ArrowHelper(dir, origin, length, hex)
-arrowHelper.scale.set(2, 1, 1)
+const dir = new THREE.Vector3(1, 0, 0);
+dir.normalize();
+const origin = new THREE.Vector3(0, 1, 0);
+const length = 2.5;
+const hex = 0x000000;
+const arrowHelper = new THREE.ArrowHelper(dir, origin, length, hex);
+arrowHelper.scale.set(2, 1, 1);
+scene.add(arrowHelper);
 
 let hasDirection = 1;
-$('#desk-progress.ibm-tabs-content.me a.continue').on('click', function(){
-    if($('#desk-progress.ibm-tabs-content').hasClass('direction')) {
-        if(hasDirection) {        
-            scene.add(arrowHelper)
+$('#desk-progress.ibm-tabs-content.me a.continue').on('click', function () {
+    if ($('#desk-progress.ibm-tabs-content').hasClass('direction')) {
+        if (hasDirection) {
+            scene.add(arrowHelper);
         }
         hasDirection--;
     }
-})
+});
 
-$('.add-emotion').on('click', function (e) {
-    let name: string = String($('input[name=emotion]').val())
-    let size = $('#emotionForm input[name=intensity]:checked').val()
-    let emotion
+$('#emotionForm input[name=emotion]').on('change', function () {})
+let additional = 0;
+$('#emotionForm .emotion-size').on('click', function (e) {
+    $(this).find('input[name=intensity]').prop('checked', true);
 
-    console.log(name, size, emotion)
+    let size = $(this).find('input[name=intensity]').val();
+    let nameValue = String($('input[name=emotion]').val()).toLowerCase();
+    let name: string = nameValue.charAt(0).toUpperCase() + nameValue.slice(1);
+    let emotion;
+
+    if ($('#desk-progress').hasClass('additional')) {
+        additional++;
+        emotion = scene.getObjectByName('additional-' + additional);
+        emotion.name = emotion.children[0].element.textContent = name;
+    } else {
+        emotion = scene.getObjectByName(name);
+    }
+
+    if (!emotion) {
+        return;
+    }
+
+    emotion.visible = emotion.children[0].visible = true;
 
     switch (size) {
         case '1':
-            emotion = cube.clone()
-            break
+            emotion.scale.y = emotion.position.y = 1;
+            break;
         case '2':
-            emotion = cubeDouble.clone()
+            emotion.scale.y = 3;
+            emotion.position.y = 1.5;
             break
         case '3':
-            emotion = cubeTriple.clone()
-            break
+            emotion.scale.y = 5;
+            emotion.position.y = 2.5;
+            break;
         default:
-            break
+            emotion.scale.y = emotion.position.y = 1;
+            break;
     }
 
-    $('#desk-progress.ibm-tabs-content a.continue').removeClass('not-active')
+    $('#desk-progress.ibm-tabs-content a.continue').removeClass('not-active');
+});
 
-    emotion.position.y = 11.5
-
-    let annotationDiv = document.createElement('div')
-    annotationDiv.className = 'annotationLabel'
-    annotationDiv.textContent = name
-    annotationDiv.style.marginTop = '-1em'
-    let annotationLabel = new CSS2DObject(annotationDiv)
-    annotationLabel.position.set(0, 0, 3)
-
-    emotion.add(annotationLabel)
-    scene.add(emotion)
-
-    const emotionFolder = emotionsFolder.addFolder(name)
-    emotionFolder.add(emotion.position, 'x', -deskBorderValue, deskBorderValue)
-    emotionFolder.add(emotion.position, 'y', -deskBorderValue, deskBorderValue)
-
-    $(this).attr('disabled', 'disabled')
-})
-
-$('#slider').on('slidestop', function (e, ui) {
-    arrowHelper.rotation.z = Math.PI * 2 * (ui.value / 360)
-})
+$('#slider').on('slide', function (e, ui) {
+    arrowHelper.rotation.y = pawn.children[0].rotation.y = Math.PI * 2 * (ui.value / 360);
+    if (personView) {
+        camera.rotation.y = arrowHelper.rotation.y - Math.PI / 2;
+    }
+});
 
 function init() {}
-
 function animate() {
-    requestAnimationFrame(animate)
-    arrowHelper.position.set(pawn.position.x, pawn.position.y, 1)
-    render()
+    requestAnimationFrame(animate);
+    render();
 }
-
 function render() {
-    renderer.render(scene, camera)
-    labelRenderer.render(scene, camera)
+    renderer.render(scene, camera);
+    labelRenderer.render(scene, camera);
 }
 
-init()
-animate()
+init();
+animate();

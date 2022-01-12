@@ -112,12 +112,14 @@ $('#emotionForm input[name=emotion]').on('keyup', function (e) {
         if (!continueBtn.hasClass('not-active')) {
             continueBtn.addClass('not-active')
         }
-        $('.add-emotion').removeAttr('disabled')
+        $('.emotion-intensity').removeClass('not-active');
+        $('#desk-progress.ibm-tabs-content a.continue').addClass('not-active');
     } else {
         if (continueBtn.hasClass('not-active')) {
             continueBtn.removeClass('not-active')
         }
-        $('.add-emotion').attr('disabled', 'disabled')
+        $('.emotion-intensity').addClass('not-active');
+        $('#desk-progress.ibm-tabs-content a.continue').removeClass('not-active');
     }
 })
 
@@ -131,7 +133,6 @@ $('#desk-progress.ibm-tabs-content.me a').each(function () {
             $('#desk-intro-self').show()
         } else if ($(this).hasClass('continue')) {
             let section = $('#desk-progress.ibm-tabs-content')
-            let additional = 0
 
             if (section.hasClass('me')) {
                 $('#emotionForm').removeClass('invisible')
@@ -162,14 +163,12 @@ $('#desk-progress.ibm-tabs-content.me a').each(function () {
                 $('input[name=emotion]').val('INTERESE')
             } else if (section.hasClass('interest')) {
                 section.removeClass('interest').addClass('additional')
-                additional++
-                $('input[name=emotion]')
-                    .val('')
-                    .removeAttr('disabled')
-                    .attr('placeholder', 'IEVADI EMOCIJU')
+                $('input[name=emotion]').val('').removeAttr('disabled').attr('placeholder', 'IEVADI EMOCIJU')
+                $('.emotion-intensity').addClass('not-active');
             } else if (section.hasClass('additional')) {
-                additional++
                 $('input[name=emotion]').val('').attr('placeholder', 'IEVADI EMOCIJU')
+                $('.emotion-intensity').addClass('not-active');
+
                 if (!addingEmotion) {
                     section.removeClass('additional').addClass('direction');
                     $('#emotionForm').addClass('d-none');
@@ -199,15 +198,16 @@ $('#desk-progress.ibm-tabs-content.me a').each(function () {
                     $('.fireworks-container').addClass('invisible')
                 }, 7500)
             }
+            
+            $('#emotionForm .emotion-size input[name=intensity]:checked').prop('checked', false);
 
-            if (!section.hasClass('additional') 
+            if (!section.hasClass('additional')
                 && !section.hasClass('direction')
                 && !section.hasClass('reflection')
                 && !section.hasClass('explanations')
                 && !section.hasClass('reflection-two')
                 ) {
                 $(this).addClass('not-active')
-                $('.add-emotion').removeAttr('disabled')
             }
         }
     })

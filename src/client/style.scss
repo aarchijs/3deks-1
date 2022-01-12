@@ -86,6 +86,7 @@ button a {
     content: url(assets/dropdown-up-black.png);
 }
 
+
 input:hover {
     cursor: pointer;
 }
@@ -110,4 +111,9 @@ button.btn-desk:hover {
 .fireworks-container {
     position: absolute;
     top: 0;
+}
+
+#emotionForm .emotion-size:hover {
+    cursor: pointer;
+    background: #cfcfcf;
 }
