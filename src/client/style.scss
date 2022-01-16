@@ -1,37 +1,33 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
 body {
-    font-family: "Montserrat", sans-serif !important;
+    font-family: 'Montserrat', sans-serif !important;
     overflow: auto;
     margin: 0px;
     background-color: #f0f0f0;
-    padding: 68px 0;
+    padding: 32px 0;
     color: #000;
 }
 
-.ibm-tab-section {
-    margin-bottom: 116px;
-}
+#ibm-tab {
+    margin-bottom: 48px;
 
-.ibm-tabs-content {
-    display: none;
-}
+    .ibm-tabs li {
+        text-align: center;
+        list-style: none;
+        padding: 4px 0;
+        text-transform: uppercase;
+        font-size: 20px;
 
-.ibm-tabs li {
-    text-align: center;
-    list-style: none;
-    padding: 4px 0;
-    text-transform: uppercase;
-    font-size: 20px;
-}
+        &:hover,
+        &:active {
+            border-bottom: 2px solid green;
+        }
 
-.ibm-tabs li:hover, 
-.ibm-tabs li.active {
-    border-bottom: 2px solid green;
-}
-
-.ibm-tabs li a{
-    color: #000;
-    text-decoration: none;
+        a {
+            color: #000;
+            text-decoration: none;
+        }
+    }
 }
 
 .annotationLabel {
@@ -70,14 +66,14 @@ button a {
 }
 
 .dropdown-info {
-    background-color: #E8E2E2;
+    background-color: #e8e2e2;
     padding: 16px 16px 16px 48px;
     max-width: 76%;
 }
 .dropdown-block button.active {
     color: #000;
-    background-color: #E8E2E2;
-    border-color: #E8E2E2;
+    background-color: #e8e2e2;
+    border-color: #e8e2e2;
 }
 .dropdown-block button.active:focus {
     box-shadow: none;
@@ -85,7 +81,6 @@ button a {
 .dropdown-block button.active img {
     content: url(assets/dropdown-up-black.png);
 }
-
 
 input:hover {
     cursor: pointer;
@@ -101,7 +96,7 @@ input:hover {
 }
 
 button.btn-desk {
-    border:none;
+    border: none;
 }
 
 button.btn-desk:hover {
@@ -116,4 +111,8 @@ button.btn-desk:hover {
 #emotionForm .emotion-size:hover {
     cursor: pointer;
     background: #cfcfcf;
+}
+
+#loadOverlay {
+    display:block !important;
 }

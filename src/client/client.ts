@@ -6,217 +6,314 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DragControls } from 'three/examples/jsm/controls/DragControls'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { ArrowHelper, GeometryUtils, Object3D, Scene } from 'three'
+import { InteractionManager } from 'three.interactive'
 
-const scene = new THREE.Scene();
-scene.background = new THREE.Color(0xbfa4a4);
-const width = 610;
-const height = 548;
-const aspectRatio = width / height;
-const viewSize = 548;
+const scene = new THREE.Scene()
+scene.background = new THREE.Color(0xbfa4a4)
+const width = 610
+const height = 548
+const aspect = width / height
+const viewSize = 548
+let camera
+const pCamera = new THREE.PerspectiveCamera(75, aspect, 0.1, 1000)
+const oCamera = new THREE.OrthographicCamera(
+    width / -2,
+    width / 2,
+    height / 2,
+    height / -2,
+    0,
+    1000
+)
+oCamera.position.y = 17
+oCamera.zoom = 22
+oCamera.updateProjectionMatrix()
+oCamera.updateMatrix()
+camera = oCamera
 
-let topView = 1;
-let personView = 0;
+var light = new THREE.AmbientLight(0xffffff)
+scene.add(light)
 
-const gridHelper = new THREE.GridHelper(24, 22);
-scene.add(gridHelper);
-gridHelper.position.y = 0.501;
+const renderer = new THREE.WebGLRenderer()
+renderer.setSize(width, height)
+renderer.domElement.style.zIndex = '8'
 
-const camera = new THREE.PerspectiveCamera(75, aspectRatio, 0.1, 1000);
-camera.position.y = 17;
+let topView = 1
+let personView = 0
 
-var light = new THREE.AmbientLight(0xffffff);
-scene.add(light);
+const gridHelper = new THREE.GridHelper(24, 22)
+scene.add(gridHelper)
+gridHelper.position.y = 0.501
 
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(width, height);
-renderer.domElement.style.zIndex = '8';
+$('#desk-progress .container div.d-flex div.desk-canvas').append(renderer.domElement)
+// $('#desk-intro .container div.desk-canvas').append(renderer.domElement);
 
-$('#desk-progress .container div.d-flex div.desk-canvas').append(renderer.domElement);
+let labelRenderer = new CSS2DRenderer()
+labelRenderer.setSize(width, height)
+labelRenderer.domElement.style.position = 'absolute'
+labelRenderer.domElement.style.pointerEvents = 'none'
+labelRenderer.domElement.style.top = '0'
 
-let labelRenderer = new CSS2DRenderer();
-labelRenderer.setSize(width, height);
-labelRenderer.domElement.style.position = 'absolute';
-labelRenderer.domElement.style.pointerEvents = 'none';
-labelRenderer.domElement.style.top = '0';
+$('#desk-progress .container div.d-flex div.desk-canvas').append(labelRenderer.domElement)
 
-$('#desk-progress .container div.d-flex div.desk-canvas').append(labelRenderer.domElement);
-
-const deskGeometry = new THREE.BoxBufferGeometry(24, 24, 1);
+const deskGeometry = new THREE.BoxBufferGeometry(24, 24, 1)
 const deskMaterial = new THREE.MeshBasicMaterial({
     color: 0xddd5d2,
-});
-const desk = new THREE.Mesh(deskGeometry, deskMaterial);
-desk.rotation.set(Math.PI / 2, 0, 0);
-scene.add(desk);
+})
+const desk = new THREE.Mesh(deskGeometry, deskMaterial)
+desk.rotation.set(Math.PI / 2, 0, 0)
+scene.add(desk)
 
-const deskBorderValue = 11.5;
-const cubeGeometry = new THREE.BoxBufferGeometry(1, 1, 1);
+const deskBorderValue = 11.5
+const cubeGeometry = new THREE.BoxBufferGeometry(1, 1, 1)
 
-const cube = new THREE.Mesh(cubeGeometry);
-cube.position.set(11.75, 1, 0);
+const cube = new THREE.Mesh(cubeGeometry)
+cube.position.set(11.75, 1, 0)
 
-const loader = new GLTFLoader();
+const loader = new GLTFLoader()
 function handle_load(gltf) {
-    var object = gltf.scene.children[0].children[0];
-    let annotationDiv = document.createElement('div');
-    annotationDiv.className = 'annotationLabel';
-    annotationDiv.textContent = 'ES';
-    annotationDiv.style.marginTop = '-1em';
-    let annotationLabel = new CSS2DObject(annotationDiv);
-    annotationLabel.position.set(0, 1.5, 0);
-    object.add(gltf.scene.children[0].children[1]);
-    object.add(annotationLabel);
-    pawn.add(object);
+    var object = gltf.scene.children[0].children[0]
+    let annotationDiv = document.createElement('div')
+    annotationDiv.className = 'annotationLabel'
+    annotationDiv.textContent = 'ES'
+    annotationDiv.style.marginTop = '-1em'
+    let annotationLabel = new CSS2DObject(annotationDiv)
+    annotationLabel.position.set(0, 1.5, 0)
+    object.add(gltf.scene.children[0].children[1])
+    object.add(annotationLabel)
+    pawn.add(object)
 }
-loader.load('assets/pawn2.glb', handle_load);
-let pawn = new THREE.Mesh();
-pawn.position.set(0, 0.5, 0);
-pawn.name = 'ES';
+loader.load('assets/pawn2.glb', handle_load)
+let pawn = new THREE.Mesh()
+pawn.position.set(0, 0.5, 0)
+pawn.name = 'ES'
 
-scene.add(pawn);
+scene.add(pawn)
 
 $('#desk-intro-self a.continue').on('click', function (e) {
-    e.preventDefault();
+    e.preventDefault()
 
-    let selfSize = $('#selfForm input[name=self]:checked').val();
+    let selfSize = $('#selfForm input[name=self]:checked').val()
     //@ts-ignore
-    pawn.children[0].scale.set(selfSize, selfSize, selfSize);
+    pawn.children[0].scale.set(selfSize, selfSize, selfSize)
 })
 
-scene.add(new THREE.AxesHelper(500));
+scene.add(new THREE.AxesHelper(500))
 
 //@ts-ignore
-let objects = [];
+let objects = []
 //@ts-ignore
-objects.push(pawn);
+objects.push(pawn)
 
 //8 main emotions + option to add 8 more additional emotions
 let emotions = [
-    'Skumjas',
-    'Bailes',
-    'Dusmas',
-    'Prieks',
-    'Kauns',
-    'Vaina',
-    'Riebums',
-    'Interese',
-    'additional-1',
-    'additional-2',
-    'additional-3',
-    'additional-4',
-    'additional-5',
-    'additional-6',
-    'additional-7',
-    'additional-8',
-];
+    {'name':'Skumjas', 'description':'demonstrēt (apzināties) to, ka ir slikti un ka ir nepieciešama palīdzība. No ieilgušām skumjām var attīstīties depresija. Lai tas nonotiktu, ir nepieciešams citu cilvēku atbalsts. Skumjas ir nepatīkamas un grūti izturamas, tāpēc tās mudina rīkoties, motivē esošo situāciju mainīt un sasniegt jaunus mērķus. Tās palīdz pārdomāt dzīvi, rosina uz attīstību un padara vērīgākus attiecībā pret notiekošo un apkārtējiem cilvēkiem.'},
+    {'name':'Bailes', 'description':'izvairīties, izkļūt ārā no nepatīkamām un bīstamām situācijām. Ķermenis tiek sagatavots saskarei ar potenciālo draudu situāciju, lai pietiktu enerģijas un spēka bēgt vai uzbrukt. Bailes palīdz būt modram un spēt pastāvēt par sevi un aizsargāties. Bailes palīdz pārdzīvot draudu situācijas -  motivē meklēt risinājumu vai atrast drošu vidi. Tās aktualizē rūpēs par drošību, veselību un iedrošina pārvarēt šaubas un izaicinājumus.'},
+    {'name':'Dusmas', 'description':'sagatavot ķermeni un prātu cīņai, signalizēt par robežu pārkāpšanu un ierastās kārtības izjaukšanu. Dusmas dod enerģiju un drosmi rīkoties, veicināt pārmaiņas, pretoties nepatīkamajam. Dusmas aizsargā arī no dziļākām, grūtāk izturamākām emocijām, tādām kā: vilšanās, skumjas, trauksme, izmisums, bailes.'},
+    {'name':'Prieks', 'description':'veidot pieķeršanos un savstarpējo uzticēšanos. Prieks rada labu garastāvokli un vēlmi rīkoties. Tas veicina dzīves jēgas apzināšanos, piepilda ar enerģiju, ļauj ķermenim un prātam atslābināties. Prieks attīsta iekšējo motivāciju un iedvesmu jaunu iespēju atklāšanai un sakatīšanai, kā arī izmaiņu veikšanai. Prieks iedvesmo pamanīt, baudīt skaisto ikdienas mirkļos un spēt pieņemt apkārtējo pasauli. Prieks uzlabo ķermeņa fizioloģisko stāvokli un veicina atveseļošanos.  Tas ir svarīgs, lai veicinātu radošumu un komunikācijas prasmes.'},
+    {'name':'Kauns', 'description':'piederības funkciju sabiedrībā. Tas veicina cilvēku savstarpējo emocionālo saikņu veidošanos un attīstību. Kauns aktualizē citu intereses, viedokli, kritiku, uzslavas un veicina iejūtību pret apkārtējiem. Tas pasargā no neapdomīgas rīcības un palīdz izvairīties no emocionālām ciešanām, vientulības un sociālās izolācijas. Kauna funkcija ir nodrošināt vietu sabiedrībā vai grupā un tas ir grupas komforta glabātājs.'},
+    {'name':'Vaina', 'description':'nodrošina savstarpējo attiecību veidošanas funkciju, kas ļauj risināt sarežģītas situācijas svarīgās attiecībās un atturēties no darbībām, kas varētu tās nelabvēlīgi ietekmēt. Vaina palīdz izvairīties no kaitējuma nodarīšanas otram un izturēties atbildīgi, veicinot spēju atvainoties, atzīt un labot kļūdas. Tā attīsta spēju domāt par citiem, izjust “cietušā” cilvēka sāpes un veido ētiku un morāli. Vaina motivē īstenot savus dabiskos talantus un potenciālu.'},
+    {'name':'Riebums', 'description':'nodrošināt organismam izdzīvošanu. Tā ir adaptīva reakcija, kas ļauj izvairīties no nepatīkamām un veselībai kaitīgām situācijām. Riebums palīdz adaptēties ārējiem faktoriem, pasargājot no saindēšanās, ļaujot apdomāt un izvēlēties, kā rīkoties. Riebuma sociālā funkcija ir veidot robežas: mans – svešs. Tas mudina izolēties no šķietami nepieņemamā un ziņo par neapmierinātību ar toksisku, piesārņotu vidi. Riebums motivē pārtraukt nelabvēlīgas attiecības – atbrīvoties no objekta vai pašiem aiziet.'},
+    {'name':'Interese', 'description':'palīdzēt cilvēkam vieglāk pielāgoties ikdienai un dzīvei kopumā. Interese nodrošina spēju ilgstoši noturēt uzmanību, tādā veidā attīstot jaunas iemaņas, prasmes un intelektu. Interese ir rīcības enerģijas avots, kas mudina pielikt pūles, lai sasniegtu kāroto. Interese rosina iztēli, fantāziju, atraisa ziņkārību, kas savukārt rada vēlmi izpētīt un iesaistīties. Interese ietekmē atmiņas un domas, nosaka to, kas tiek uztverts un iegaumēts.'},
 
-let item;
+    {'name':'additional-1'},
+    {'name':'additional-2'},
+    {'name':'additional-3'},
+    {'name':'additional-4'},
+    {'name':'additional-5'},
+    {'name':'additional-6'},
+    {'name':'additional-7'},
+    {'name':'additional-8'},
+]
+
+const interactionManager = new InteractionManager(renderer, camera, renderer.domElement)
+let item
+let selectedItem;
 emotions.forEach(function (emotion) {
-    item = cube.clone();
-    item.visible = false;
-    item.name = emotion;
-
-    let annotationDiv = document.createElement('div');
-    annotationDiv.className = 'annotationLabel';
-    annotationDiv.textContent = emotion;
-    annotationDiv.style.marginTop = '-1em';
-    let annotationLabel = new CSS2DObject(annotationDiv);
-    annotationLabel.visible = false;
-    annotationLabel.position.set(0, 1, 0);
-    item.add(annotationLabel);
-
-    scene.add(item);
+    item = cube.clone()
+    item.visible = false
+    item.name = emotion.name
+    item.userData = { description: emotion.description ?? null };
 
     //@ts-ignore
-    objects.push(item);
+    item.addEventListener('mouseover', (event) => {
+        if(!event.target.name.includes('additional')) {
+            event.target.children[0].element.classList.add('fw-bold');
+            $('.emotion-description .emotion-name').text(event.target.name)
+            $('.emotion-description .emotion-text').text(event.target.userData.description) 
+        }
+
+        // // obj = scene.getObjectByName()
+        // if(selectedItem){
+        //     selectedItem.material.color.setHex(0xffffff)
+        // }
+
+        // selectedItem = item;
+
+        // //@ts-ignore
+        // item.material.color.setHex(Math.random() * 0xffffff)
+    })
+
+    item.addEventListener('mouseout', (event) => {
+        event.target.children[0].element.classList.remove('fw-bold');
+        $('.emotion-description .emotion-name').text('')
+        $('.emotion-description .emotion-text').text('')
+    })
+
+    let annotationDiv = document.createElement('div')
+    annotationDiv.className = 'annotationLabel text-uppercase'
+    annotationDiv.textContent = emotion.name
+    annotationDiv.style.marginTop = '-1em'
+    let annotationLabel = new CSS2DObject(annotationDiv)
+    annotationLabel.visible = false
+    annotationLabel.position.set(0, 1, 0)
+    item.add(annotationLabel)
+    scene.add(item)
+    interactionManager.add(item)
+
+    //@ts-ignore
+    objects.push(item)
 })
 
-const controls = new DragControls(objects, camera, renderer.domElement);
-const orbitControls = new OrbitControls(camera, renderer.domElement);
+//Ortographic camera controls
+const oDragControls = new DragControls(objects, oCamera, renderer.domElement)
+const oOrbitControls = new OrbitControls(oCamera, renderer.domElement)
+
+//Perspective camera controls
+// const pDragControls = new DragControls(objects, pCamera, renderer.domElement)
+const pOrbitControls = new OrbitControls(pCamera, renderer.domElement)
+
+const dragControls = [
+    oDragControls,
+    // pDragControls
+]
+
+const orbitControls = [oOrbitControls, pOrbitControls]
+const controls = [...dragControls, ...orbitControls]
+
 //first view is top view, these to restrict desk rotation to y axis
-orbitControls.minPolarAngle = 0;
-orbitControls.maxPolarAngle = 0;
+oOrbitControls.minPolarAngle = 0
+oOrbitControls.maxPolarAngle = 0
 
-//DragControls events
-let dragObjectYPosition;
-controls.addEventListener('dragstart', function (event) {
-    orbitControls.enabled = false;
+//Drag object events
+let dragObjectYPosition
+dragControls.forEach((dragControl) => {
+    dragControl.addEventListener('dragstart', function (event) {
+        orbitControls.forEach((orbitControl) => (orbitControl.enabled = false))
+        dragObjectYPosition = event.object.position.y
+        event.object.parent.name === 'ES' ? pawn.position.y : event.object.position.y
+        console.log(pawn.position.y, event.object.position.y)
+    })
 
-    dragObjectYPosition =
-        event.object.parent.name === 'ES' ? pawn.position.y : event.object.position.y;
-});
-controls.addEventListener('drag', function (event) {
-    if (
-        event.object.position.y > dragObjectYPosition ||
-        event.object.position.y < dragObjectYPosition
-    ) {
-        event.object.position.y = dragObjectYPosition;
-    }
+    dragControl.addEventListener('drag', function (event) {
+        if (
+            event.object.position.y > dragObjectYPosition ||
+            event.object.position.y < dragObjectYPosition
+        ) {
+            event.object.position.y = dragObjectYPosition
+        }
 
-    if (event.object.parent.name === 'ES') {
-        arrowHelper.position.x = event.object.position.x;
-        arrowHelper.position.z = event.object.position.z;
-    }
-});
-controls.addEventListener('dragend', function (event) {
-    orbitControls.enabled = true;
-});
+        if (event.object.parent.name === 'ES') {
+            arrowHelper.position.x = event.object.position.x
+            arrowHelper.position.z = event.object.position.z
+        }
+    })
+
+    dragControl.addEventListener('dragend', function (event) {
+        orbitControls.forEach((orbitControl) => (orbitControl.enabled = true))
+    })
+})
+
+// controls.addEventListener('dragstart', function (event) {
+//     orbitControls.enabled = false;
+
+//     dragObjectYPosition =
+//         event.object.parent.name === 'ES' ? pawn.position.y : event.object.position.y;
+// });
+// controls.addEventListener('drag', function (event) {
+//     if (
+//         event.object.position.y > dragObjectYPosition ||
+//         event.object.position.y < dragObjectYPosition
+//     ) {
+//         event.object.position.y = dragObjectYPosition;
+//     }
+
+//     if (event.object.parent.name === 'ES') {
+//         arrowHelper.position.x = event.object.position.x;
+//         arrowHelper.position.z = event.object.position.z;
+//     }
+// });
+// controls.addEventListener('dragend', function (event) {
+//     orbitControls.enabled = true;
+// });
 
 //View switcher events
-var sideView = 0;
+var sideView = 0
 $('.side-view').on('click', function () {
-    controls.enabled = orbitControls.enabled = true;
+    camera = pCamera
+    orbitControls.forEach((orbitControl) => (orbitControl.enabled = true))
+    dragControls.forEach((dragControl) => (dragControl.enabled = false))
 
     if (topView || personView) {
-        topView = personView = 0;
-        orbitControls.minPolarAngle = Math.PI / 3;
-        orbitControls.maxPolarAngle = Math.PI * 0.1;
-    }
-    if (!pawn.visible) {
-        pawn.visible = true;
+        topView = personView = 0
+        orbitControls.forEach((orbitControl) => {
+            orbitControl.minPolarAngle = Math.PI / 3
+            orbitControl.maxPolarAngle = Math.PI * 0.1
+        })
     }
 
-    sideView++;
+    if (!pawn.visible) {
+        pawn.visible = true
+    }
+
+    sideView++
 
     switch (sideView) {
         case 1:
-            camera.position.set(0, 2, 16);
-            break;
+            camera.position.set(0, 2, 16)
+            break
         case 2:
-            camera.position.set(-16, 2, 0);
-            break;
+            camera.position.set(-16, 2, 0)
+            break
         case 3:
-            camera.position.set(0, 2, -16);
-            break;
+            camera.position.set(0, 2, -16)
+            break
         case 4:
-            camera.position.set(16, 2, 0);
-            break;
+            camera.position.set(16, 2, 0)
+            break
         default:
-            sideView = 1;
-            camera.position.set(0, 2, 16);
-            break;
+            sideView = 1
+            camera.position.set(0, 2, 16)
+            break
     }
-    camera.lookAt(0, 2, 0);
-    render();
-});
+    console.log(camera)
+    camera.lookAt(0, 2, 0)
+    render()
+})
 $('.top-view').on('click', function () {
-    pawn.visible = true;
+    camera = oCamera
+
+    pawn.visible = true
     if (!topView) {
-        topView = 1;
+        topView = 1
     }
     if (personView) {
-        personView = 0;
+        personView = 0
     }
-    controls.enabled = orbitControls.enabled = true;
 
-    orbitControls.minPolarAngle = 0;
-    orbitControls.maxPolarAngle = 0;
-    camera.position.set(0, 17, 0);
-    camera.lookAt(0, 0, 0);
+    controls.forEach((control) => (control.enabled = true))
 
-    render();
-});
+    orbitControls.forEach((orbitControl) => {
+        orbitControl.minPolarAngle = 0
+        orbitControl.maxPolarAngle = 0
+    })
+    camera.position.set(0, 17, 0)
+    camera.lookAt(0, 0, 0)
+
+    render()
+})
 $('.person-view').on('click', function () {
+    camera = pCamera
+
     if (topView) {
         topView = 0
     }
@@ -229,91 +326,91 @@ $('.person-view').on('click', function () {
     camera.position.set(self.position.x, self.scale.y, self.position.z)
     camera.lookAt(self.position.x + arrowHelper.cone.position.y, self.scale.y, self.position.z)
     camera.rotation.y = arrowHelper.rotation.y - Math.PI / 2
-    controls.enabled = orbitControls.enabled = false
+    controls.forEach((control) => (control.enabled = false))
 
     render()
-});
+})
 
 //Simboliska Es skata virziens
-const dir = new THREE.Vector3(1, 0, 0);
-dir.normalize();
-const origin = new THREE.Vector3(0, 1, 0);
-const length = 2.5;
-const hex = 0x000000;
-const arrowHelper = new THREE.ArrowHelper(dir, origin, length, hex);
-arrowHelper.scale.set(2, 1, 1);
-scene.add(arrowHelper);
+const dir = new THREE.Vector3(1, 0, 0)
+dir.normalize()
+const origin = new THREE.Vector3(0, 1, 0)
+const length = 2.5
+const hex = 0x000000
+const arrowHelper = new THREE.ArrowHelper(dir, origin, length, hex)
+arrowHelper.scale.set(2, 1, 1)
 
-let hasDirection = 1;
+let hasDirection = 1
 $('#desk-progress.ibm-tabs-content.me a.continue').on('click', function () {
     if ($('#desk-progress.ibm-tabs-content').hasClass('direction')) {
         if (hasDirection) {
-            scene.add(arrowHelper);
+            scene.add(arrowHelper)
         }
-        hasDirection--;
+        hasDirection--
     }
-});
+})
 
 $('#emotionForm input[name=emotion]').on('change', function () {})
-let additional = 0;
+let additional = 0
 $('#emotionForm .emotion-size').on('click', function (e) {
-    $(this).find('input[name=intensity]').prop('checked', true);
+    $(this).find('input[name=intensity]').prop('checked', true)
 
-    let size = $(this).find('input[name=intensity]').val();
-    let nameValue = String($('input[name=emotion]').val()).toLowerCase();
-    let name: string = nameValue.charAt(0).toUpperCase() + nameValue.slice(1);
-    let emotion;
+    let size = $(this).find('input[name=intensity]').val()
+    let nameValue = String($('input[name=emotion]').val()).toLowerCase()
+    let name: string = nameValue.charAt(0).toUpperCase() + nameValue.slice(1)
+    let emotionFigure
 
     if ($('#desk-progress').hasClass('additional')) {
-        additional++;
-        emotion = scene.getObjectByName('additional-' + additional);
-        emotion.name = emotion.children[0].element.textContent = name;
+        additional++
+        emotionFigure = scene.getObjectByName('additional-' + additional)
+        emotionFigure.name = emotionFigure.children[0].element.textContent = name
     } else {
-        emotion = scene.getObjectByName(name);
+        emotionFigure = scene.getObjectByName(name)
     }
 
-    if (!emotion) {
-        return;
+    if (!emotionFigure) {
+        return
     }
 
-    emotion.visible = emotion.children[0].visible = true;
+    emotionFigure.visible = emotionFigure.children[0].visible = true
 
     switch (size) {
         case '1':
-            emotion.scale.y = emotion.position.y = 1;
-            break;
+            emotionFigure.scale.y = emotionFigure.position.y = 1
+            break
         case '2':
-            emotion.scale.y = 3;
-            emotion.position.y = 1.5;
+            emotionFigure.scale.y = 3
+            emotionFigure.position.y = 2
             break
         case '3':
-            emotion.scale.y = 5;
-            emotion.position.y = 2.5;
-            break;
+            emotionFigure.scale.y = 5
+            emotionFigure.position.y = 3
+            break
         default:
-            emotion.scale.y = emotion.position.y = 1;
-            break;
+            emotionFigure.scale.y = emotionFigure.position.y = 1
+            break
     }
 
-    $('#desk-progress.ibm-tabs-content a.continue').removeClass('not-active');
-});
+    $('#desk-progress.ibm-tabs-content a.continue').removeClass('not-active')
+})
 
 $('#slider').on('slide', function (e, ui) {
-    arrowHelper.rotation.y = pawn.children[0].rotation.y = Math.PI * 2 * (ui.value / 360);
+    arrowHelper.rotation.y = pawn.children[0].rotation.y = Math.PI * 2 * (ui.value / 360)
     if (personView) {
-        camera.rotation.y = arrowHelper.rotation.y - Math.PI / 2;
+        camera.rotation.y = arrowHelper.rotation.y - Math.PI / 2
     }
-});
+})
 
 function init() {}
 function animate() {
-    requestAnimationFrame(animate);
-    render();
+    requestAnimationFrame(animate)
+    interactionManager.update()
+    render()
 }
 function render() {
-    renderer.render(scene, camera);
-    labelRenderer.render(scene, camera);
+    renderer.render(scene, camera)
+    labelRenderer.render(scene, camera)
 }
 
-init();
-animate();
+init()
+animate()
