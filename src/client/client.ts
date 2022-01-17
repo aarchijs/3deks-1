@@ -5,15 +5,13 @@ import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRe
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DragControls } from 'three/examples/jsm/controls/DragControls'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-import { ArrowHelper, GeometryUtils, Object3D, Scene } from 'three'
 import { InteractionManager } from 'three.interactive'
 
 const scene = new THREE.Scene()
 scene.background = new THREE.Color(0xbfa4a4)
-const width = 610
-const height = 548
+const width = 528
+const height = 528
 const aspect = width / height
-const viewSize = 548
 let camera
 const pCamera = new THREE.PerspectiveCamera(75, aspect, 0.1, 1000)
 const oCamera = new THREE.OrthographicCamera(
@@ -25,7 +23,7 @@ const oCamera = new THREE.OrthographicCamera(
     1000
 )
 oCamera.position.y = 17
-oCamera.zoom = 22
+oCamera.zoom = 21
 oCamera.updateProjectionMatrix()
 oCamera.updateMatrix()
 camera = oCamera
@@ -40,12 +38,7 @@ renderer.domElement.style.zIndex = '8'
 let topView = 1
 let personView = 0
 
-const gridHelper = new THREE.GridHelper(24, 22)
-scene.add(gridHelper)
-gridHelper.position.y = 0.501
-
 $('#desk-progress .container div.d-flex div.desk-canvas').append(renderer.domElement)
-// $('#desk-intro .container div.desk-canvas').append(renderer.domElement);
 
 let labelRenderer = new CSS2DRenderer()
 labelRenderer.setSize(width, height)
@@ -67,7 +60,7 @@ const deskBorderValue = 11.5
 const cubeGeometry = new THREE.BoxBufferGeometry(1, 1, 1)
 
 const cube = new THREE.Mesh(cubeGeometry)
-cube.position.set(11.75, 1, 0)
+cube.position.set(11, 1, 0)
 
 const loader = new GLTFLoader()
 function handle_load(gltf) {
@@ -97,8 +90,6 @@ $('#desk-intro-self a.continue').on('click', function (e) {
     pawn.children[0].scale.set(selfSize, selfSize, selfSize)
 })
 
-scene.add(new THREE.AxesHelper(500))
-
 //@ts-ignore
 let objects = []
 //@ts-ignore
@@ -106,55 +97,85 @@ objects.push(pawn)
 
 //8 main emotions + option to add 8 more additional emotions
 let emotions = [
-    {'name':'Skumjas', 'description':'demonstrēt (apzināties) to, ka ir slikti un ka ir nepieciešama palīdzība. No ieilgušām skumjām var attīstīties depresija. Lai tas nonotiktu, ir nepieciešams citu cilvēku atbalsts. Skumjas ir nepatīkamas un grūti izturamas, tāpēc tās mudina rīkoties, motivē esošo situāciju mainīt un sasniegt jaunus mērķus. Tās palīdz pārdomāt dzīvi, rosina uz attīstību un padara vērīgākus attiecībā pret notiekošo un apkārtējiem cilvēkiem.'},
-    {'name':'Bailes', 'description':'izvairīties, izkļūt ārā no nepatīkamām un bīstamām situācijām. Ķermenis tiek sagatavots saskarei ar potenciālo draudu situāciju, lai pietiktu enerģijas un spēka bēgt vai uzbrukt. Bailes palīdz būt modram un spēt pastāvēt par sevi un aizsargāties. Bailes palīdz pārdzīvot draudu situācijas -  motivē meklēt risinājumu vai atrast drošu vidi. Tās aktualizē rūpēs par drošību, veselību un iedrošina pārvarēt šaubas un izaicinājumus.'},
-    {'name':'Dusmas', 'description':'sagatavot ķermeni un prātu cīņai, signalizēt par robežu pārkāpšanu un ierastās kārtības izjaukšanu. Dusmas dod enerģiju un drosmi rīkoties, veicināt pārmaiņas, pretoties nepatīkamajam. Dusmas aizsargā arī no dziļākām, grūtāk izturamākām emocijām, tādām kā: vilšanās, skumjas, trauksme, izmisums, bailes.'},
-    {'name':'Prieks', 'description':'veidot pieķeršanos un savstarpējo uzticēšanos. Prieks rada labu garastāvokli un vēlmi rīkoties. Tas veicina dzīves jēgas apzināšanos, piepilda ar enerģiju, ļauj ķermenim un prātam atslābināties. Prieks attīsta iekšējo motivāciju un iedvesmu jaunu iespēju atklāšanai un sakatīšanai, kā arī izmaiņu veikšanai. Prieks iedvesmo pamanīt, baudīt skaisto ikdienas mirkļos un spēt pieņemt apkārtējo pasauli. Prieks uzlabo ķermeņa fizioloģisko stāvokli un veicina atveseļošanos.  Tas ir svarīgs, lai veicinātu radošumu un komunikācijas prasmes.'},
-    {'name':'Kauns', 'description':'piederības funkciju sabiedrībā. Tas veicina cilvēku savstarpējo emocionālo saikņu veidošanos un attīstību. Kauns aktualizē citu intereses, viedokli, kritiku, uzslavas un veicina iejūtību pret apkārtējiem. Tas pasargā no neapdomīgas rīcības un palīdz izvairīties no emocionālām ciešanām, vientulības un sociālās izolācijas. Kauna funkcija ir nodrošināt vietu sabiedrībā vai grupā un tas ir grupas komforta glabātājs.'},
-    {'name':'Vaina', 'description':'nodrošina savstarpējo attiecību veidošanas funkciju, kas ļauj risināt sarežģītas situācijas svarīgās attiecībās un atturēties no darbībām, kas varētu tās nelabvēlīgi ietekmēt. Vaina palīdz izvairīties no kaitējuma nodarīšanas otram un izturēties atbildīgi, veicinot spēju atvainoties, atzīt un labot kļūdas. Tā attīsta spēju domāt par citiem, izjust “cietušā” cilvēka sāpes un veido ētiku un morāli. Vaina motivē īstenot savus dabiskos talantus un potenciālu.'},
-    {'name':'Riebums', 'description':'nodrošināt organismam izdzīvošanu. Tā ir adaptīva reakcija, kas ļauj izvairīties no nepatīkamām un veselībai kaitīgām situācijām. Riebums palīdz adaptēties ārējiem faktoriem, pasargājot no saindēšanās, ļaujot apdomāt un izvēlēties, kā rīkoties. Riebuma sociālā funkcija ir veidot robežas: mans – svešs. Tas mudina izolēties no šķietami nepieņemamā un ziņo par neapmierinātību ar toksisku, piesārņotu vidi. Riebums motivē pārtraukt nelabvēlīgas attiecības – atbrīvoties no objekta vai pašiem aiziet.'},
-    {'name':'Interese', 'description':'palīdzēt cilvēkam vieglāk pielāgoties ikdienai un dzīvei kopumā. Interese nodrošina spēju ilgstoši noturēt uzmanību, tādā veidā attīstot jaunas iemaņas, prasmes un intelektu. Interese ir rīcības enerģijas avots, kas mudina pielikt pūles, lai sasniegtu kāroto. Interese rosina iztēli, fantāziju, atraisa ziņkārību, kas savukārt rada vēlmi izpētīt un iesaistīties. Interese ietekmē atmiņas un domas, nosaka to, kas tiek uztverts un iegaumēts.'},
+    {
+        name: 'Skumjas',
+        description:
+            'demonstrēt (apzināties) to, ka ir slikti un ka ir nepieciešama palīdzība. No ieilgušām skumjām var attīstīties depresija. Lai tas nonotiktu, ir nepieciešams citu cilvēku atbalsts. Skumjas ir nepatīkamas un grūti izturamas, tāpēc tās mudina rīkoties, motivē esošo situāciju mainīt un sasniegt jaunus mērķus. Tās palīdz pārdomāt dzīvi, rosina uz attīstību un padara vērīgākus attiecībā pret notiekošo un apkārtējiem cilvēkiem.',
+    },
+    {
+        name: 'Bailes',
+        description:
+            'izvairīties, izkļūt ārā no nepatīkamām un bīstamām situācijām. Ķermenis tiek sagatavots saskarei ar potenciālo draudu situāciju, lai pietiktu enerģijas un spēka bēgt vai uzbrukt. Bailes palīdz būt modram un spēt pastāvēt par sevi un aizsargāties. Bailes palīdz pārdzīvot draudu situācijas -  motivē meklēt risinājumu vai atrast drošu vidi. Tās aktualizē rūpēs par drošību, veselību un iedrošina pārvarēt šaubas un izaicinājumus.',
+    },
+    {
+        name: 'Dusmas',
+        description:
+            'sagatavot ķermeni un prātu cīņai, signalizēt par robežu pārkāpšanu un ierastās kārtības izjaukšanu. Dusmas dod enerģiju un drosmi rīkoties, veicināt pārmaiņas, pretoties nepatīkamajam. Dusmas aizsargā arī no dziļākām, grūtāk izturamākām emocijām, tādām kā: vilšanās, skumjas, trauksme, izmisums, bailes.',
+    },
+    {
+        name: 'Prieks',
+        description:
+            'veidot pieķeršanos un savstarpējo uzticēšanos. Prieks rada labu garastāvokli un vēlmi rīkoties. Tas veicina dzīves jēgas apzināšanos, piepilda ar enerģiju, ļauj ķermenim un prātam atslābināties. Prieks attīsta iekšējo motivāciju un iedvesmu jaunu iespēju atklāšanai un sakatīšanai, kā arī izmaiņu veikšanai. Prieks iedvesmo pamanīt, baudīt skaisto ikdienas mirkļos un spēt pieņemt apkārtējo pasauli. Prieks uzlabo ķermeņa fizioloģisko stāvokli un veicina atveseļošanos.  Tas ir svarīgs, lai veicinātu radošumu un komunikācijas prasmes.',
+    },
+    {
+        name: 'Kauns',
+        description:
+            'piederības funkciju sabiedrībā. Tas veicina cilvēku savstarpējo emocionālo saikņu veidošanos un attīstību. Kauns aktualizē citu intereses, viedokli, kritiku, uzslavas un veicina iejūtību pret apkārtējiem. Tas pasargā no neapdomīgas rīcības un palīdz izvairīties no emocionālām ciešanām, vientulības un sociālās izolācijas. Kauna funkcija ir nodrošināt vietu sabiedrībā vai grupā un tas ir grupas komforta glabātājs.',
+    },
+    {
+        name: 'Vaina',
+        description:
+            'nodrošina savstarpējo attiecību veidošanas funkciju, kas ļauj risināt sarežģītas situācijas svarīgās attiecībās un atturēties no darbībām, kas varētu tās nelabvēlīgi ietekmēt. Vaina palīdz izvairīties no kaitējuma nodarīšanas otram un izturēties atbildīgi, veicinot spēju atvainoties, atzīt un labot kļūdas. Tā attīsta spēju domāt par citiem, izjust “cietušā” cilvēka sāpes un veido ētiku un morāli. Vaina motivē īstenot savus dabiskos talantus un potenciālu.',
+    },
+    {
+        name: 'Riebums',
+        description:
+            'nodrošināt organismam izdzīvošanu. Tā ir adaptīva reakcija, kas ļauj izvairīties no nepatīkamām un veselībai kaitīgām situācijām. Riebums palīdz adaptēties ārējiem faktoriem, pasargājot no saindēšanās, ļaujot apdomāt un izvēlēties, kā rīkoties. Riebuma sociālā funkcija ir veidot robežas: mans – svešs. Tas mudina izolēties no šķietami nepieņemamā un ziņo par neapmierinātību ar toksisku, piesārņotu vidi. Riebums motivē pārtraukt nelabvēlīgas attiecības – atbrīvoties no objekta vai pašiem aiziet.',
+    },
+    {
+        name: 'Interese',
+        description:
+            'palīdzēt cilvēkam vieglāk pielāgoties ikdienai un dzīvei kopumā. Interese nodrošina spēju ilgstoši noturēt uzmanību, tādā veidā attīstot jaunas iemaņas, prasmes un intelektu. Interese ir rīcības enerģijas avots, kas mudina pielikt pūles, lai sasniegtu kāroto. Interese rosina iztēli, fantāziju, atraisa ziņkārību, kas savukārt rada vēlmi izpētīt un iesaistīties. Interese ietekmē atmiņas un domas, nosaka to, kas tiek uztverts un iegaumēts.',
+    },
 
-    {'name':'additional-1'},
-    {'name':'additional-2'},
-    {'name':'additional-3'},
-    {'name':'additional-4'},
-    {'name':'additional-5'},
-    {'name':'additional-6'},
-    {'name':'additional-7'},
-    {'name':'additional-8'},
+    { name: 'additional-1' },
+    { name: 'additional-2' },
+    { name: 'additional-3' },
+    { name: 'additional-4' },
+    { name: 'additional-5' },
+    { name: 'additional-6' },
+    { name: 'additional-7' },
+    { name: 'additional-8' },
+    { name: 'additional-9' },
+    { name: 'additional-10' },
+    { name: 'additional-11' },
+    { name: 'additional-12' },
+    { name: 'additional-13' },
+    { name: 'additional-14' },
+    { name: 'additional-15' },
+    { name: 'additional-16' },
 ]
 
 const interactionManager = new InteractionManager(renderer, camera, renderer.domElement)
 let item
-let selectedItem;
+let selectedItem
 emotions.forEach(function (emotion) {
     item = cube.clone()
     item.visible = false
     item.name = emotion.name
-    item.userData = { description: emotion.description ?? null };
+    item.userData = { description: emotion.description ?? null }
 
     //@ts-ignore
     item.addEventListener('mouseover', (event) => {
-        if(!event.target.name.includes('additional')) {
-            event.target.children[0].element.classList.add('fw-bold');
+        if (!event.target.name.includes('additional')) {
+            event.target.children[0].element.classList.add('fw-bold')
             $('.emotion-description .emotion-name').text(event.target.name)
-            $('.emotion-description .emotion-text').text(event.target.userData.description) 
+            $('.emotion-description .emotion-text').text(event.target.userData.description)
         }
-
-        // // obj = scene.getObjectByName()
-        // if(selectedItem){
-        //     selectedItem.material.color.setHex(0xffffff)
-        // }
-
-        // selectedItem = item;
-
-        // //@ts-ignore
-        // item.material.color.setHex(Math.random() * 0xffffff)
     })
 
     item.addEventListener('mouseout', (event) => {
-        event.target.children[0].element.classList.remove('fw-bold');
+        event.target.children[0].element.classList.remove('fw-bold')
         $('.emotion-description .emotion-name').text('')
         $('.emotion-description .emotion-text').text('')
     })
@@ -179,12 +200,10 @@ const oDragControls = new DragControls(objects, oCamera, renderer.domElement)
 const oOrbitControls = new OrbitControls(oCamera, renderer.domElement)
 
 //Perspective camera controls
-// const pDragControls = new DragControls(objects, pCamera, renderer.domElement)
 const pOrbitControls = new OrbitControls(pCamera, renderer.domElement)
 
 const dragControls = [
     oDragControls,
-    // pDragControls
 ]
 
 const orbitControls = [oOrbitControls, pOrbitControls]
@@ -222,29 +241,6 @@ dragControls.forEach((dragControl) => {
         orbitControls.forEach((orbitControl) => (orbitControl.enabled = true))
     })
 })
-
-// controls.addEventListener('dragstart', function (event) {
-//     orbitControls.enabled = false;
-
-//     dragObjectYPosition =
-//         event.object.parent.name === 'ES' ? pawn.position.y : event.object.position.y;
-// });
-// controls.addEventListener('drag', function (event) {
-//     if (
-//         event.object.position.y > dragObjectYPosition ||
-//         event.object.position.y < dragObjectYPosition
-//     ) {
-//         event.object.position.y = dragObjectYPosition;
-//     }
-
-//     if (event.object.parent.name === 'ES') {
-//         arrowHelper.position.x = event.object.position.x;
-//         arrowHelper.position.z = event.object.position.z;
-//     }
-// });
-// controls.addEventListener('dragend', function (event) {
-//     orbitControls.enabled = true;
-// });
 
 //View switcher events
 var sideView = 0
@@ -339,12 +335,22 @@ const length = 2.5
 const hex = 0x000000
 const arrowHelper = new THREE.ArrowHelper(dir, origin, length, hex)
 arrowHelper.scale.set(2, 1, 1)
+arrowHelper.visible = false
+scene.add(arrowHelper)
 
+$('#desk-progress.me a.back').on('click', function () {
+    if ($('#desk-progress').hasClass('additional')) {
+        if (!hasDirection) {
+            arrowHelper.visible = false
+            hasDirection++
+        }
+    }
+})
 let hasDirection = 1
-$('#desk-progress.ibm-tabs-content.me a.continue').on('click', function () {
-    if ($('#desk-progress.ibm-tabs-content').hasClass('direction')) {
+$('#desk-progress.me a.continue').on('click', function () {
+    if ($('#desk-progress').hasClass('direction')) {
         if (hasDirection) {
-            scene.add(arrowHelper)
+            arrowHelper.visible = true
         }
         hasDirection--
     }
@@ -391,7 +397,7 @@ $('#emotionForm .emotion-size').on('click', function (e) {
             break
     }
 
-    $('#desk-progress.ibm-tabs-content a.continue').removeClass('not-active')
+    $('#desk-progress a.continue').removeClass('not-active')
 })
 
 $('#slider').on('slide', function (e, ui) {

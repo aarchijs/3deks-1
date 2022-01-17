@@ -21,7 +21,9 @@ $('.ibm-tabs li a').each(function () {
         e.preventDefault()
 
         $('section:not(#ibm-tab,#desk-intro,#desk-method,#desk-emotions,#desk-contacts').each(
-            function () { $(this).hasClass('d-none') ? true : $(this).addClass('d-none') }
+            function () {
+                $(this).hasClass('d-none') ? true : $(this).addClass('d-none')
+            }
         )
 
         let activeTabId = $('.ibm-tabs li.active a').attr('href')
@@ -34,25 +36,14 @@ $('.ibm-tabs li a').each(function () {
     })
 })
 
-$('#desk-intro a, #desk-method a, #desk-emotions a, #desk-contacts a').each(
-    function () { 
-        $(this).parent('section').addClass('d-none')
+$('#desk-method a, #desk-emotions a, #desk-contacts a').each(function () {
+    $(this).on('click', function (e) {
+        e.preventDefault()
+        $(this).parents('section').addClass('d-none')
         $('#desk-intro-prepare').removeClass('d-none')
-    }
-)
+    })
+})
 //NAVBAR tab switcher end
-
-// $('#desk-intro-prepare a').each(function () {
-//     $(this).on('click', function (e) {
-//         e.preventDefault()
-//         if ($(this).hasClass('back')) {
-//             $('#desk-intro-self').removeClass('d-none')
-//             $('#desk-intro').removeClass('d-none')
-//         } else if ($(this).hasClass('continue')) {
-//             $('#desk-intro-self').removeClass('d-none')
-//         }
-//     })
-// })
 
 // ---------Back-forth buttons---------
 $('#desk-intro a').on('click', function (e) {
@@ -68,21 +59,48 @@ $('#desk-intro-prepare a').each(function () {
         if ($(this).hasClass('back')) {
             $('#desk-intro').removeClass('d-none')
         } else if ($(this).hasClass('continue')) {
-            $('#desk-progress.me').removeClass('d-none')
+            $('#desk-intro-self').removeClass('d-none')
         }
     })
 })
 
-$('#desk-progress.ibm-tabs-content.me a').each(function () {
+$('#desk-intro-self a').each(function () {
     $(this).on('click', function (e) {
         e.preventDefault()
-
+        $('#desk-intro-self').addClass('d-none')
         if ($(this).hasClass('back')) {
-            $('#desk-progress.me').addClass('d-none')
             $('#desk-intro-prepare').removeClass('d-none')
         } else if ($(this).hasClass('continue')) {
-            let section = $('#desk-progress')
+            $('#desk-progress').removeClass('d-none')
+        }
+    })
+})
 
+$('#desk-progress.me a').each(function () {
+    $(this).on('click', function (e) {
+        e.preventDefault()
+        let section = $('#desk-progress')
+
+        if ($(this).hasClass('back')) {
+            if (section.hasClass('direction')) {
+                $('input[name=emotion]').val('').attr('placeholder', 'IEVADI EMOCIJU')
+                $('.emotion-intensity').addClass('not-active')
+
+                if (addingEmotion) {
+                    addingEmotion = 0
+                }
+                section.removeClass('direction').addClass('additional')
+                $('#sightDirection').addClass('d-none')
+                $('#emotionForm').removeClass('d-none')
+            } else if (section.hasClass('reflection')) {
+                section.removeClass('reflection').addClass('direction')
+                $('#reflectionsOne').addClass('d-none')
+                $('#sightDirection').removeClass('d-none')
+            } else {
+                section.addClass('d-none')
+                $('#desk-intro-self').removeClass('d-none')
+            }
+        } else if ($(this).hasClass('continue')) {
             if (section.hasClass('me')) {
                 $('#emotionForm').removeClass('invisible')
                 section.removeClass('me').addClass('sadness')
@@ -184,7 +202,7 @@ $('#desk-progress.ibm-tabs-content.me a').each(function () {
 $('#emotionForm input[name=emotion]').on('keyup', function (e) {
     e.preventDefault()
 
-    let continueBtn = $('#desk-progress.ibm-tabs-content.additional a.continue')
+    let continueBtn = $('#desk-progress.additional a.continue')
     addingEmotion = $(this).val().length > 0
 
     if (addingEmotion) {
@@ -192,14 +210,15 @@ $('#emotionForm input[name=emotion]').on('keyup', function (e) {
             continueBtn.addClass('not-active')
         }
         $('.emotion-intensity').removeClass('not-active')
-        $('#desk-progress.ibm-tabs-content a.continue').addClass('not-active')
+        $('#desk-progress a.continue').addClass('not-active')
     } else {
         if (continueBtn.hasClass('not-active')) {
             continueBtn.removeClass('not-active')
         }
         $('.emotion-intensity').addClass('not-active')
-        $('#desk-progress.ibm-tabs-content a.continue').removeClass('not-active')
+        $('#desk-progress a.continue').removeClass('not-active')
     }
+    console.log(addingEmotion)
 })
 
 $('button[type="submit"].download').click(function (e) {
@@ -284,5 +303,9 @@ const fireworks = new Fireworks(container, {
         max: 1,
     },
 })
-$('.fireworks-container').css({ width: window.innerWidth, height: window.innerHeight })
-$('.fireworks-container canvas').attr({ width: window.innerWidth, height: window.innerHeight })
+$('.fireworks-container').css({ top: '70px', width: window.innerWidth, height: window.innerHeight })
+$('.fireworks-container canvas').attr({
+    top: '70px',
+    width: window.innerWidth,
+    height: window.innerHeight,
+})

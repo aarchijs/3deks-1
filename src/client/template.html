@@ -73,7 +73,7 @@
                 </ol>
                 <div class="d-flex justify-content-center">
                     <button type="submit" class="btn btn-secondary btn-lg col-4 text-uppercase rounded-0 mx-5 download"
-                            onclick="window.open('/client/assets/annotations.pdf')">Instrukcija
+                            onclick="window.open('assets/annotations.pdf')">Instrukcija
                     </button>
                     <a class="btn btn-success btn-lg col-4 text-uppercase rounded-0 mx-5">Sākt metodi
                         "3deks"
@@ -428,16 +428,16 @@
 
 
         <!-- ########### Some intro info ########### -->
-        <section id="desk-intro-prepare" class="d-none" style="font-size:18px;">
+        <section id="desk-intro-prepare" class="d-none" style="font-size:16px;">
             <div class="container">
-                <h3 class="text-center" style="font-size: 32px; margin-bottom:48px;">Sagatavošanās</h3>
+                <h3 class="text-center" style="font-size: 32px; margin-bottom:32px;">Sagatavošanās</h3>
 
-                <div style="height: 475px;">
-                    <div style="margin-bottom:24px;">
+                <div style="height: 410px;">
+                    <div style="margin-bottom:12px;">
                         <div class="dropdown-block d-flex flex-column col-12">
-                            <button class="btn btn-success btn-lg text-uppercase rounded-0 d-flex align-items-center justify-content-end"
+                            <button class="btn btn-success text-uppercase rounded-0 d-flex align-items-center justify-content-end"
                                     style="max-width:38%;">
-                                <p class="m-0">Mērķis</p>
+                                <p class="m-0" style="font-size:18px;">Mērķis</p>
                                 <img width="42" height="42" src="assets/dropdown-down-white.png" style="margin-left:35%;"/>
                             </button>
                             <div class="dropdown-info d-none">
@@ -452,11 +452,11 @@
                             </div>
                         </div>
                     </div>
-                    <div style="margin-bottom:24px;">
+                    <div style="margin-bottom:12px;">
                         <div class="dropdown-block d-flex flex-column col-12">
-                            <button class="btn btn-success btn-lg text-uppercase rounded-0 d-flex align-items-center justify-content-end"
+                            <button class="btn btn-success text-uppercase rounded-0 d-flex align-items-center justify-content-end"
                                     style="max-width:38%;">
-                                <p class="m-0">Process</p>
+                                <p class="m-0" style="font-size:18px;">Process</p>
                                 <img width="42" height="42" src="assets/dropdown-down-white.png" style="margin-left:35%;"/></button>
                             <div class="dropdown-info d-none">
                                 <p class="mb-0">Tiek noskaidrota supervīzijas vajadzība un jautājums, kas saistīts ar dažādu
@@ -474,11 +474,11 @@
                             </div>
                         </div>
                     </div>
-                    <div style="margin-bottom:48px;">
+                    <div style="margin-bottom:12px;">
                         <div class="dropdown-block d-flex flex-column col-12">
-                            <button class="btn btn-success btn-lg text-uppercase rounded-0 d-flex align-items-center justify-content-end"
+                            <button class="btn btn-success text-uppercase rounded-0 d-flex align-items-center justify-content-end"
                                     style="max-width:38%;">
-                                <p class="m-0">Konfidencialitāte</p>
+                                <p class="m-0" style="font-size:18px;">Konfidencialitāte</p>
                                 <img width="42" height="42" src="assets/dropdown-down-white.png" style="margin-left:20%;"/></button>
                             </button>
                             <div class="dropdown-info d-none">
@@ -504,10 +504,10 @@
         <!-- ########### Choosing selfsize ########### -->
         <section id="desk-intro-self" class="d-none" style="font-size:18px;">
             <div class="container">
-                <h3 class="text-center" style="font-size: 32px; margin-bottom:48px;">Izvēlies simbolisko
+                <h3 class="text-center" style="font-size: 32px; margin-bottom:32px;">Izvēlies simbolisko
                     “Es”</h3>
 
-                <form id="selfForm" class="col-8 mx-auto d-flex justify-content-between" style="height: 475px;">
+                <form id="selfForm" class="col-8 mx-auto d-flex justify-content-between" style="height: 410px;">
                     <div class="d-flex flex-column align-items-center">
                         <img src="assets/fig_1.png"/>
                         <input type="radio" id="small" name="self" value="1" style="width:40px;height:40px;">
@@ -547,7 +547,7 @@
                             <img width="116" height="69" src="assets/view-self.png" class="img-fluid lazyload" />
                             <p class="text-uppercase mb-0">"Es" skats</p>
                         </button>
-                        <button type="button" class="btn-desk d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <button type="button" class="btn-desk d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#emotionsModal">
                             <img width="116" height="69" src="assets/view-emotions.png" class="img-fluid lazyload" />
                             <p class="text-uppercase mb-0">Emocijas</p>
                         </button>
@@ -555,25 +555,24 @@
                         <a class="back btn btn-secondary btn-lg col-6 text-uppercase rounded-0 align-self-center">Atpakaļ</a>
 
                         <!-- Modal -->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="emotionsModal" tabindex="-1" aria-labelledby="emotionsModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-xl">
                                 <div class="modal-content">
-                                    <div class="modal-header">
+                                    <!-- <div class="modal-header">
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
+                                    </div> -->
                                     <div class="modal-body">
                                         <img width="1200" height="800" src="assets/emotions@3x.png" class="img-fluid lazyload"/>
                                     </div>
-                                    <div class="modal-footer justify-content center">
+                                    <!-- <div class="modal-footer justify-content center">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="desk-canvas"></div>
-                    <div class="testshit"></div>
 
                     <div class="d-flex flex-column align-items-center justify-content-between col-3">
 
@@ -617,18 +616,18 @@
                         </div>
 
                         <div id="emotionExplanations" class="w-100 d-flex flex-column d-none" style="height:80%;">
-                            <div class="fs-20" style="margin-bottom: .5rem;">
+                            <div style="margin-bottom: .5rem;">
                                 <p style="margin-bottom: .25rem;">EMOCIJU NOZĪME</p>
                                 <p style="margin-bottom: 0;">atzīmē emociju uz dēlīša un uzzini par tās nozīmi</p>
                             </diV>
-                            <div class="emotion-description fw-bold fs-20" style="margin-bottom: .5rem;">
-                                <p class="emotion-name text-uppercase" style="margin-bottom: .75rem;"></p>
-                                <p class="emotion-text" style="font-style:italic;"></p>
+                            <div class="emotion-description" style="margin-bottom: .5rem;">
+                                <p class="emotion-name fw-bold text-uppercase" style="margin-bottom: .25rem;"></p>
+                                <p class="emotion-text" style="font-style:italic; font-size:14px;"></p>
                             </div>
                         </div>
 
                         <div id="reflectionsTwo" class="w-100 d-flex flex-column justify-content-evenly d-none" style="height:80%;">
-                            <p class="reflection-question fw-bold fs-20" style="margin-bottom: 2rem;"></p>
+                            <p class="reflection-question fw-bold" style="margin-bottom: 2rem;"></p>
                         </div>
 
                         <a class="continue btn btn-success btn-lg col-6 text-uppercase rounded-0 align-self-center">Tālāk</a>

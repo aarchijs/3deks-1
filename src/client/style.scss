@@ -1,37 +1,58 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+$background-color: #f0f0f0;
+$text-color: #000000;
+$white: #ffffff;
+
 body {
     font-family: 'Montserrat', sans-serif !important;
     overflow: auto;
     margin: 0px;
-    background-color: #f0f0f0;
-    padding: 32px 0;
-    color: #000;
+    background-color: $background-color;
+    color: $text-color;
 }
 
 #ibm-tab {
-    margin-bottom: 48px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding-top: 8px;
+    background-color: $background-color;
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.12);
 
-    .ibm-tabs li {
-        text-align: center;
-        list-style: none;
-        padding: 4px 0;
-        text-transform: uppercase;
-        font-size: 20px;
-
-        &:hover,
-        &:active {
-            border-bottom: 2px solid green;
-        }
-
-        a {
-            color: #000;
-            text-decoration: none;
+    ul.ibm-tabs {
+        margin-bottom: .5rem;
+        li {
+            text-align: center;
+            list-style: none;
+            // padding: 4px 0;
+            text-transform: uppercase;
+            font-size: 20px;
+            border-bottom: 2px solid $background-color;
+    
+            &:hover,
+            &:active {
+                border-color: green;
+            }
+    
+            a {
+                color: $text-color;
+                text-decoration: none;
+            }
         }
     }
 }
 
+section:not(#ibm-tab,#finish) {
+    margin-top: 64px;
+}
+
+#finish {
+    margin-top: 15%;
+}
+
 .annotationLabel {
-    color: #000000;
+    color: $text-color;
     font-family: monospace;
     pointer-events: none;
     font-size: 17px;
@@ -51,6 +72,9 @@ body {
     transition: opacity 0.5s;
     display: none;
 }
+#desk-intro-prepare .container button {
+    padding: 0;
+}
 
 #desk-intro .container ol {
     padding-left: 1.5rem;
@@ -67,11 +91,11 @@ button a {
 
 .dropdown-info {
     background-color: #e8e2e2;
-    padding: 16px 16px 16px 48px;
+    padding: 8px 8px 8px 48px;
     max-width: 76%;
 }
 .dropdown-block button.active {
-    color: #000;
+    color: $text-color;
     background-color: #e8e2e2;
     border-color: #e8e2e2;
 }

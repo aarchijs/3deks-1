@@ -140,3 +140,47 @@
     // orbitControls.maxPolarAngle = Math.PI / 2;
 
             // $('.close-button.close-bottom').css('display', 'none')
+            // import { ArrowHelper, Object3D, Scene } from 'three'
+
+// controls.addEventListener('dragstart', function (event) {
+//     orbitControls.enabled = false;
+
+//     dragObjectYPosition =
+//         event.object.parent.name === 'ES' ? pawn.position.y : event.object.position.y;
+// });
+// controls.addEventListener('drag', function (event) {
+//     if (
+//         event.object.position.y > dragObjectYPosition ||
+//         event.object.position.y < dragObjectYPosition
+//     ) {
+//         event.object.position.y = dragObjectYPosition;
+//     }
+
+//     if (event.object.parent.name === 'ES') {
+//         arrowHelper.position.x = event.object.position.x;
+//         arrowHelper.position.z = event.object.position.z;
+//     }
+// });
+// controls.addEventListener('dragend', function (event) {
+//     orbitControls.enabled = true;
+// });
+        // // obj = scene.getObjectByName()
+        // if(selectedItem){
+        //     selectedItem.material.color.setHex(0xffffff)
+        // }
+
+        // selectedItem = item;
+
+        // //@ts-ignore
+        // item.material.color.setHex(Math.random() * 0xffffff)
+
+        // const gridHelper = new THREE.GridHelper(24, 22)
+// gridHelper.position.y = 0.501
+// scene.add(gridHelper)
+// scene.add(new THREE.AxesHelper(500))
+
+// $('#desk-intro .container div.desk-canvas').append(renderer.domElement);
+
+// const pDragControls = new DragControls(objects, pCamera, renderer.domElement)
+    // pDragControls
+
