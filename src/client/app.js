@@ -1,3 +1,5 @@
+let sessionInProgress = 0;
+let faqTabs = 0;
 let reflection = 0
 const reflectionQuestions = [
     'Kāds ir iemesls tieši šī simboliskā “Es” izmēra izvēlei?',
@@ -20,6 +22,16 @@ $('.ibm-tabs li a').each(function () {
     $(this).on('click', function (e) {
         e.preventDefault()
 
+        if(!faqTabs && sessionInProgress){
+            if(!confirm('Vai tiešām vēlies pamest sesiju?')) {
+                return;
+            } else {
+                $('section:not(.d-none)').addClass('last-attended')
+                sessionInProgress = 0;
+                alert('Lai vēlāk turpinātu sesiju uzspied "Turpināt" sadaļā "Sākums". :)');
+            }
+        }
+
         $('section:not(#ibm-tab,#desk-intro,#desk-method,#desk-emotions,#desk-contacts').each(
             function () {
                 $(this).hasClass('d-none') ? true : $(this).addClass('d-none')
@@ -35,23 +47,55 @@ $('.ibm-tabs li a').each(function () {
         $(this).parent('li').addClass('active')
     })
 })
-
-$('#desk-method a, #desk-emotions a, #desk-contacts a').each(function () {
-    $(this).on('click', function (e) {
-        e.preventDefault()
-        $(this).parents('section').addClass('d-none')
-        $('#desk-intro-prepare').removeClass('d-none')
-    })
-})
 //NAVBAR tab switcher end
 
-// ---------Back-forth buttons---------
-$('#desk-intro a').on('click', function (e) {
-    e.preventDefault()
-    $('#desk-intro-prepare').removeClass('d-none')
-    $('#desk-intro').addClass('d-none')
+// $('#desk-method a, #desk-emotions a, #desk-contacts a').each(function () {
+//     $(this).on('click', function (e) {
+//         e.preventDefault()
+//         $(this).parents('section').addClass('d-none')
+//         $('#desk-intro-prepare').removeClass('d-none')
+//     })
+// })
+// $('#desk-intro a').on('click', function (e) {
+//     e.preventDefault()
+//     sessionInProgress = 1;
+//     faqTabs = 0;
+    
+//     $('#desk-intro').addClass('d-none')
+//     if($(this).parents('#desk-intro').hasClass('in-progress')) {
+//         $('.last-attended').removeClass('d-none')
+//     } else {
+//         $('#desk-intro-prepare').removeClass('d-none')
+//         $('#desk-intro').addClass('in-progress')
+//     }
+//     $('#desk-intro a').text('Turpināt'); 
+// })
+
+//Sākt 3desk metodi
+let beginBtns = $('button:contains("Sākt"), a:contains("Sākt")')
+beginBtns.each(function () {
+    $(this).on('click', function (e) {
+        e.preventDefault()
+        sessionInProgress = 1;
+        faqTabs = 0;
+
+        let parent = $(this).parents('section')
+        parent.addClass('d-none')
+        if($('#desk-intro').hasClass('in-progress')) {
+            $('.last-attended').removeClass('d-none').removeClass('last-attended')
+        } else {
+            $('#desk-intro-prepare').removeClass('d-none')
+            $('#desk-intro').addClass('in-progress')
+        }
+
+        beginBtns.each(function(){
+            let updateBtnText = $(this).text().replace('Sākt', 'Turpināt');
+            $(this).text(updateBtnText);
+        })
+    })
 })
 
+// ---------Back-forth buttons---------
 $('#desk-intro-prepare a').each(function () {
     $(this).on('click', function (e) {
         e.preventDefault()
@@ -96,6 +140,29 @@ $('#desk-progress.me a').each(function () {
                 section.removeClass('reflection').addClass('direction')
                 $('#reflectionsOne').addClass('d-none')
                 $('#sightDirection').removeClass('d-none')
+            } else if (section.hasClass('reflection-two')) {
+                reflectionTwo--
+                if (reflectionTwo >= 0) {
+                    $('#reflectionsTwo .reflection-question').text(reflectionTwoQuestions[reflectionTwo])
+                } else {
+                    section.removeClass('reflection-two').addClass('explanations')
+                    $('#reflectionsTwo').addClass('d-none')
+                    $('#emotionExplanations').removeClass('d-none')
+                }
+            } else if (section.hasClass('explanations')) {
+                reflection = reflectionQuestions.length - 1
+                section.removeClass('explanations').addClass('reflection')
+                $('#emotionExplanations').addClass('d-none')
+                $('#reflectionsOne').removeClass('d-none')
+            }  else if (section.hasClass('reflection')) {
+                reflection--
+                if (reflection >= 0) {
+                    $('#reflectionsOne .reflection-question').text(reflectionQuestions[reflection])
+                } else {
+                    section.removeClass('reflection').addClass('direction')
+                    $('#reflectionsOne').addClass('d-none')
+                    $('#sightDirection').removeClass('d-none')
+                }
             } else {
                 section.addClass('d-none')
                 $('#desk-intro-self').removeClass('d-none')
@@ -103,33 +170,31 @@ $('#desk-progress.me a').each(function () {
         } else if ($(this).hasClass('continue')) {
             if (section.hasClass('me')) {
                 $('#emotionForm').removeClass('invisible')
-                section.removeClass('me').addClass('sadness')
-            } else if (section.hasClass('sadness')) {
-                section.removeClass('sadness').addClass('fear')
+                //Dusmas, Bailes, Interese, Kauns, Vaina, Prieks, Riebums, Skumjas
+                section.removeClass('me').addClass('anger')
+            } else if (section.hasClass('anger')) {
+                section.removeClass('anger').addClass('fear')
                 $('input[name=emotion]').val('BAILES')
             } else if (section.hasClass('fear')) {
-                section.removeClass('fear').addClass('anger')
-                $('input[name=emotion]').val('DUSMAS')
-            } else if (section.hasClass('anger')) {
-                section.removeClass('anger').addClass('happiness')
-                $('input[name=emotion]').val('PRIEKS')
-            } else if (section.hasClass('happiness')) {
-                section.removeClass('happiness').addClass('shame')
+                section.removeClass('fear').addClass('interest')
+                $('input[name=emotion]').val('INTERESE')
+            } else if (section.hasClass('interest')) {
+                section.removeClass('interest').addClass('shame')
                 $('input[name=emotion]').val('KAUNS')
             } else if (section.hasClass('shame')) {
                 section.removeClass('shame').addClass('guilt')
                 $('input[name=emotion]').val('VAINA')
             } else if (section.hasClass('guilt')) {
-                section.removeClass('guilt').addClass('disgust')
+                section.removeClass('guilt').addClass('happiness')
+                $('input[name=emotion]').val('PRIEKS')
+            } else if (section.hasClass('happiness')) {
+                section.removeClass('happiness').addClass('disgust')
                 $('input[name=emotion]').val('RIEBUMS')
             } else if (section.hasClass('disgust')) {
-                section.removeClass('disgust').addClass('interest')
-                $('input[name=emotion]').val('INTERESE')
-            } else if (section.hasClass('disgust')) {
-                section.removeClass('disgust').addClass('interest')
-                $('input[name=emotion]').val('INTERESE')
-            } else if (section.hasClass('interest')) {
-                section.removeClass('interest').addClass('additional')
+                section.removeClass('disgust').addClass('sadness')
+                $('input[name=emotion]').val('SKUMJAS')
+            } else if (section.hasClass('sadness')) {
+                section.removeClass('sadness').addClass('additional')
                 $('input[name=emotion]')
                     .val('')
                     .removeAttr('disabled')
@@ -167,20 +232,13 @@ $('#desk-progress.me a').each(function () {
                 $('#reflectionsTwo').removeClass('d-none')
             } else if (section.hasClass('reflection-two')) {
                 reflectionTwo++
-                if (reflectionTwo !== reflectionTwoQuestions.length) {
+                if (reflectionTwo < reflectionTwoQuestions.length) {
                     $('#reflectionsTwo .reflection-question').text(
                         reflectionTwoQuestions[reflectionTwo]
                     )
                 } else {
                     $('#desk-progress.reflection-two').addClass('d-none')
                     $('#finish').removeClass('d-none')
-                    console.log('fireup')
-                    $('.fireworks-container').removeClass('invisible')
-                    fireworks.start()
-                    setTimeout(function () {
-                        fireworks.stop()
-                        $('.fireworks-container').addClass('invisible')
-                    }, 5000)
                 }
             }
 
@@ -198,6 +256,38 @@ $('#desk-progress.me a').each(function () {
         }
     })
 })
+
+$('#finish button').each(function () {
+    $(this).on('click', function (e) {
+        e.preventDefault()
+        if ($(this).hasClass('back')) {
+            reflectionTwo = reflectionTwoQuestions.length-1;
+            $('#finish').addClass('d-none')
+            $('#desk-progress').removeClass('d-none')
+        } else if ($(this).hasClass('continue')) {
+            if(sessionInProgress){
+                if(!confirm('Vai tiešām vēlies pabeigt sesiju?')) {
+                    return;
+                } else {
+                    sessionInProgress = faqTabs = 0;
+                }
+            }
+            sessionStorage.reloadAfterPageLoad = true
+            location.reload()
+        }
+    })
+})
+
+$( function () {
+        if ( sessionStorage.reloadAfterPageLoad ) {
+            $('#desk-intro').addClass('d-none')
+            $('#finish').removeClass('d-none')
+            $('#finish .close-session').addClass('d-none')
+            $('#finish .thank-you').removeClass('d-none')
+            sessionStorage.reloadAfterPageLoad = false
+        }
+    } 
+);
 
 $('#emotionForm input[name=emotion]').on('keyup', function (e) {
     e.preventDefault()
@@ -218,10 +308,9 @@ $('#emotionForm input[name=emotion]').on('keyup', function (e) {
         $('.emotion-intensity').addClass('not-active')
         $('#desk-progress a.continue').removeClass('not-active')
     }
-    console.log(addingEmotion)
 })
 
-$('button[type="submit"].download').click(function (e) {
+$('button[type="submit"].download').on('click', function (e) {
     // download(/docs/annotations.jpg);
 })
 
@@ -241,71 +330,9 @@ $('.dropdown-block button').each(function () {
 })
 
 // -------- Initiate Slider for Sight Direction arrow rotation --------
-$(document).ready(function () {
+$(document).ready(function () { //.ready is deprecated but dont touch :D
     $('#slider').slider({
         min: 0,
         max: 360,
     })
-})
-
-// -------- Initiate Fireworks for Thank you page --------
-const { Fireworks } = require('fireworks-js')
-const container = document.querySelector('.fireworks-container')
-const fireworks = new Fireworks(container, {
-    hue: {
-        min: 0,
-        max: 345,
-    },
-    delay: {
-        min: 15,
-        max: 15,
-    },
-    rocketsPoint: 50,
-    opacity: 0.1,
-    speed: 1,
-    acceleration: 1.2,
-    friction: 1.03,
-    gravity: 1.5,
-    particles: 54,
-    trace: 2,
-    explosion: 10,
-    autoresize: true,
-    brightness: {
-        min: 50,
-        max: 80,
-        decay: {
-            min: 0.015,
-            max: 0.03,
-        },
-    },
-    boundaries: {
-        x: 50,
-        y: 50,
-        width: window.innerWidth,
-        height: window.innerHeight,
-        visible: false,
-    },
-    sound: {
-        enabled: false,
-        files: [
-            'https://fireworks.js.org/sounds/explosion0.mp3',
-            'https://fireworks.js.org/sounds/explosion1.mp3',
-            'https://fireworks.js.org/sounds/explosion2.mp3',
-        ],
-        volume: {
-            min: 2,
-            max: 4,
-        },
-    },
-    mouse: {
-        click: false,
-        move: false,
-        max: 1,
-    },
-})
-$('.fireworks-container').css({ top: '70px', width: window.innerWidth, height: window.innerHeight })
-$('.fireworks-container canvas').attr({
-    top: '70px',
-    width: window.innerWidth,
-    height: window.innerHeight,
 })
