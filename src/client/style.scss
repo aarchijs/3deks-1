@@ -7,7 +7,7 @@ $white: #ffffff;
 body {
     font-family: 'Montserrat', sans-serif !important;
     overflow: auto;
-    margin: 0px;
+    margin: 0;
     background-color: $background-color;
     color: $text-color;
 }
@@ -27,7 +27,7 @@ body {
             list-style: none;
             // padding: 4px 0;
             text-transform: uppercase;
-            font-size: 20px;
+            font-size: 1.25rem;
             border-bottom: 2px solid $background-color;
     
             &:hover,
@@ -44,7 +44,7 @@ body {
 }
 
 section:not(#ibm-tab,#finish) {
-    margin-top: 64px;
+    margin-top: 6rem;
 }
 
 #finish {

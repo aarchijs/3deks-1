@@ -49,28 +49,6 @@ $('.ibm-tabs li a').each(function () {
 })
 //NAVBAR tab switcher end
 
-// $('#desk-method a, #desk-emotions a, #desk-contacts a').each(function () {
-//     $(this).on('click', function (e) {
-//         e.preventDefault()
-//         $(this).parents('section').addClass('d-none')
-//         $('#desk-intro-prepare').removeClass('d-none')
-//     })
-// })
-// $('#desk-intro a').on('click', function (e) {
-//     e.preventDefault()
-//     sessionInProgress = 1;
-//     faqTabs = 0;
-    
-//     $('#desk-intro').addClass('d-none')
-//     if($(this).parents('#desk-intro').hasClass('in-progress')) {
-//         $('.last-attended').removeClass('d-none')
-//     } else {
-//         $('#desk-intro-prepare').removeClass('d-none')
-//         $('#desk-intro').addClass('in-progress')
-//     }
-//     $('#desk-intro a').text('Turpināt'); 
-// })
-
 //Sākt 3desk metodi
 let beginBtns = $('button:contains("Sākt"), a:contains("Sākt")')
 beginBtns.each(function () {
@@ -78,6 +56,8 @@ beginBtns.each(function () {
         e.preventDefault()
         sessionInProgress = 1;
         faqTabs = 0;
+
+        $('a.start-new').removeClass('d-none');
 
         let parent = $(this).parents('section')
         parent.addClass('d-none')
@@ -203,12 +183,12 @@ $('#desk-progress.me a').each(function () {
             } else if (section.hasClass('additional')) {
                 $('input[name=emotion]').val('').attr('placeholder', 'IEVADI EMOCIJU')
                 $('.emotion-intensity').addClass('not-active')
-
                 if (!addingEmotion) {
                     section.removeClass('additional').addClass('direction')
                     $('#emotionForm').addClass('d-none')
                     $('#sightDirection').removeClass('d-none')
                 }
+                addingEmotion = 0;
             } else if (section.hasClass('direction')) {
                 section.removeClass('direction').addClass('reflection')
                 $('#sightDirection').addClass('d-none')
@@ -255,6 +235,15 @@ $('#desk-progress.me a').each(function () {
             }
         }
     })
+})
+
+$('a.start-new').on('click', function(){
+    if(!confirm('Vai tiešām vēlies pabeigt sesiju?')) {
+        return;
+    } else {
+        sessionInProgress = faqTabs = 0;
+        location.reload()
+    }
 })
 
 $('#finish button').each(function () {

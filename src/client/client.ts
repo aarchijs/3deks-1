@@ -71,15 +71,11 @@ sight.rotation.set(Math.PI / 2, Math.PI, Math.PI / 2)
 sight.visible = false
 scene.add(sight)
 
-
 const deskBorderValue = 11.5
-const cubeGeometry = new THREE.BoxBufferGeometry(1, 1, 1)
-
-const cube = new THREE.Mesh(cubeGeometry)
-cube.position.set(11, 1, 0)
 
 const loader = new GLTFLoader()
-function handle_load(gltf) {
+function handle_load(gltf)
+{
     var object = gltf.scene.children[0].children[0]
     let annotationDiv = document.createElement('div')
     annotationDiv.className = 'annotationLabel'
@@ -91,7 +87,8 @@ function handle_load(gltf) {
     object.add(annotationLabel)
     pawn.add(object)
 }
-function handle_arrow_load(gltf) {
+function handle_arrow_load(gltf)
+{
     var object = gltf.scene.children[0]
     object.position.set(-0.1,4,0)
     object.scale.set(0.35,0.35,0.35)
@@ -188,16 +185,20 @@ let emotions = [
 ]
 
 const interactionManager = new InteractionManager(renderer, camera, renderer.domElement)
-let item
-let selectedItem
 emotions.forEach(function (emotion) {
-    item = cube.clone()
+    const cubeGeometry = new THREE.BoxBufferGeometry(1, 1, 1)
+    const item = new THREE.Mesh(cubeGeometry)
+    item.position.set(11, 1, 0)
     item.visible = false
     item.name = emotion.name
     item.userData = { description: emotion.description ?? null }
 
     //@ts-ignore
     item.addEventListener('mouseover', (event) => {
+        if(topView) {
+            event.target.material.color.setHex( Math.random() * 0xffffff );
+        }
+
         if (!event.target.name.includes('additional')) {
             event.target.children[0].element.classList.add('fw-bold')
             $('.emotion-description .emotion-name').text(event.target.name)
@@ -207,6 +208,8 @@ emotions.forEach(function (emotion) {
 
     item.addEventListener('mouseout', (event) => {
         event.target.children[0].element.classList.remove('fw-bold')
+        event.target.material.color.setHex( 0xffffff );
+
         $('.emotion-description .emotion-name').text('')
         $('.emotion-description .emotion-text').text('')
     })
@@ -429,6 +432,8 @@ $('#emotionForm .emotion-size').on('click', function (e) {
     }
 
     emotionFigure.visible = emotionFigure.children[0].visible = true
+    emotionFigure.material.color.setHex( Math.random() * 0xffffff );
+    setTimeout(function(){emotionFigure.material.color.setHex( 0xffffff );}, 300);
 
     switch (size) {
         case '1':
