@@ -16,9 +16,9 @@ const reflectionTwoQuestions = [
     'Kā tu jūties tagad par pieteikto gadījumu, kas ir mainījies?',
 ]
 let addingEmotion = 0
-
+$("span.emotion-tooltip").tooltip();
 //NAVBAR tab switcher
-$('.ibm-tabs li a').each(function () {
+$('.ibm-tabs li a, #goToMethod, #goToIntro').each(function () {
     $(this).on('click', function (e) {
         e.preventDefault()
 
@@ -108,7 +108,7 @@ $('#desk-progress.me a').each(function () {
         if ($(this).hasClass('back')) {
             if (section.hasClass('direction')) {
                 $('input[name=emotion]').val('').attr('placeholder', 'IEVADI EMOCIJU')
-                $('.emotion-intensity').addClass('not-active')
+                $('.emotion-intensity, button.person-view').addClass('not-active')
 
                 if (addingEmotion) {
                     addingEmotion = 0
@@ -152,6 +152,7 @@ $('#desk-progress.me a').each(function () {
                 $('#emotionForm').removeClass('invisible')
                 //Dusmas, Bailes, Interese, Kauns, Vaina, Prieks, Riebums, Skumjas
                 section.removeClass('me').addClass('anger')
+                $('input[name=emotion]').val('DUSMAS')
             } else if (section.hasClass('anger')) {
                 section.removeClass('anger').addClass('fear')
                 $('input[name=emotion]').val('BAILES')
@@ -180,12 +181,14 @@ $('#desk-progress.me a').each(function () {
                     .removeAttr('disabled')
                     .attr('placeholder', 'IEVADI EMOCIJU')
                 $('.emotion-intensity').addClass('not-active')
+                $('span.emotion-tooltip').removeClass('d-none');
             } else if (section.hasClass('additional')) {
                 $('input[name=emotion]').val('').attr('placeholder', 'IEVADI EMOCIJU')
                 $('.emotion-intensity').addClass('not-active')
                 if (!addingEmotion) {
                     section.removeClass('additional').addClass('direction')
                     $('#emotionForm').addClass('d-none')
+                    $('button.person-view').removeClass('not-active')
                     $('#sightDirection').removeClass('d-none')
                 }
                 addingEmotion = 0;
@@ -233,6 +236,11 @@ $('#desk-progress.me a').each(function () {
             ) {
                 $(this).addClass('not-active')
             }
+
+                $('input[name=emotion]').addClass('input-highlight')
+                setTimeout(function(){
+                    $('input[name=emotion]').removeClass('input-highlight')
+                },700)
         }
     })
 })

@@ -1,15 +1,30 @@
-@import url(https://fonts.googleapis.com/css?family=Montserrat);
-
 $background-color: #f0f0f0;
 $text-color: #000000;
 $white: #ffffff;
 
 body {
-    font-family: 'Montserrat', sans-serif !important;
+    font-family: 'Helvetica', sans-serif !important;
     overflow: auto;
     margin: 0;
     background-color: $background-color;
     color: $text-color;
+}
+
+.btn-success {
+    background-color:#77A172;
+}
+
+.btn-secondary {
+    background-color:#9D9FA6;
+}
+
+.input-highlight {
+    color: #fff;
+    background: #77A172 !important;
+    border: 2px solid #146c43 !important;
+}
+.emotion-tooltip {
+    cursor: pointer;
 }
 
 #ibm-tab {

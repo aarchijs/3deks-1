@@ -38,15 +38,15 @@ renderer.domElement.style.zIndex = '8'
 let topView = 1
 let personView = 0
 
-$('#desk-progress .container div.d-flex div.desk-canvas').append(renderer.domElement)
-
 let labelRenderer = new CSS2DRenderer()
 labelRenderer.setSize(width, height)
 labelRenderer.domElement.style.position = 'absolute'
 labelRenderer.domElement.style.pointerEvents = 'none'
 labelRenderer.domElement.style.top = '0'
 
-$('#desk-progress .container div.d-flex div.desk-canvas').append(labelRenderer.domElement)
+const canvas = $('#desk-progress .container div.d-flex div.desk-canvas');
+canvas.append(renderer.domElement)
+canvas.append(labelRenderer.domElement)
 
 const deskGeometry = new THREE.BoxBufferGeometry(24, 24, 1)
 const deskMaterial = new THREE.MeshBasicMaterial({
@@ -71,19 +71,18 @@ sight.rotation.set(Math.PI / 2, Math.PI, Math.PI / 2)
 sight.visible = false
 scene.add(sight)
 
-const deskBorderValue = 11.5
-
 const loader = new GLTFLoader()
 function handle_load(gltf)
 {
-    var object = gltf.scene.children[0].children[0]
+    var object = gltf.scene.children[0];
+
     let annotationDiv = document.createElement('div')
     annotationDiv.className = 'annotationLabel'
     annotationDiv.textContent = 'ES'
     annotationDiv.style.marginTop = '-1em'
     let annotationLabel = new CSS2DObject(annotationDiv)
     annotationLabel.position.set(0, 1.5, 0)
-    object.add(gltf.scene.children[0].children[1])
+
     object.add(annotationLabel)
     pawn.add(object)
 }
@@ -97,10 +96,11 @@ function handle_arrow_load(gltf)
     object.visible = false;
     arrow.add(object)
 }
-loader.load('assets/pawn2.glb', handle_load)
+loader.load('assets/me.glb', handle_load)
 loader.load('assets/arrow.glb', handle_arrow_load)
 
 let pawn = new THREE.Mesh()
+pawn.scale.set(0.215,0.215,0.215)
 pawn.position.set(0, 0.5, 0)
 pawn.name = 'ES'
 
@@ -112,7 +112,7 @@ $('#desk-intro-self a.continue').on('click', function (e) {
 
     let selfSize = $('#selfForm input[name=self]:checked').val()
     //@ts-ignore
-    pawn.children[0].scale.set(selfSize, selfSize, selfSize)
+    pawn.scale.set(pawn.scale.x * selfSize, pawn.scale.y * selfSize, pawn.scale.z * selfSize)
 })
 
 let check = scene.getObjectByName('sightDirection');
@@ -128,42 +128,97 @@ let emotions = [
     {
         name: 'Dusmas',
         description:
-            'sagatavot ķermeni un prātu cīņai, signalizēt par robežu pārkāpšanu un ierastās kārtības izjaukšanu. Dusmas dod enerģiju un drosmi rīkoties, veicināt pārmaiņas, pretoties nepatīkamajam. Dusmas aizsargā arī no dziļākām, grūtāk izturamākām emocijām, tādām kā: vilšanās, skumjas, trauksme, izmisums, bailes.',
+            'funkcija ir sagatavot ķermeni un prātu cīņai, signalizēt par robežu pārkāpšanu un ierastās kārtības izjaukšanu.<br /><br />' +
+            '<ul class="mb-0">' +
+                '<li>Dod enerģiju un drosmi rīkoties, veicināt pārmaiņas, pretoties nepatīkamajam</li>' +
+                '<li>Aizsargā arī no dziļākām, grūtāk izturamākām emocijām, tādām kā: vilšanās, skumjas, trauksme, izmisums, bailes</li>' +
+            '</ul>'
     },
     {
         name: 'Bailes',
         description:
-            'izvairīties, izkļūt ārā no nepatīkamām un bīstamām situācijām. Ķermenis tiek sagatavots saskarei ar potenciālo draudu situāciju, lai pietiktu enerģijas un spēka bēgt vai uzbrukt. Bailes palīdz būt modram un spēt pastāvēt par sevi un aizsargāties. Bailes palīdz pārdzīvot draudu situācijas -  motivē meklēt risinājumu vai atrast drošu vidi. Tās aktualizē rūpēs par drošību, veselību un iedrošina pārvarēt šaubas un izaicinājumus.',
+            'funkcija ir izvairīties, izkļūt ārā no nepatīkamām un bīstamām situācijām.<br /><br />' +
+            '<ul class="mb-0">' +
+                '<li>Ķermenis tiek sagatavots, lai pietiktu enerģijas un spēka bēgt vai uzbrukt</li>' +
+                '<li>Palīdz pārdzīvot draudu situācijas</li>' +
+                '<li>Motivē meklēt risinājumu vai atrast drošu vidi</li>' +
+                '<li>Palīdz būt modram un aizsargāties</li>' +
+                '<li>Aktualizē rūpēs par drošību, veselību</li>' +
+                '<li>Iedrošina pārvarēt šaubas un izaicinājumus</li>' +
+            '</ul>'
     },
     {
         name: 'Interese',
         description:
-            'palīdzēt cilvēkam vieglāk pielāgoties ikdienai un dzīvei kopumā. Interese nodrošina spēju ilgstoši noturēt uzmanību, tādā veidā attīstot jaunas iemaņas, prasmes un intelektu. Interese ir rīcības enerģijas avots, kas mudina pielikt pūles, lai sasniegtu kāroto. Interese rosina iztēli, fantāziju, atraisa ziņkārību, kas savukārt rada vēlmi izpētīt un iesaistīties. Interese ietekmē atmiņas un domas, nosaka to, kas tiek uztverts un iegaumēts.',
+            'funkcija ir palīdzēt cilvēkam vieglāk pielāgoties ikdienai un dzīvei kopumā.<br /><br />' +
+            '<ul class="mb-0">' +
+                '<li>Nodrošina spēju ilgstoši noturēt uzmanību</li>' +
+                '<li>Attīsta jaunas iemaņas, prasmes un intelektu</li>' +
+                '<li>Ir rīcības enerģijas avots, motivē sasniegt iecerēto</li>' +
+                '<li>Rosina iztēli, fantāziju un ziņkārību</li>' +
+                '<li>Rada vēlmi izpētīt un iesaistīties</li>' +
+            '</ul>'
     },
     {
         name: 'Kauns',
         description:
-            'piederības funkciju sabiedrībā. Tas veicina cilvēku savstarpējo emocionālo saikņu veidošanos un attīstību. Kauns aktualizē citu intereses, viedokli, kritiku, uzslavas un veicina iejūtību pret apkārtējiem. Tas pasargā no neapdomīgas rīcības un palīdz izvairīties no emocionālām ciešanām, vientulības un sociālās izolācijas. Kauna funkcija ir nodrošināt vietu sabiedrībā vai grupā un tas ir grupas komforta glabātājs.',
+            'veic piederības funkciju sabiedrībā, attīsta cilvēku savstarpējo emocionālo saikņu veidošanos.<br /><br />' +
+            '<ul class="mb-0">' +
+                '<li>Pasargā no neapdomīgas rīcības</li>' +
+                '<li>Veicina iejūtību pret apkārtējiem</li>' +
+                '<li>Aktualizē citu intereses, viedokli un kritiku</li>' +
+                '<li>Pasargā no neapdomīgas rīcības</li>' +
+                '<li>Nodrošina vietu sabiedrībā un tas ir grupas komforta glabātājs</li>' +
+            '</ul>'
     },
     {
         name: 'Vaina',
         description:
-            'nodrošina savstarpējo attiecību veidošanas funkciju, kas ļauj risināt sarežģītas situācijas svarīgās attiecībās un atturēties no darbībām, kas varētu tās nelabvēlīgi ietekmēt. Vaina palīdz izvairīties no kaitējuma nodarīšanas otram un izturēties atbildīgi, veicinot spēju atvainoties, atzīt un labot kļūdas. Tā attīsta spēju domāt par citiem, izjust “cietušā” cilvēka sāpes un veido ētiku un morāli. Vaina motivē īstenot savus dabiskos talantus un potenciālu.',
+            'nodrošina savstarpējo attiecību veidošanas funkciju, ļauj risināt situācijas attiecībās un atturēties no nelabvēlīgām darbībām.<br /><br />' +
+            '<ul class="mb-0">' +
+                '<li>Palīdz izvairīties no kaitējuma nodarīšanas otram</li>' +
+                '<li>Attīsta atbildību, veicinot spēju atzīt un labot kļūdas</li>' +
+                '<li>Attīsta empātiju, otra cilvēka emocionālā stāvokļa izpratni</li>' +
+                '<li>Veido ētiku un morāli</li>' +
+            '</ul>'
     },
     {
         name: 'Prieks',
         description:
-            'veidot pieķeršanos un savstarpējo uzticēšanos. Prieks rada labu garastāvokli un vēlmi rīkoties. Tas veicina dzīves jēgas apzināšanos, piepilda ar enerģiju, ļauj ķermenim un prātam atslābināties. Prieks attīsta iekšējo motivāciju un iedvesmu jaunu iespēju atklāšanai un sakatīšanai, kā arī izmaiņu veikšanai. Prieks iedvesmo pamanīt, baudīt skaisto ikdienas mirkļos un spēt pieņemt apkārtējo pasauli. Prieks uzlabo ķermeņa fizioloģisko stāvokli un veicina atveseļošanos.  Tas ir svarīgs, lai veicinātu radošumu un komunikācijas prasmes.',
+            'funkcija veido pieķeršanos un savstarpējo uzticēšanos, rada labu garastāvokli un vēlmi rīkoties. <br /><br />' +
+            '<ul class="mb-0">' +
+                '<li>Veicina dzīves jēgas apzināšanos</li>' +
+                '<li>Pamanīt un baudīt skaisto ikdienas mirkļos </li>' +
+                '<li>Spēt pieņemt apkārtējo pasauli</li>' +
+                '<li>Piepilda ar enerģiju</li>' +
+                '<li>Ļauj ķermenim un prātam atslābināties</li>' +
+                '<li>Uzlabo ķermeņa fizioloģisko stāvokli</li>' +
+                '<li>Attīsta iekšējo motivāciju</li>' +
+                '<li>Iedvesmo jaunu iespēju atklāšanai un izmaiņu veikšanai</li>' +
+                '<li>Veicina radošumu</li>' +
+                '<li>Attīsta komunikācijas prasmes</li>' +
+            '</ul>'
     },
     {
         name: 'Riebums',
         description:
-            'nodrošināt organismam izdzīvošanu. Tā ir adaptīva reakcija, kas ļauj izvairīties no nepatīkamām un veselībai kaitīgām situācijām. Riebums palīdz adaptēties ārējiem faktoriem, pasargājot no saindēšanās, ļaujot apdomāt un izvēlēties, kā rīkoties. Riebuma sociālā funkcija ir veidot robežas: mans – svešs. Tas mudina izolēties no šķietami nepieņemamā un ziņo par neapmierinātību ar toksisku, piesārņotu vidi. Riebums motivē pārtraukt nelabvēlīgas attiecības – atbrīvoties no objekta vai pašiem aiziet.',
+            'funkcija ir nodrošināt organismam izdzīvošanu - adaptīva reakcija, kas ļauj izvairīties no nepatīkamām un veselībai kaitīgām situācijām. Veido robežas: mans – svešs. <br /><br />' +
+            '<ul class="mb-0">' +
+                '<li>Palīdz adaptēties ārējiem faktoriem, ļaujot apdomāt un izvēlēties, kā rīkoties</li>' +
+                '<li>Mudina izolēties no šķietami nepieņemamā, piemēram, ziņo par kaitīgu, nevēlamu vidi</li>' +
+                '<li>Motivē pārtraukt nelabvēlīgas attiecības – atbrīvoties no objekta vai pašiem aiziet</li>' +
+            '</ul>'
     },
     {
         name: 'Skumjas',
         description:
-            'demonstrēt (apzināties) to, ka ir slikti un ka ir nepieciešama palīdzība. No ieilgušām skumjām var attīstīties depresija. Lai tas nonotiktu, ir nepieciešams citu cilvēku atbalsts. Skumjas ir nepatīkamas un grūti izturamas, tāpēc tās mudina rīkoties, motivē esošo situāciju mainīt un sasniegt jaunus mērķus. Tās palīdz pārdomāt dzīvi, rosina uz attīstību un padara vērīgākus attiecībā pret notiekošo un apkārtējiem cilvēkiem.',
+            'funkcija ļauj apzināties pārdzīvojuma nozīmīgumu, un palīdzības nepieciešamību. <br /><br />' +
+            '<ul class="mb-0">' +
+                '<li>Skumjas ir nepatīkamas un grūti izturamas</li>' +
+                '<li>Mudina rīkoties, motivē esošo situāciju mainīt un sasniegt jaunus mērķus</li>' +
+                '<li>Palīdz pārdomāt dzīvi, rosina uz attīstību</li>' +
+                '<li>Padara vērīgākus attiecībā pret notiekošo un apkārtējiem cilvēkiem</li>' +
+            '</ul>'
     },
 
     { name: 'additional-1' },
@@ -196,13 +251,13 @@ emotions.forEach(function (emotion) {
     //@ts-ignore
     item.addEventListener('mouseover', (event) => {
         if(topView) {
-            event.target.material.color.setHex( Math.random() * 0xffffff );
+            event.target.material.color.setHex( 0x77A172 );
         }
 
         if (!event.target.name.includes('additional')) {
             event.target.children[0].element.classList.add('fw-bold')
             $('.emotion-description .emotion-name').text(event.target.name)
-            $('.emotion-description .emotion-text').text(event.target.userData.description)
+            $('.emotion-description .emotion-text').append(event.target.userData.description)
         }
     })
 
@@ -211,7 +266,7 @@ emotions.forEach(function (emotion) {
         event.target.material.color.setHex( 0xffffff );
 
         $('.emotion-description .emotion-name').text('')
-        $('.emotion-description .emotion-text').text('')
+        $('.emotion-description .emotion-text').empty();
     })
 
     let annotationDiv = document.createElement('div')
@@ -432,7 +487,7 @@ $('#emotionForm .emotion-size').on('click', function (e) {
     }
 
     emotionFigure.visible = emotionFigure.children[0].visible = true
-    emotionFigure.material.color.setHex( Math.random() * 0xffffff );
+    emotionFigure.material.color.setHex( 0x77A172 );
     setTimeout(function(){emotionFigure.material.color.setHex( 0xffffff );}, 300);
 
     switch (size) {
