@@ -88,7 +88,7 @@ function handle_load(gltf) //loader function for 3D model (symbolic self)
 function handle_arrow_load(gltf) //loader function for 3D model (self sight direction arrow)
 {
     var object = gltf.scene.children[0]
-    object.position.set(-0.1,4,0)
+    object.position.set(0,4,0)
     object.scale.set(0.35,0.35,0.35)
     object.rotation.y = -Math.PI / 2
     object.name = 'sightDirection';
@@ -267,6 +267,7 @@ emotions.forEach(function (emotion) {
             event.target.children[0].element.classList.add('fw-bold')
             $('.emotion-description .emotion-name').text(event.target.name)
             $('.emotion-description .emotion-text').append(event.target.userData.description)
+            $('p.emotion-helper').addClass('d-none');
         }
     })
 
@@ -277,6 +278,7 @@ emotions.forEach(function (emotion) {
 
         $('.emotion-description .emotion-name').text('')
         $('.emotion-description .emotion-text').empty();
+        $('p.emotion-helper').removeClass('d-none');
     })
 
     //adding 2D text label
@@ -339,21 +341,21 @@ dragControls.forEach((dragControl) => {
             //move sight direction arrow and radius together with Self model
             arrowHelper.position.x = event.object.position.x
             arrowHelper.position.z = event.object.position.z
-            sight.position.x = event.object.position.x
-            sight.position.z = event.object.position.z
+            sight.position.x = event.object.position.x * pawn.scale.x
+            sight.position.z = event.object.position.z * pawn.scale.z
 
             if (event.object.name === 'sightDirection') {
                 let pawnFigure = scene.getObjectByName('Sphere_1')
                 //@ts-ignore
-                pawnFigure.position.x = event.object.position.x+0.1
+                pawnFigure.position.x = event.object.position.x * pawn.scale.x
                 //@ts-ignore
-                pawnFigure.position.z = event.object.position.z
+                pawnFigure.position.z = event.object.position.z * pawn.scale.z
             } else {
                 let pawnFigure = scene.getObjectByName('sightDirection')
                 //@ts-ignore
-                pawnFigure.position.x = event.object.position.x-0.1
+                pawnFigure.position.x = event.object.position.x * pawn.scale.x
                 //@ts-ignore
-                pawnFigure.position.z = event.object.position.z
+                pawnFigure.position.z = event.object.position.z * pawn.scale.z
             }
         }
     })

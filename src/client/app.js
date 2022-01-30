@@ -25,7 +25,8 @@ $('.ibm-tabs li a, #goToMethod, #goToIntro').each(function () {
 
         //if not already opened at any of top tabs sections and already started session
         if(!faqTabs && sessionInProgress){
-            if(!confirm('Vai tiešām vēlies pamest sesiju? Lai vēlāk turpinātu sesiju uzspied "Turpināt" sadaļā "Sākums". :)')) {
+            if(!confirm('Vai saglabāt izkārtojumu?\n' +
+                '"Turpināt" vai "Sākt jaunu" sesiju vari sadaļā "Sākums". :)')) {
                 return;
             } else {
                 $('section:not(.d-none)').addClass('last-attended')
