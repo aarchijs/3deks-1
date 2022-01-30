@@ -23,12 +23,11 @@ $('.ibm-tabs li a, #goToMethod, #goToIntro').each(function () {
         e.preventDefault()
 
         if(!faqTabs && sessionInProgress){
-            if(!confirm('Vai tiešām vēlies pamest sesiju?')) {
+            if(!confirm('Vai tiešām vēlies pamest sesiju? Lai vēlāk turpinātu sesiju uzspied "Turpināt" sadaļā "Sākums". :)')) {
                 return;
             } else {
                 $('section:not(.d-none)').addClass('last-attended')
                 sessionInProgress = 0;
-                alert('Lai vēlāk turpinātu sesiju uzspied "Turpināt" sadaļā "Sākums". :)');
             }
         }
 
@@ -333,3 +332,16 @@ $(document).ready(function () { //.ready is deprecated but dont touch :D
         max: 360,
     })
 })
+
+let images = ['intro','intro-1','intro-2','intro-3','intro-4','intro-5'];
+let imgIndex = 0;
+$('#introPhoto').on('click', function(){
+    if(imgIndex === images.length-1){
+        imgIndex = 0;
+    } else {
+        imgIndex++;
+    }
+
+    $(this).attr('src', 'assets/'+ images[imgIndex] +'.png')
+
+});

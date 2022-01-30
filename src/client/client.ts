@@ -100,7 +100,6 @@ loader.load('assets/me.glb', handle_load)
 loader.load('assets/arrow.glb', handle_arrow_load)
 
 let pawn = new THREE.Mesh()
-pawn.scale.set(0.215,0.215,0.215)
 pawn.position.set(0, 0.5, 0)
 pawn.name = 'ES'
 
@@ -112,7 +111,7 @@ $('#desk-intro-self a.continue').on('click', function (e) {
 
     let selfSize = $('#selfForm input[name=self]:checked').val()
     //@ts-ignore
-    pawn.scale.set(pawn.scale.x * selfSize, pawn.scale.y * selfSize, pawn.scale.z * selfSize)
+    pawn.scale.set(0.215 * selfSize, 0.215 * selfSize, 0.215 * selfSize)
 })
 
 let check = scene.getObjectByName('sightDirection');
