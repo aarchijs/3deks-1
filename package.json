@@ -17,7 +17,6 @@
     "@types/three": "^0.134.0",
     "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^6.5.1",
-    "dat.gui": "^0.7.7",
     "file-loader": "^6.2.0",
     "html-loader": "^3.0.1",
     "html-webpack-plugin": "^5.5.0",
@@ -35,6 +34,8 @@
   },
   "dependencies": {
     "bootstrap-icons": "^1.7.2",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "three": "^0.134.0",
+    "three.interactive": "^1.1.0"
   }
 }
