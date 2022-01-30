@@ -1,111 +1,121 @@
-import './style.scss'
-import './app.js'
-import * as THREE from 'three'
-import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import { DragControls } from 'three/examples/jsm/controls/DragControls'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-import { InteractionManager } from 'three.interactive'
+import './style.scss' // CSS/SCSS import
+import './app.js' // JS/jQuery import
+import * as THREE from 'three' // visualisation engine import
+import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer' // for text labels, arrows and other 2D stuff
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js' // for imported 3D objects
+import { DragControls } from 'three/examples/jsm/controls/DragControls' // to drag around objects
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls' // to rotate scene around object
+import { InteractionManager } from 'three.interactive' // adds DOM events like click, mouseover,mouseout etc.
 
 const scene = new THREE.Scene()
-scene.background = new THREE.Color(0xbfa4a4)
+scene.background = new THREE.Color(0xbfa4a4) //scene background color
+
+//HTML canvas dimensions
 const width = 528
 const height = 528
 const aspect = width / height
-let camera
+
+let camera // variable to make camera switching from Perspective to Ortographic possible
 const pCamera = new THREE.PerspectiveCamera(75, aspect, 0.1, 1000)
 const oCamera = new THREE.OrthographicCamera(
-    width / -2,
-    width / 2,
-    height / 2,
-    height / -2,
-    0,
-    1000
+    width / -2,width / 2,
+    height / 2,height / -2,
+    0,1000
 )
-oCamera.position.y = 17
+oCamera.position.y = 17 // Scene rotates against Y axis, not Z
 oCamera.zoom = 21
 oCamera.updateProjectionMatrix()
 oCamera.updateMatrix()
 camera = oCamera
 
-var light = new THREE.AmbientLight(0xffffff)
-scene.add(light)
+scene.add(new THREE.AmbientLight(0xffffff)) // without light imported 3D objects will render black
 
-const renderer = new THREE.WebGLRenderer()
+const renderer = new THREE.WebGLRenderer() //render 3D objects
 renderer.setSize(width, height)
 renderer.domElement.style.zIndex = '8'
 
 let topView = 1
 let personView = 0
 
+//render 2D objects
 let labelRenderer = new CSS2DRenderer()
 labelRenderer.setSize(width, height)
-labelRenderer.domElement.style.position = 'absolute'
-labelRenderer.domElement.style.pointerEvents = 'none'
+labelRenderer.domElement.style.position = 'absolute' // so label renderer is overlaying 3D renderer and you can see text labels for figures
+labelRenderer.domElement.style.pointerEvents = 'none' // lets you drag, click and other DOM events on 3D objects instead of text labels if they appear on top
 labelRenderer.domElement.style.top = '0'
 
+//HTML canvas
 const canvas = $('#desk-progress .container div.d-flex div.desk-canvas');
-canvas.append(renderer.domElement)
-canvas.append(labelRenderer.domElement)
+canvas.append(renderer.domElement) //adding 3D renderer to html
+canvas.append(labelRenderer.domElement) //adding 2D renderer to html
 
+//Desk where figures are placed on top
 const deskGeometry = new THREE.BoxBufferGeometry(24, 24, 1)
-const deskMaterial = new THREE.MeshBasicMaterial({
-    color: 0xddd5d2,
-})
+const deskMaterial = new THREE.MeshBasicMaterial({color: 0xddd5d2})
 const desk = new THREE.Mesh(deskGeometry, deskMaterial)
 desk.rotation.set(Math.PI / 2, 0, 0)
 scene.add(desk)
 
-const radius = 1.25;
-const segments = 24;
-const thetaStart = Math.PI / 4;
-const thetaLength = Math.PI / 4 * 2;
-const sightGeometry = new THREE.CircleGeometry(
-    radius, segments, thetaStart, thetaLength);
-    const sightMaterial = new THREE.MeshBasicMaterial({
-        color: 0xbababa
-    })
+// symbolic Self sight direction made of plain circle
+const sightGeometry = new THREE.CircleGeometry(1.25, 24, Math.PI / 4, Math.PI / 4 * 2);
+const sightMaterial = new THREE.MeshBasicMaterial({color: 0xbababa})
 const sight = new THREE.Mesh(sightGeometry, sightMaterial)
 sight.position.y = 0.501;
 sight.rotation.set(Math.PI / 2, Math.PI, Math.PI / 2)
-sight.visible = false
+sight.visible = false //becomes visible only on step where self sight direction is set
 scene.add(sight)
 
+//symbolic self model
+let pawn = new THREE.Mesh()
+pawn.position.set(0, 0.5, 0)
+pawn.name = 'ES'
+let arrow = new THREE.Mesh();//sight direction arrow model;
+
+//Loader for imported objects
 const loader = new GLTFLoader()
-function handle_load(gltf)
+function handle_load(gltf) //loader function for 3D model (symbolic self)
 {
     var object = gltf.scene.children[0];
-
     let annotationDiv = document.createElement('div')
     annotationDiv.className = 'annotationLabel'
-    annotationDiv.textContent = 'ES'
+    annotationDiv.textContent = 'ES' //text label
     annotationDiv.style.marginTop = '-1em'
     let annotationLabel = new CSS2DObject(annotationDiv)
     annotationLabel.position.set(0, 1.5, 0)
-
     object.add(annotationLabel)
     pawn.add(object)
 }
-function handle_arrow_load(gltf)
+function handle_arrow_load(gltf) //loader function for 3D model (self sight direction arrow)
 {
     var object = gltf.scene.children[0]
     object.position.set(-0.1,4,0)
     object.scale.set(0.35,0.35,0.35)
     object.rotation.y = -Math.PI / 2
     object.name = 'sightDirection';
-    object.visible = false;
+    object.visible = false; //becomes visible only on step where self sight direction is set
     arrow.add(object)
 }
+
+//loading actual 3D objects
 loader.load('assets/me.glb', handle_load)
 loader.load('assets/arrow.glb', handle_arrow_load)
 
-let pawn = new THREE.Mesh()
-pawn.position.set(0, 0.5, 0)
-pawn.name = 'ES'
-
-let arrow = new THREE.Mesh();
+//adding actual 3D objects to scene
 scene.add(pawn)
 scene.add(arrow)
+
+//Symbolic Self sight direction
+const dir = new THREE.Vector3(1, 0, 0)
+dir.normalize()
+const origin = new THREE.Vector3(0, 1, 0)
+const length = 2.5
+const hex = 0x000000
+const arrowHelper = new THREE.ArrowHelper(dir, origin, length, hex)
+arrowHelper.scale.set(2, 1, 1)
+arrowHelper.visible = false
+scene.add(arrowHelper)
+
+//change Self model/object size according to user choosed size by checking radio button on size choice step
 $('#desk-intro-self a.continue').on('click', function (e) {
     e.preventDefault()
 
@@ -114,15 +124,14 @@ $('#desk-intro-self a.continue').on('click', function (e) {
     pawn.scale.set(0.215 * selfSize, 0.215 * selfSize, 0.215 * selfSize)
 })
 
-let check = scene.getObjectByName('sightDirection');
-check?.addEventListener('mousedown', function(){console.log('yesyes?')})
-
 //@ts-ignore
 let objects = []
 //@ts-ignore
 objects.push(pawn)
 
-//8 main emotions + option to add 8 more additional emotions
+//8 main emotions with descriptions + option to add 8 more additional emotions
+//Had to add to scene in visible = false state because DragControls works only with certain objects added from the moment
+//when the scene is created
 let emotions = [
     {
         name: 'Dusmas',
@@ -237,22 +246,23 @@ let emotions = [
     { name: 'additional-15' },
     { name: 'additional-16' },
 ]
-
 const interactionManager = new InteractionManager(renderer, camera, renderer.domElement)
 emotions.forEach(function (emotion) {
     const cubeGeometry = new THREE.BoxBufferGeometry(1, 1, 1)
     const item = new THREE.Mesh(cubeGeometry)
-    item.position.set(11, 1, 0)
-    item.visible = false
+    item.position.set(11, 1, 0) //every emotion placed on the right side of the deck
+    item.visible = false //every emotion invisible until added on certain Add emotion step
     item.name = emotion.name
     item.userData = { description: emotion.description ?? null }
 
     //@ts-ignore
     item.addEventListener('mouseover', (event) => {
+        //3D object highlight should happen only in Top view
         if(topView) {
             event.target.material.color.setHex( 0x77A172 );
         }
 
+        //If emotion is from main emotion list it should be highlighted and show description on certain step
         if (!event.target.name.includes('additional')) {
             event.target.children[0].element.classList.add('fw-bold')
             $('.emotion-description .emotion-name').text(event.target.name)
@@ -261,6 +271,7 @@ emotions.forEach(function (emotion) {
     })
 
     item.addEventListener('mouseout', (event) => {
+        //removing highlight on mouseout
         event.target.children[0].element.classList.remove('fw-bold')
         event.target.material.color.setHex( 0xffffff );
 
@@ -268,16 +279,18 @@ emotions.forEach(function (emotion) {
         $('.emotion-description .emotion-text').empty();
     })
 
+    //adding 2D text label
     let annotationDiv = document.createElement('div')
     annotationDiv.className = 'annotationLabel text-uppercase'
     annotationDiv.textContent = emotion.name
     annotationDiv.style.marginTop = '-1em'
+
     let annotationLabel = new CSS2DObject(annotationDiv)
-    annotationLabel.visible = false
+    annotationLabel.visible = false //stay invisible until emotion is shown up
     annotationLabel.position.set(0, 1, 0)
     item.add(annotationLabel)
     scene.add(item)
-    interactionManager.add(item)
+    interactionManager.add(item) //to add DOM events to object like clickable etc.
 
     //@ts-ignore
     objects.push(item)
@@ -290,6 +303,7 @@ const oOrbitControls = new OrbitControls(oCamera, renderer.domElement)
 //Perspective camera controls
 const pOrbitControls = new OrbitControls(pCamera, renderer.domElement)
 
+//Dragging is possible only when in Ortographic view like Top view
 const dragControls = [
     oDragControls,
 ]
@@ -305,12 +319,15 @@ oOrbitControls.maxPolarAngle = 0
 let dragObjectYPosition
 dragControls.forEach((dragControl) => {
     dragControl.addEventListener('dragstart', function (event) {
+        //restrict moving scene with orbitControls when dragging objects
         orbitControls.forEach((orbitControl) => (orbitControl.enabled = false))
+        //restrict dragging to Z and X axis (only horizontal)
         dragObjectYPosition = event.object.position.y
         event.object.parent.name === 'ES' ? pawn.position.y : event.object.position.y
     })
 
     dragControl.addEventListener('drag', function (event) {
+        //restrict dragging to Z and X axis (only horizontal)
         if (
             event.object.position.y > dragObjectYPosition ||
             event.object.position.y < dragObjectYPosition
@@ -319,6 +336,7 @@ dragControls.forEach((dragControl) => {
         }
 
         if (event.object.parent.name === 'ES') {
+            //move sight direction arrow and radius together with Self model
             arrowHelper.position.x = event.object.position.x
             arrowHelper.position.z = event.object.position.z
             sight.position.x = event.object.position.x
@@ -340,20 +358,24 @@ dragControls.forEach((dragControl) => {
         }
     })
 
+    //enable moving scene with orbitControls when dragging objects is finished
     dragControl.addEventListener('dragend', function (event) {
         orbitControls.forEach((orbitControl) => (orbitControl.enabled = true))
     })
 })
 
-//View switcher events
+//View switcher events by 90 grades with every click
 var sideView = 0
 $('.side-view').on('click', function () {
+    //switch to perspective camera
     camera = pCamera
+    //restrict dragging objects in sideView with dragControls, only rotating around scene center is allowed
     orbitControls.forEach((orbitControl) => (orbitControl.enabled = true))
     dragControls.forEach((dragControl) => (dragControl.enabled = false))
 
     if (topView || personView) {
         topView = personView = 0
+        //restrict orbitControls vertical angle for rotating around
         orbitControls.forEach((orbitControl) => {
             orbitControl.minPolarAngle = Math.PI / 3
             orbitControl.maxPolarAngle = Math.PI * 0.1
@@ -361,11 +383,11 @@ $('.side-view').on('click', function () {
     }
 
     if (!pawn.visible) {
-        pawn.visible = true
+        pawn.visible = true //if changed from Self view
     }
 
     sideView++
-
+    //View switcher events by 90 grades with every click
     switch (sideView) {
         case 1:
             camera.position.set(0, 2, 16)
@@ -384,14 +406,17 @@ $('.side-view').on('click', function () {
             camera.position.set(0, 2, 16)
             break
     }
-    console.log(camera)
+    //make camera look at center of the scene
     camera.lookAt(0, 2, 0)
     render()
 })
+
+//Top view
 $('.top-view').on('click', function () {
+    //switch to ortographic camera
     camera = oCamera
 
-    pawn.visible = true
+    pawn.visible = true //if changed from Self view
     if (!topView) {
         topView = 1
     }
@@ -399,18 +424,25 @@ $('.top-view').on('click', function () {
         personView = 0
     }
 
+    //makes it possible to drag models/objects around and to rotate desk around Y axis
     controls.forEach((control) => (control.enabled = true))
 
+    //restricts orbitControls rotation to spinning desk around its axis
     orbitControls.forEach((orbitControl) => {
         orbitControl.minPolarAngle = 0
         orbitControl.maxPolarAngle = 0
     })
+
+    //puts camera on top of desk and looking to desk center
     camera.position.set(0, 17, 0)
     camera.lookAt(0, 0, 0)
 
     render()
 })
+
+//Self view
 $('.person-view').on('click', function () {
+    //switch to perspective camera
     camera = pCamera
 
     if (topView) {
@@ -420,7 +452,7 @@ $('.person-view').on('click', function () {
         personView = 1
     }
 
-    pawn.visible = false
+    pawn.visible = false //in self view Self model should not be visible
     let self = pawn.children[0]
     camera.position.set(self.position.x, self.scale.y, self.position.z)
     camera.lookAt(self.position.x + arrowHelper.cone.position.y, self.scale.y, self.position.z)
@@ -429,17 +461,6 @@ $('.person-view').on('click', function () {
 
     render()
 })
-
-//Simboliska Es skata virziens
-const dir = new THREE.Vector3(1, 0, 0)
-dir.normalize()
-const origin = new THREE.Vector3(0, 1, 0)
-const length = 2.5
-const hex = 0x000000
-const arrowHelper = new THREE.ArrowHelper(dir, origin, length, hex)
-arrowHelper.scale.set(2, 1, 1)
-arrowHelper.visible = false
-scene.add(arrowHelper)
 
 $('#desk-progress.me a.back').on('click', function () {
     if ($('#desk-progress').hasClass('additional')) {
@@ -451,7 +472,9 @@ $('#desk-progress.me a.back').on('click', function () {
         }
     }
 })
-let hasDirection = 1
+
+let hasDirection = 1 //something was wrong with switching the steps
+//when Self direction step is on it makes arrow and radius visible
 $('#desk-progress.me a.continue').on('click', function () {
     if ($('#desk-progress').hasClass('direction')) {
         if (hasDirection) {
@@ -463,8 +486,8 @@ $('#desk-progress.me a.continue').on('click', function () {
     }
 })
 
-$('#emotionForm input[name=emotion]').on('change', function () {})
 let additional = 0
+//Emotion becomes visible only when user chooses its size by clicking on certain size
 $('#emotionForm .emotion-size').on('click', function (e) {
     $(this).find('input[name=intensity]').prop('checked', true)
 
@@ -486,6 +509,7 @@ $('#emotionForm .emotion-size').on('click', function (e) {
     }
 
     emotionFigure.visible = emotionFigure.children[0].visible = true
+    //small highlight when emotion appears on screen/desk
     emotionFigure.material.color.setHex( 0x77A172 );
     setTimeout(function(){emotionFigure.material.color.setHex( 0xffffff );}, 300);
 
@@ -506,9 +530,11 @@ $('#emotionForm .emotion-size').on('click', function (e) {
             break
     }
 
+    //button Continue becomes enabled
     $('#desk-progress a.continue').removeClass('not-active')
 })
 
+//To rotate camera view in person view, sight direction arrow and radius together with dragging button on slider
 $('#slider').on('slide', function (e, ui) {
     arrowHelper.rotation.y = pawn.children[0].rotation.y = Math.PI * 2 * (ui.value / 360)
     sight.rotation.z = Math.PI * 2 * (ui.value / 360) + Math.PI / 2
@@ -520,6 +546,7 @@ $('#slider').on('slide', function (e, ui) {
 })
 
 function init() {}
+
 function animate() {
     requestAnimationFrame(animate)
     interactionManager.update()

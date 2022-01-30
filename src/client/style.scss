@@ -10,6 +10,17 @@ body {
     color: $text-color;
 }
 
+//Prevents loading content before styles are loaded
+#loadOverlay {
+    display:block !important;
+}
+
+//instead of using disabled attr
+.not-active {
+    pointer-events: none;
+    opacity: 0.25;
+}
+
 .btn-success {
     background-color:#77A172;
 }
@@ -19,10 +30,11 @@ body {
 }
 
 .input-highlight {
-    color: #fff;
+    color: $white;
     background: #77A172 !important;
     border: 2px solid #146c43 !important;
 }
+
 .emotion-tooltip {
     cursor: pointer;
 }
@@ -40,7 +52,6 @@ body {
         li {
             text-align: center;
             list-style: none;
-            // padding: 4px 0;
             text-transform: uppercase;
             font-size: 1.25rem;
             border-bottom: 2px solid $background-color;
@@ -74,7 +85,7 @@ section:not(#ibm-tab,#finish) {
 }
 
 .annotationDescription {
-    color: #ffffff;
+    color: $white;
     font-family: monospace;
     pointer-events: none;
     font-size: 14px;
@@ -87,17 +98,13 @@ section:not(#ibm-tab,#finish) {
     transition: opacity 0.5s;
     display: none;
 }
+
 #desk-intro-prepare .container button {
     padding: 0;
 }
 
 #desk-intro .container ol {
     padding-left: 1.5rem;
-}
-
-button a {
-    color: #fff;
-    text-decoration: none;
 }
 
 #desk-emotions .container {
@@ -109,16 +116,21 @@ button a {
     padding: 8px 8px 8px 48px;
     max-width: 76%;
 }
-.dropdown-block button.active {
-    color: $text-color;
-    background-color: #e8e2e2;
-    border-color: #e8e2e2;
-}
-.dropdown-block button.active:focus {
-    box-shadow: none;
-}
-.dropdown-block button.active img {
-    content: url(assets/dropdown-up-black.png);
+
+.dropdown-block {
+    button.active {
+        color: $text-color;
+        background-color: #e8e2e2;
+        border-color: #e8e2e2;
+
+        &:focus {
+            box-shadow: none;
+        }
+
+        img {
+            content: url(assets/dropdown-up-black.png);
+        }
+    }
 }
 
 input:hover {
@@ -129,31 +141,24 @@ input:hover {
     position: relative;
 }
 
-.not-active {
-    pointer-events: none;
-    opacity: 0.25;
-}
+button {
+    a {
+        color: $white;
+        text-decoration: none;
+    }
 
-button.btn-desk {
-    border: none;
-}
+    &.btn-desk {
+        border: none;
 
-button.btn-desk:hover {
-    background: #dedede;
-}
-
-.fireworks-container {
-    position: absolute;
-    top: 0;
+        &:hover {
+            background: #dedede;
+        }
+    }
 }
 
 #emotionForm .emotion-size:hover {
     cursor: pointer;
     background: #cfcfcf;
-}
-
-#loadOverlay {
-    display:block !important;
 }
 
 #introPhoto {
