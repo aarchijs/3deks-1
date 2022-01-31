@@ -17,7 +17,7 @@ const reflectionTwoQuestions = [
     'Kā tu jūties tagad par pieteikto gadījumu, kas ir mainījies?',
 ]
 let addingEmotion = 0 //variable need for additional emotion adding
-$("span.emotion-tooltip").tooltip(); //initiating tooltip for additional emotion steps
+$("span.emotion-tooltip, button.btn-desk").tooltip(); //initiating tooltips
 //NAVBAR tab switcher
 $('.ibm-tabs li a, #goToMethod, #goToIntro').each(function () {
     $(this).on('click', function (e) {
@@ -101,12 +101,13 @@ $('#desk-intro-self a').each(function () {
             $('#desk-intro-prepare').removeClass('d-none')
         } else if ($(this).hasClass('continue')) {
             $('#desk-progress').removeClass('d-none')
+            $('input[name=emotion]').val('DUSMAS')
         }
     })
 })
 
 //since we have not implemented any of routing its all done by hiding/unhiding blocks by pressing back/continue buttons
-$('#desk-progress.me a').each(function () {
+$('#desk-progress.anger a').each(function () {
     $(this).on('click', function (e) {
         e.preventDefault()
         let section = $('#desk-progress')
@@ -153,12 +154,8 @@ $('#desk-progress.me a').each(function () {
                 $('#desk-intro-self').removeClass('d-none')
             }
         } else if ($(this).hasClass('continue')) { //if Continue button is pressed then
-            if (section.hasClass('me')) {
-                $('#emotionForm').removeClass('invisible')
-                //Dusmas, Bailes, Interese, Kauns, Vaina, Prieks, Riebums, Skumjas
-                section.removeClass('me').addClass('anger')
-                $('input[name=emotion]').val('DUSMAS')
-            } else if (section.hasClass('anger')) {
+            //Dusmas, Bailes, Interese, Kauns, Vaina, Prieks, Riebums, Skumjas
+            if (section.hasClass('anger')) {
                 section.removeClass('anger').addClass('fear')
                 $('input[name=emotion]').val('BAILES')
             } else if (section.hasClass('fear')) {
@@ -183,7 +180,7 @@ $('#desk-progress.me a').each(function () {
                 section.removeClass('sadness').addClass('additional')
                 $('input[name=emotion]')
                     .val('')
-                    .removeAttr('disabled')
+                    .removeClass('not-active')
                     .attr('placeholder', 'IEVADI EMOCIJU')
                 $('.emotion-intensity').addClass('not-active')
                 //info tooltip near input block to make it easier to come up with additional emotion name
@@ -276,11 +273,7 @@ $('#finish button').each(function () {
         // -------- If user decides to proceed with next step --------
         } else if ($(this).hasClass('continue')) {
             if(sessionInProgress){
-                if(!confirm('Vai tiešām vēlies pabeigt sesiju?')) {
-                    return;
-                } else {
-                    sessionInProgress = faqTabs = 0; // if user ends session variables set back to 0
-                }
+                sessionInProgress = faqTabs = 0; // if user ends session variables set back to 0
             }
             sessionStorage.reloadAfterPageLoad = true
             location.reload()

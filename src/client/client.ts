@@ -229,22 +229,22 @@ let emotions = [
             '</ul>'
     },
 
-    { name: 'additional-1' },
-    { name: 'additional-2' },
-    { name: 'additional-3' },
-    { name: 'additional-4' },
-    { name: 'additional-5' },
-    { name: 'additional-6' },
-    { name: 'additional-7' },
-    { name: 'additional-8' },
-    { name: 'additional-9' },
-    { name: 'additional-10' },
-    { name: 'additional-11' },
-    { name: 'additional-12' },
-    { name: 'additional-13' },
-    { name: 'additional-14' },
-    { name: 'additional-15' },
-    { name: 'additional-16' },
+    { name: 'additional-1', description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.' },
+    { name: 'additional-2', description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.' },
+    { name: 'additional-3', description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.' },
+    { name: 'additional-4', description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.' },
+    { name: 'additional-5', description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.' },
+    { name: 'additional-6', description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.' },
+    { name: 'additional-7', description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.' },
+    { name: 'additional-8', description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.' },
+    { name: 'additional-9', description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.' },
+    { name: 'additional-10', description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.' },
+    { name: 'additional-11', description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.' },
+    { name: 'additional-12', description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.' },
+    { name: 'additional-13', description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.' },
+    { name: 'additional-14', description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.' },
+    { name: 'additional-15', description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.' },
+    { name: 'additional-16', description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.' },
 ]
 const interactionManager = new InteractionManager(renderer, camera, renderer.domElement)
 emotions.forEach(function (emotion) {
@@ -258,17 +258,14 @@ emotions.forEach(function (emotion) {
     //@ts-ignore
     item.addEventListener('mouseover', (event) => {
         //3D object highlight should happen only in Top view
-        if(topView) {
-            event.target.material.color.setHex( 0x77A172 );
+        if (topView) {
+            event.target.material.color.setHex(0x77A172);
         }
 
-        //If emotion is from main emotion list it should be highlighted and show description on certain step
-        if (!event.target.name.includes('additional')) {
-            event.target.children[0].element.classList.add('fw-bold')
-            $('.emotion-description .emotion-name').text(event.target.name)
-            $('.emotion-description .emotion-text').append(event.target.userData.description)
-            $('p.emotion-helper').addClass('d-none');
-        }
+        event.target.children[0].element.classList.add('fw-bold')
+        $('.emotion-description .emotion-name').text(event.target.name)
+        $('.emotion-description .emotion-text').append(event.target.userData.description)
+        $('p.emotion-helper').addClass('d-none');
     })
 
     item.addEventListener('mouseout', (event) => {
@@ -311,6 +308,7 @@ const dragControls = [
 ]
 
 const orbitControls = [oOrbitControls, pOrbitControls]
+orbitControls.forEach((orbitControl) => (orbitControl.enabled = false))
 const controls = [...dragControls, ...orbitControls]
 
 //first view is top view, these to restrict desk rotation to y axis
@@ -337,6 +335,25 @@ dragControls.forEach((dragControl) => {
             event.object.position.y = dragObjectYPosition
         }
 
+        //restrict figure movement area
+        let deskBorderValues = 11.5;
+        if (event.object.parent.name === 'ES') {
+            deskBorderValues /= pawn.scale.x;
+        }
+
+        if(event.object.position.x > deskBorderValues) {
+            event.object.position.x = deskBorderValues;
+        }
+        if(event.object.position.x < -deskBorderValues) {
+            event.object.position.x = -deskBorderValues;
+        }
+        if(event.object.position.z > deskBorderValues) {
+            event.object.position.z = deskBorderValues;
+        }
+        if(event.object.position.z < -deskBorderValues) {
+            event.object.position.z = -deskBorderValues;
+        }
+
         if (event.object.parent.name === 'ES') {
             //move sight direction arrow and radius together with Self model
             arrowHelper.position.x = event.object.position.x
@@ -357,6 +374,7 @@ dragControls.forEach((dragControl) => {
                 //@ts-ignore
                 pawnFigure.position.z = event.object.position.z * pawn.scale.z
             }
+
         }
     })
 
@@ -426,14 +444,8 @@ $('.top-view').on('click', function () {
         personView = 0
     }
 
-    //makes it possible to drag models/objects around and to rotate desk around Y axis
-    controls.forEach((control) => (control.enabled = true))
-
-    //restricts orbitControls rotation to spinning desk around its axis
-    orbitControls.forEach((orbitControl) => {
-        orbitControl.minPolarAngle = 0
-        orbitControl.maxPolarAngle = 0
-    })
+    orbitControls.forEach((orbitControl) => (orbitControl.enabled = false))
+    dragControls.forEach((dragControl) => (dragControl.enabled = true))
 
     //puts camera on top of desk and looking to desk center
     camera.position.set(0, 17, 0)
@@ -464,7 +476,7 @@ $('.person-view').on('click', function () {
     render()
 })
 
-$('#desk-progress.me a.back').on('click', function () {
+$('#desk-progress.anger a.back').on('click', function () {
     if ($('#desk-progress').hasClass('additional')) {
         if (!hasDirection) {
             sight.visible = false
@@ -477,7 +489,7 @@ $('#desk-progress.me a.back').on('click', function () {
 
 let hasDirection = 1 //something was wrong with switching the steps
 //when Self direction step is on it makes arrow and radius visible
-$('#desk-progress.me a.continue').on('click', function () {
+$('#desk-progress.anger a.continue').on('click', function () {
     if ($('#desk-progress').hasClass('direction')) {
         if (hasDirection) {
             sight.visible = true
