@@ -59,7 +59,7 @@ body {
             border-bottom: 2px solid $background-color;
     
             &:hover,
-            &:active {
+            &.active {
                 border-color: green;
             }
     
