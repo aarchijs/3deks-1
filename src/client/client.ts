@@ -503,6 +503,9 @@ $('#desk-progress.anger a.continue').on('click', function () {
 let additional = 0
 //Emotion becomes visible only when user chooses its size by clicking on certain size
 $('#emotionForm .emotion-size').on('click', function (e) {
+    //switch to top view
+    $('.top-view').trigger('click');
+
     $(this).find('input[name=intensity]').prop('checked', true)
 
     let size = $(this).find('input[name=intensity]').val()

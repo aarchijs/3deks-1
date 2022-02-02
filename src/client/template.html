@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
-    <title>3Desk</title>
+    <title>3Deks</title>
     <link rel="shortcut icon" type="image/x-icon" href="assets/3deks.ico" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -13,8 +13,9 @@
 <div id="loadOverlay" style="display: none;">
     <!-- ########### NAVBAR ########### -->
     <section id="ibm-tab">
-        <div class="container">
-            <ul class="ibm-tabs d-flex justify-content-between ps-0" role="tablist">
+        <div class="container d-flex justify-content-between">
+            <img width="148" height="50" src="assets/3deks-horizontal.png" class="lazyload col-5" style="max-width: 177px;"/>
+            <ul class="ibm-tabs d-flex justify-content-between align-items-center ps-0 col-7" role="tablist">
                 <li class="col-2 active"><a aria-selected="true" role="tab" href="#desk-intro">Sākums</a></li>
                 <li class="col-2"><a role="tab" href="#desk-method">Par Metodi</a></li>
                 <li class="col-2"><a role="tab" href="#desk-emotions">Emocijas</a></li>
@@ -591,11 +592,13 @@
                     <a class="back btn btn-secondary btn-lg col-6 text-uppercase rounded-0 align-self-center">Atpakaļ</a>
 
                     <!-- Modal -->
-                    <div class="modal fade" id="emotionsModal" tabindex="-1" aria-labelledby="emotionsModalLabel"
-                         aria-hidden="true">
-                        <div class="modal-dialog modal-xl">
+                    <div class="modal fade" id="emotionsModal" tabindex="-1" role="dialog" aria-labelledby="emotionsModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl" style="max-width: 900px;">
                             <div class="modal-content">
                                 <div class="modal-body">
+                                    <button type="button" class="close" data-bs-dismiss="modal">
+                                        <img width="32" height="32" src="assets/close.png" class="img-fluid lazyload" alt="Aizvērt"/>
+                                    </button>
                                     <img width="1200" height="800" src="assets/emotions@3x.png" class="img-fluid lazyload" alt="Emociju saraksts"/>
                                 </div>
                             </div>
@@ -617,6 +620,7 @@
                                 </svg>
                             </span>
                         </div>
+                        <p class="add-continue fw-bolder d-none" style="margin:.25rem 0;">Vari pievienot emociju vai doties "Tālāk"</p>
 
                         <p class="mb-0">Izvēlies emociju intensitāti:</p>
                         <div class="d-flex justify-content-evenly text-center emotion-intensity">

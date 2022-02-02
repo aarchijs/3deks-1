@@ -1,4 +1,4 @@
-# 3Desk
+# 3Deks
 
 After project files are copied run
 `npm install`

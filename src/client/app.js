@@ -1,3 +1,5 @@
+$("input").attr("autocomplete", "off");
+
 let sessionInProgress = 0;
 let faqTabs = 0;
 let reflection = 0
@@ -183,8 +185,7 @@ $('#desk-progress.anger a').each(function () {
                     .removeClass('not-active')
                     .attr('placeholder', 'IEVADI EMOCIJU')
                 $('.emotion-intensity').addClass('not-active')
-                //info tooltip near input block to make it easier to come up with additional emotion name
-                $('span.emotion-tooltip').removeClass('d-none');
+                $('span.emotion-tooltip, p.add-continue').removeClass('d-none');
             } else if (section.hasClass('additional')) {
                 $('input[name=emotion]').val('').attr('placeholder', 'IEVADI EMOCIJU')
                 $('.emotion-intensity').addClass('not-active')
