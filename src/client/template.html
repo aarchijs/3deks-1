@@ -13,7 +13,7 @@
 <div id="loadOverlay" style="display: none;">
     <!-- ########### NAVBAR ########### -->
     <section id="ibm-tab">
-        <div class="container d-flex justify-content-between">
+        <div class="container d-flex justify-content-between" style="padding: 0 2rem;">
             <img width="148" height="50" src="assets/3deks-horizontal.png" class="lazyload col-5" style="max-width: 148px;"/>
             <ul class="ibm-tabs d-flex justify-content-between align-items-center ps-0 col-7" role="tablist">
                 <li class="col-2 active"><a aria-selected="true" role="tab" href="#desk-intro">Sākums</a></li>
@@ -24,33 +24,40 @@
         </div>
     </section>
 
+    <style>
+        #ibm-tab ul li a {
+            font-size: 18px !important;
+        }
+    </style>
+
     <!-- ########### Very first page ########### -->
     <section id="desk-intro" class="ibm-tabs-content" style="font-size:18px;">
 
         <div class="container">
-            <h4 class="text-center" style="margin-bottom:48px;">3D Emociju kompozīcija Supervīzijā </h4>
-            <div class="col-10 mx-auto d-flex justify-content-between">
-                <img id="introPhoto" class="col-6 mx-3" src="assets/intro.png" alt="Sākuma bilde"/>
-                <div class="d-flex flex-column col-6 mx-3">
-                    <p class="mb-4">3DEKS digitālā metode paredzēta darbam attālinātā supervīzijā, ar mērķi veicināt
-                        emociju apzināšanos, to izpratni, pašrefleksiju un sniegt atbalstu. Metode tiek veikta saskaņā
+            <h4 class="text-center" style="font-size: 40px; margin-bottom:54px;">3D Emociju kompozīcija Supervīzijā </h4>
+            <div class="d-flex justify-content-evenly">
+                <img id="introPhoto" class="col-5 mx-3" src="assets/intro-1.png" alt="Sākuma bilde"/>
+                <div class="d-flex flex-column align-items-center justify-content-between col-5 mx-3" style="font-size: 22px;">
+                    <p class="mb-4" style="text-align: justify;">3DEKS digitālā metode paredzēta darbam attālinātā supervīzijā, ar mērķi veicināt
+                        emociju apzināšanos, to izpratni, pašrefleksiju un sniegt atbalstu. <br/><br/>Metode tiek veikta saskaņā
                         ar instrukciju un sekojot precīziem soļiem.</p>
+                    <div class="d-flex flex-column align-items-center w-100">
+                        <a class="btn btn-success btn-lg text-uppercase rounded-0 col-6">Sākt</a>
+                        <a class="start-new btn btn-secondary btn-lg text-uppercase rounded-0 d-none col-6" style="margin-top:1rem;">Jauna sessija</a>
+                    </div>
 
-                    <a class="btn btn-success btn-lg text-uppercase rounded-0" style="margin-bottom:1rem;">Sākt</a>
-                    <a class="start-new btn btn-secondary btn-lg text-uppercase rounded-0 d-none">Jauna sessija</a>
                 </div>
             </div>
         </div>
     </section>
     <!-- ########### About method page ########### -->
     <section id="desk-method" class="ibm-tabs-content d-none">
-        <div class="container" style="max-width: 1200px;">
-            <h4 style="margin-bottom:32px;">“3D emociju kompozīcija Supervīzijā”</h4>
+        <div class="container" style="max-width: 1200px; text-align: justify;">
+            <h4 style="text-align:center; margin-bottom:32px;">“3D emociju kompozīcija Supervīzijā”</h4>
             <p style="text-indent: 1cm;" class="mb-0"><strong>“3D emociju kompozīcija Supervīzijā”</strong> (3DEKS ) ir vizuāla digitāla
                 metode darbam attālinātā supervīzijā, ar mērķi veicināt emociju apzināšanos, to izpratni un
-                pašrefleksiju.<br/>Metode tiek veikta saskaņā ar instrukciju un sekojot precīziem
-                soļiem speciāli izveidotā digitālā rīkā <strong><a id="goToIntro"
-                                                                   href="#desk-intro">www.3deks.rsu.lv</a></strong>.</p>
+                pašrefleksiju. Metode tiek veikta saskaņā ar instrukciju un sekojot precīziem
+                soļiem speciāli izveidotā digitālā rīkā.</p>
             <p style="text-indent: 1cm;" class="mb-0">Metode 3DEKS ir adaptēta no vizuālās izvērtēšanas metodes “3D emociju kompozīcija”
                 (Vanadziņa, Lejstrauta, Paiča un Mārtinsone, 2020)*, kas sākotnēji paredzēta klienta emocionālās
                 pieredzes un atsevišķu emociju regulācijas prasmju izvērtēšanai mākslas terapeitu praksē.</p>
@@ -75,11 +82,11 @@
                     nospiežot pogu “beigt sesiju”.
                 </li>
             </ol>
-            <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-secondary btn-lg col-4 text-uppercase rounded-0 mx-5 download"
+            <div class="d-flex justify-content-evenly">
+                <button type="submit" class="btn btn-secondary btn-lg col-3 text-uppercase rounded-0 download"
                         onclick="window.open('assets/instruction.pdf')">Instrukcija
                 </button>
-                <a class="btn btn-success btn-lg col-4 text-uppercase rounded-0 mx-5">Sākt metodi
+                <a class="btn btn-success btn-lg col-3 text-uppercase rounded-0">Sākt metodi
                     "3deks"
                 </a>
             </div>
@@ -88,14 +95,15 @@
 
     <!-- ########### About emotions page ########### -->
     <section id="desk-emotions" class="ibm-tabs-content d-none">
-        <div class="container d-flex flex-column" style="max-width: 1200px;">
+        <div class="container d-flex flex-column" style="max-width: 1200px; text-align: justify;">
+            <h4 class="text-center" style="font-size: 40px; margin-bottom:54px;">Emociju nozīme</h4>
 
             <div id="anger">
                 <div class="d-flex align-items-center mb-4">
                     <img width="52" height="52" src="assets/anger.png" class="me-4" alt="Dusmas emoji"/>
                     <h4 class="fw-bolder text-uppercase mb-0">Dusmas</h4>
                 </div>
-                <p class="fst-italic mb-4"><strong>DUSMU</strong> funkcija ir sagatavot ķermeni un prātu cīņai, <strong>signalizēt par robežu
+                <p class="mb-4"><strong>DUSMU</strong> funkcija ir sagatavot ķermeni un prātu cīņai, <strong>signalizēt par robežu
                     pārkāpšanu</strong> un ierastās kārtības izjaukšanu. Dusmas dod enerģiju un <strong>drosmi rīkoties, veicināt
                     pārmaiņas</strong>, pretoties nepatīkamajam. Dusmas aizsargā arī no dziļākām, grūtāk izturamākām emocijām,
                     tādām kā: vilšanās, skumjas, trauksme, izmisums, bailes.</p>
@@ -126,12 +134,14 @@
                 </div>
             </div>
 
+            <hr style="margin: 1rem 0 1.5rem;">
+
             <div id="fear">
                 <div class="d-flex align-items-center mb-4">
                     <img width="52" height="52" src="assets/fear.png" class="me-4" alt="Bailes emoji"/>
                     <h4 class="fw-bolder text-uppercase mb-0">Bailes</h4>
                 </div>
-                <p class="fst-italic mb-4"><strong>BAIĻU</strong> funkcija ir izvairīties, izkļūt ārā no nepatīkamām un bīstamām
+                <p class="mb-4"><strong>BAIĻU</strong> funkcija ir izvairīties, izkļūt ārā no nepatīkamām un bīstamām
                     situācijām. Ķermenis tiek sagatavots saskarei ar potenciālo draudu situāciju, lai pietiktu enerģijas
                     un spēka <strong>bēgt vai uzbrukt</strong>. Bailes palīdz būt modram un spēt pastāvēt par sevi un aizsargāties.
                     <strong>Bailes palīdz pārdzīvot draudu situācijas - motivē meklēt risinājumu vai atrast drošu vidi. Tās
@@ -166,12 +176,14 @@
                 </div>
             </div>
 
+            <hr style="margin: 1rem 0 1.5rem;">
+
             <div id="interest">
                 <div class="d-flex align-items-center mb-4">
                     <img width="52" height="52" src="assets/interest.png" class="me-4" alt="Interese emoji"/>
                     <h4 class="fw-bolder text-uppercase mb-0">Interese</h4>
                 </div>
-                <p class="fst-italic mb-4"><strong>INTERESES</strong> funkcija ir palīdzēt cilvēkam vieglāk pielāgoties ikdienai un
+                <p class="mb-4"><strong>INTERESES</strong> funkcija ir palīdzēt cilvēkam vieglāk pielāgoties ikdienai un
                     dzīvei kopumā. Interese nodrošina spēju ilgstoši noturēt uzmanību, tādā veidā attīstot jaunas
                     iemaņas, prasmes un intelektu. Interese ir rīcības enerģijas avots, kas mudina pielikt pūles, lai
                     sasniegtu kāroto. Interese rosina iztēli, fantāziju, atraisa ziņkārību, kas savukārt rada vēlmi
@@ -208,12 +220,14 @@
                 </div>
             </div>
 
+            <hr style="margin: 1rem 0 1.5rem;">
+
             <div id="shame">
                 <div class="d-flex align-items-center mb-4">
                     <img width="52" height="52" src="assets/shame.png" class="me-4" alt="Kauns emoji"/>
                     <h4 class="fw-bolder text-uppercase mb-0">Kauns</h4>
                 </div>
-                <p class="fst-italic mb-4"><strong>KAUNS</strong> veic piederības funkciju sabiedrībā. Tas veicina cilvēku savstarpējo
+                <p class="mb-4"><strong>KAUNS</strong> veic piederības funkciju sabiedrībā. Tas veicina cilvēku savstarpējo
                     emocionālo saikņu veidošanos un attīstību. Kauns aktualizē citu intereses, viedokli, kritiku,
                     uzslavas un veicina iejūtību pret apkārtējiem. Tas pasargā no neapdomīgas rīcības. Kauna funkcija ir
                     nodrošināt vietu sabiedrībā vai grupā un tas ir grupas komforta glabātājs.</p>
@@ -248,12 +262,14 @@
                 </div>
             </div>
 
+            <hr style="margin: 1rem 0 1.5rem;">
+
             <div id="fault">
                 <div class="d-flex align-items-center mb-4">
                     <img width="52" height="52" src="assets/fault.png" class="me-4" alt="Vaina emoji"/>
                     <h4 class="fw-bolder text-uppercase mb-0">Vaina</h4>
                 </div>
-                <p class="fst-italic mb-4"><strong>VAINA</strong> nodrošina savstarpējo attiecību veidošanas funkciju, kas ļauj risināt
+                <p class="mb-4"><strong>VAINA</strong> nodrošina savstarpējo attiecību veidošanas funkciju, kas ļauj risināt
                     sarežģītas situācijas svarīgās attiecībās un atturēties no darbībām, kas varētu tās nelabvēlīgi
                     ietekmēt. Vaina palīdz izvairīties no kaitējuma nodarīšanas otram un izturēties atbildīgi, veicinot
                     spēju atvainoties, atzīt un labot kļūdas. Tā attīsta spēju domāt par citiem, izjust “cietušā”
@@ -288,12 +304,14 @@
                 </div>
             </div>
 
+            <hr style="margin: 1rem 0 1.5rem;">
+
             <div id="happiness">
                 <div class="d-flex align-items-center mb-4">
                     <img width="52" height="52" src="assets/happiness.png" class="me-4" alt="Prieks emoji"/>
                     <h4 class="fw-bolder text-uppercase mb-0">Prieks</h4>
                 </div>
-                <p class="fst-italic mb-4"><strong>PRIEKA</strong> funkcija ir veidot pieķeršanos un savstarpējo uzticēšanos. Prieks rada
+                <p class="mb-4"><strong>PRIEKA</strong> funkcija ir veidot pieķeršanos un savstarpējo uzticēšanos. Prieks rada
                     labu garastāvokli un vēlmi rīkoties. Tas veicina dzīves jēgas apzināšanos, piepilda ar enerģiju,
                     ļauj ķermenim un prātam atslābināties. Prieks attīsta iekšējo motivāciju un iedvesmu jaunu iespēju
                     atklāšanai un sakatīšanai, kā arī izmaiņu veikšanai. Prieks iedvesmo pamanīt, baudīt skaisto
@@ -332,12 +350,14 @@
                 </div>
             </div>
 
+            <hr style="margin: 1rem 0 1.5rem;">
+
             <div id="disgust">
                 <div class="d-flex align-items-center mb-4">
                     <img width="52" height="52" src="assets/disgust.png" class="me-4" alt="Riebums emoji"/>
                     <h4 class="fw-bolder text-uppercase mb-0">Riebums</h4>
                 </div>
-                <p class="fst-italic mb-4"><strong>RIEBUMA</strong> funkcija ir nodrošināt organismam izdzīvošanu. Tā ir adaptīva
+                <p class="mb-4"><strong>RIEBUMA</strong> funkcija ir nodrošināt organismam izdzīvošanu. Tā ir adaptīva
                     reakcija, kas ļauj izvairīties no nepatīkamām un veselībai kaitīgām situācijām. Riebums palīdz
                     adaptēties ārējiem faktoriem, pasargājot no saindēšanās, ļaujot apdomāt un izvēlēties, kā rīkoties.
                     Riebuma sociālā funkcija ir veidot robežas: mans – svešs. Tas mudina izolēties no šķietami
@@ -371,12 +391,14 @@
                 </div>
             </div>
 
+            <hr style="margin: 1rem 0 1.5rem;">
+
             <div id="sadness">
                 <div class="d-flex align-items-center mb-4">
                     <img width="52" height="52" src="assets/sadness.png" class="me-4" alt="Skumjas emoji"/>
                     <h4 class="fw-bolder text-uppercase mb-0">Skumjas</h4>
                 </div>
-                <p class="fst-italic mb-4"><strong>SKUMJU</strong> funkcija ir demonstrēt (apzināties) to, ka ir slikti un ka ir
+                <p class="mb-4"><strong>SKUMJU</strong> funkcija ir demonstrēt (apzināties) to, ka ir slikti un ka ir
                     nepieciešama palīdzība. No ieilgušām skumjām var attīstīties depresija. Lai tas nenotiktu, ir
                     nepieciešams citu cilvēku atbalsts. Skumjas ir nepatīkamas un grūti izturamas, tāpēc tās mudina
                     rīkoties, motivē esošo situāciju mainīt un sasniegt jaunus mērķus. Tās palīdz pārdomāt dzīvi, rosina
@@ -412,7 +434,9 @@
                 </div>
             </div>
 
-            <div style="font-size: 10px;">
+            <hr style="margin: 1rem 0 1.5rem;">
+
+            <div style="font-size: 10px; margin-bottom: 1.5rem;">
                 <p class="fw-bold mb-0">Atsauces:</p>
                 <ul>
                     <li>Goulmens, D. (2001a). Tava emocionālā inteliģence. (24. - 26. lpp) Rīga: Apgāds Jumava</li>
@@ -430,8 +454,8 @@
 
     <!-- ########### Contacts page ########### -->
     <section id="desk-contacts" class="ibm-tabs-content d-none">
-        <div class="container" style="max-width: 1200px;">
-            <p style="margin-bottom: 2rem;">
+        <div class="container" style="max-width: 1200px; text-align: justify;">
+            <p style="margin-bottom: 4rem;">
                 Metode izstrādāta Rīgas Stradiņa universitātes maģistra studiju programmas “Supervīzija” maģistra darba
                 ietvaros, adaptēja un pielāgoja tiešsaistes supervīzjai: Marta Fjodorova, Laura Millere, Inese
                 Paiča.<br/><br/>
@@ -444,13 +468,13 @@
                 E-pasts saziņai: Inese.Paica@rsu.lv
             </p>
             <div class="d-flex flex-column align-items-center">
-                <div class="d-flex justify-content-evenly w-100" style="margin-bottom: 2rem;">
+                <div class="d-flex justify-content-evenly w-100" style="margin-bottom: 4rem;">
                     <img width="240" height="60" src="assets/rsu.png" class="img-fluid lazyload" alt="RSU logo">
                     <img width="92" height="60" src="assets/vip.png" class="img-fluid lazyload" alt="VIP logo">
                     <img width="211" height="60" src="assets/graduates_assoc.png" class="img-fluid lazyload" alt="RSU AA logo">
                     <img width="78" height="60" src="assets/spig.png" class="img-fluid lazyload" alt="SPIG logo">
                 </div>
-                <a class="btn btn-success btn-lg col-4 text-uppercase rounded-0 mx-auto" style="margin-bottom: 2rem;">Sākt
+                <a class="btn btn-success btn-lg col-3 text-uppercase rounded-0 mx-auto" style="margin-bottom: 2rem;">Sākt
                     metodi "3deks"</a>
                 <p class="fw-bolder" style="font-size:14px; font-style: italic;">Darba reproducēšana vai jebkāda cita
                     neatļauta izmantošana ir autortiesību pārkāpums.</p>
@@ -462,7 +486,7 @@
     <!-- ########### Some intro info ########### -->
     <section id="desk-intro-prepare" class="d-none" style="font-size:16px;">
         <div class="container">
-            <h3 class="text-center" style="font-size: 32px; margin-bottom:32px;">Sagatavošanās</h3>
+            <h3 class="text-center" style="font-size: 40px; margin-bottom:54px;">Sagatavošanās</h3>
 
             <div style="height: 410px;">
                 <div style="margin-bottom:12px;">
@@ -528,9 +552,9 @@
                 </div>
             </div>
 
-            <div class="d-flex justify-content-center">
-                <a class="back btn btn-secondary btn-lg col-4 text-uppercase rounded-0 mx-5">Atpakaļ</a>
-                <a class="continue btn btn-success btn-lg col-4 text-uppercase rounded-0 mx-5">Tālāk</a>
+            <div class="d-flex justify-content-evenly">
+                <a class="back btn btn-secondary btn-lg col-2 text-uppercase rounded-0">Atpakaļ</a>
+                <a class="continue btn btn-success btn-lg col-2 text-uppercase rounded-0">Tālāk</a>
             </div>
         </div>
     </section>
@@ -538,7 +562,7 @@
     <!-- ########### Choosing selfsize ########### -->
     <section id="desk-intro-self" class="d-none" style="font-size:18px;">
         <div class="container">
-            <h3 class="text-center mb-4" style="font-size: 32px; margin-bottom:32px;">Izvēlies simboliskā «Es» izmēru</h3>
+            <h3 class="text-center mb-4" style="font-size: 40px; margin-bottom:32px;">Izvēlies simboliskā «Es» izmēru</h3>
             <p class="text-center">Figūra attēlo tevi kā izjūti un piedzīvo pieteikto situāciju</p>
 
             <form id="selfForm" class="col-8 mx-auto d-flex justify-content-between" style="height: 410px;">
@@ -558,9 +582,9 @@
                 </div>
             </form>
 
-            <div class="d-flex justify-content-center">
-                <a class="back btn btn-secondary btn-lg col-4 text-uppercase rounded-0 mx-5">Atpakaļ</a>
-                <a class="continue btn btn-success btn-lg col-4 text-uppercase rounded-0 mx-5">Tālāk</a>
+            <div class="d-flex justify-content-evenly">
+                <a class="back btn btn-secondary btn-lg col-2 text-uppercase rounded-0">Atpakaļ</a>
+                <a class="continue btn btn-success btn-lg col-2 text-uppercase rounded-0">Tālāk</a>
             </div>
         </div>
     </section>
@@ -568,28 +592,26 @@
     <section id="desk-progress" class="anger d-none">
         <div class="container">
             <div class="d-flex justify-content-between">
-                <div class="d-flex flex-column align-items center justify-content-between col-3" style="margin-right: 1rem;">
-                                                <span class="emotion-tooltip d-none" title="Idejas emocijām skaties “+emociju sarakstā”">
-                                </svg>
-                            </span>
-                    <button class="btn-desk d-flex align-items-center side-view" title="Izkārtojums tiks attēlots 3D vizualizācijā">
-                        <img width="116" height="69" src="assets/view-front.png" class="img-fluid lazyload" alt="3D skats"/>
+                <div class="d-flex flex-column align-items center justify-content-between col-2" style="margin:0 1rem;">
+
+                    <button class="btn-desk d-flex  align-items-center side-view" title="Izkārtojums tiks attēlots 3D vizualizācijā">
+                        <img width="40" height="40" src="assets/view-front.png" class="img-fluid lazyload" alt="3D skats" style="margin-right: 2rem;"/>
                         <p class="mb-0">3D skats</p>
                     </button>
-                    <button class="btn-desk d-flex align-items-center top-view" title="Izkārtojumā no augšas vari mainīt kubu novietojumu plaknē">
-                        <img width="116" height="69" src="assets/view-top.png" class="img-fluid lazyload" alt="Skats no augšas"/>
+                    <button class="btn-desk d-flex  align-items-center top-view" title="Izkārtojumā no augšas vari mainīt kubu novietojumu plaknē">
+                        <img width="40" height="40" src="assets/view-top.png" class="img-fluid lazyload" alt="Skats no augšas" style="margin-right: 2rem;"/>
                         <p class="mb-0">Skats no augšas</p>
                     </button>
-                    <button class="btn-desk person-view d-flex align-items-center not-active" title="Izkārtojums tiks attēlots no simboliskā 'Es' perspektīvas">
-                        <img width="116" height="69" src="assets/view-self.png" class="img-fluid lazyload" alt="Es skats"/>
+                    <button class="btn-desk person-view d-flex  align-items-center not-active" title="Izkārtojums tiks attēlots no simboliskā 'Es' perspektīvas">
+                        <img width="40" height="40" src="assets/view-self.png" class="img-fluid lazyload" alt="Es skats" style="margin-right: 2rem;"/>
                         <p class="mb-0">"Es" skats</p>
                     </button>
-                    <button type="button" class="btn-desk d-flex align-items-center" title="Vari iepazīties ar emociju un garastāvokļa sarakstu" data-bs-toggle="modal" data-bs-target="#emotionsModal">
-                        <img width="116" height="69" src="assets/view-emotions.png" class="img-fluid lazyload" alt="Emocijas"/>
+                    <button type="button" class="btn-desk d-flex  align-items-center" title="Vari iepazīties ar emociju un garastāvokļa sarakstu" data-bs-toggle="modal" data-bs-target="#emotionsModal">
+                        <img width="40" height="40" src="assets/view-emotions.svg" class="img-fluid lazyload" alt="Emocijas" style="margin-right: 2rem;"/>
                         <p class="mb-0">Emociju saraksts</p>
                     </button>
 
-                    <a class="back btn btn-secondary btn-lg col-6 text-uppercase rounded-0 align-self-center">Atpakaļ</a>
+                    <a class="back btn btn-secondary btn-lg col-9 text-uppercase rounded-0 align-self-center">Atpakaļ</a>
 
                     <!-- Modal -->
                     <div class="modal fade" id="emotionsModal" tabindex="-1" role="dialog" aria-labelledby="emotionsModalLabel" aria-hidden="true">
@@ -612,11 +634,13 @@
 
                     <div id="emotionForm" class="d-flex flex-column justify-content-between"
                          style="height:80%;">
-                        <div>
+                        <div class="d-flex align-items-center">
                             <input type="text" minlength="5" maxlength="25" name="emotion" value="DUSMAS" class="text-uppercase fw-bold mb-0 px-3 py-2 not-active" style="background: #DFDDDE; width: fit-content; opacity: 1;">
-                            <span class="emotion-tooltip d-none" title="Idejas emocijām skaties “+emociju sarakstā”">
-                                <svg width="32px" height="32px" fill="currentColor" class="bi bi-info" viewBox="0 0 16 16">
-                                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                            <span class="emotion-tooltip d-none" title="Idejas emocijām skaties “+emociju sarakstā”" style="margin-left:.25rem;">
+                                <svg width="32px" height="32px" fill="currentColor" class="bi bi-info-circle"
+                                     viewBox="0 0 16 16">
+                                     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                     <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
                                 </svg>
                             </span>
                         </div>
@@ -664,11 +688,13 @@
                     </div>
 
                     <div id="emotionExplanations" class="w-100 d-flex flex-column justify-content-center d-none" style="height:80%;">
-                        <img width="200" height="200" src="assets/emotion.png" class="img-fluid lazyload" style="align-self: center;"/>
                         <p class="emotion-helper fw-bold" style="margin-bottom: .25rem;">Uzzini emociju nozīmi, novietojot kursoru uz emociju kuba</p>
+                        <img width="150" height="150" src="assets/emotion.png" class="emotion-info img-fluid lazyload" style="align-self: center;"/>
                         <div class="emotion-description" style="margin-bottom: .5rem;">
                             <p class="emotion-name fw-bold text-uppercase" style="margin-bottom: .25rem;"></p>
-                            <p class="emotion-text" style="font-size:14px;"></p>
+                            <p class="emotion-text" style="font-size:14px;">
+
+                            </p>
                         </div>
                     </div>
 
@@ -687,18 +713,18 @@
     <section id="finish" class="text-center d-none">
         <div class="container">
             <div class='close-session'>
-                <p style="font-size:24px;font-style: italic; margin-bottom: 2rem;">Lai noslēgtu sesiju spied “beigt
+                <p style="font-size:24px; margin-bottom: 2rem;">Lai noslēgtu sesiju spied “Beigt
                     sesiju”. <br/><br/>Ja tomēr vēlies vēl apskatīt savu izkārtojumu vai uzņemt “ekrānšāviņu”, spied
                     pogu “atpakaļ”.</p>
-                <div class="d-flex justify-content-center">
-                    <button class="btn btn-secondary btn-lg col-4 text-uppercase rounded-0 mx-5 back">Atpakaļ</button>
-                    <button class="btn btn-success btn-lg col-4 text-uppercase rounded-0 mx-5 continue">Beigt sesiju
+                <div class="d-flex justify-content-evenly">
+                    <button class="btn btn-secondary btn-lg col-2 text-uppercase rounded-0 back">Atpakaļ</button>
+                    <button class="btn btn-success btn-lg col-2 text-uppercase rounded-0 continue">Beigt sesiju
                     </button>
                 </div>
             </div>
 
             <div class='thank-you d-none'>
-                <p style="font-size:24px;font-style: italic;">Paldies, ka veltīji laiku sev! <br/><br/>Noslēguma sarunai
+                <p style="font-size:24px;">Paldies, ka veltīji laiku sev! <br/><br/>Noslēguma sarunai
                     un refleksijai, apturi iespēju kopīgot ekrānu.</p>
             </div>
         </div>

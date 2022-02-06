@@ -227,25 +227,20 @@ let emotions = [
                 '<li>Palīdz pārdomāt dzīvi, rosina uz attīstību</li>' +
                 '<li>Padara vērīgākus attiecībā pret notiekošo un apkārtējiem cilvēkiem</li>' +
             '</ul>'
-    },
-
-    { name: 'additional-1', description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.' },
-    { name: 'additional-2', description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.' },
-    { name: 'additional-3', description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.' },
-    { name: 'additional-4', description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.' },
-    { name: 'additional-5', description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.' },
-    { name: 'additional-6', description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.' },
-    { name: 'additional-7', description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.' },
-    { name: 'additional-8', description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.' },
-    { name: 'additional-9', description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.' },
-    { name: 'additional-10', description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.' },
-    { name: 'additional-11', description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.' },
-    { name: 'additional-12', description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.' },
-    { name: 'additional-13', description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.' },
-    { name: 'additional-14', description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.' },
-    { name: 'additional-15', description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.' },
-    { name: 'additional-16', description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.' },
+    }
 ]
+
+const emotionsCount = emotions.length;
+let additionalEmotionNumber = 1;
+for(let i=emotionsCount; i<emotionsCount+16; i++){
+    let additionalEmotion = 'additional-' + additionalEmotionNumber;
+    emotions[i] = {
+        name: additionalEmotion,
+        description: 'Diemžēl, mums nebūs skaidrojums, jo šī ir tevis ievadīta emocija. Ar pamatemociju skaidrojumiem vari iepazīties novietojot kursoru uz emocijas.'
+    };
+    additionalEmotionNumber++;
+}
+
 const interactionManager = new InteractionManager(renderer, camera, renderer.domElement)
 emotions.forEach(function (emotion) {
     const cubeGeometry = new THREE.BoxBufferGeometry(1, 1, 1)
@@ -257,15 +252,19 @@ emotions.forEach(function (emotion) {
 
     //@ts-ignore
     item.addEventListener('mouseover', (event) => {
+
         //3D object highlight should happen only in Top view
         if (topView) {
             event.target.material.color.setHex(0x77A172);
         }
 
-        event.target.children[0].element.classList.add('fw-bold')
-        $('.emotion-description .emotion-name').text(event.target.name)
-        $('.emotion-description .emotion-text').append(event.target.userData.description)
-        $('p.emotion-helper').addClass('d-none');
+        if(event.target.visible === true) {
+            event.target.children[0].element.classList.add('fw-bold')
+            $('.emotion-description .emotion-name').text(event.target.name)
+            $('.emotion-description .emotion-text').html(event.target.userData.description)
+            $('p.emotion-helper').addClass('d-none');
+            $('img.emotion-info').addClass('d-none');
+        }
     })
 
     item.addEventListener('mouseout', (event) => {
@@ -276,6 +275,7 @@ emotions.forEach(function (emotion) {
         $('.emotion-description .emotion-name').text('')
         $('.emotion-description .emotion-text').empty();
         $('p.emotion-helper').removeClass('d-none');
+        $('img.emotion-info').removeClass('d-none');
     })
 
     //adding 2D text label
@@ -319,8 +319,6 @@ oOrbitControls.maxPolarAngle = 0
 let dragObjectYPosition
 dragControls.forEach((dragControl) => {
     dragControl.addEventListener('dragstart', function (event) {
-        //restrict moving scene with orbitControls when dragging objects
-        orbitControls.forEach((orbitControl) => (orbitControl.enabled = false))
         //restrict dragging to Z and X axis (only horizontal)
         dragObjectYPosition = event.object.position.y
         event.object.parent.name === 'ES' ? pawn.position.y : event.object.position.y
@@ -377,11 +375,6 @@ dragControls.forEach((dragControl) => {
 
         }
     })
-
-    //enable moving scene with orbitControls when dragging objects is finished
-    dragControl.addEventListener('dragend', function (event) {
-        orbitControls.forEach((orbitControl) => (orbitControl.enabled = true))
-    })
 })
 
 //View switcher events by 90 grades with every click
@@ -401,6 +394,10 @@ $('.side-view').on('click', function () {
             orbitControl.maxPolarAngle = Math.PI * 0.1
         })
     }
+
+    interactionManager.disable = true;
+    $('img.emotion-info').addClass('d-none');
+    $('p.emotion-helper').text('Uzzini emociju nozīmi "Skats no augšas"');
 
     if (!pawn.visible) {
         pawn.visible = true //if changed from Self view
@@ -444,12 +441,16 @@ $('.top-view').on('click', function () {
         personView = 0
     }
 
+    $('img.emotion-info').removeClass('d-none');
+    $('p.emotion-helper').text('Uzzini emociju nozīmi, novietojot kursoru uz emociju kuba');
+
     orbitControls.forEach((orbitControl) => (orbitControl.enabled = false))
     dragControls.forEach((dragControl) => (dragControl.enabled = true))
 
     //puts camera on top of desk and looking to desk center
     camera.position.set(0, 17, 0)
     camera.lookAt(0, 0, 0)
+    interactionManager.disable = false;
 
     render()
 })
@@ -465,6 +466,10 @@ $('.person-view').on('click', function () {
     if (!personView) {
         personView = 1
     }
+    interactionManager.disable = true;
+
+    $('img.emotion-info').addClass('d-none');
+    $('p.emotion-helper').text('Uzzini emociju nozīmi "Skats no augšas"');
 
     pawn.visible = false //in self view Self model should not be visible
     let self = pawn.children[0]

@@ -342,7 +342,7 @@ $(document).ready(function () { //.ready is deprecated but dont touch :D
 })
 
 // -------- Intro picture click slider remove after decided --------
-let images = ['intro','intro-1','intro-2','intro-3','intro-4','intro-5'];
+let images = ['intro-1','intro-2','intro-3','intro-4','intro-5'];
 let imgIndex = 0;
 $('#introPhoto').on('click', function(){
     if(imgIndex === images.length-1){
