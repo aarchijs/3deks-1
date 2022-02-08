@@ -45,6 +45,7 @@ body {
     width: 100%;
     background-color: $background-color;
     box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.12);
+    z-index: 10;
     .container {
         margin-top: 1rem;
         margin-bottom: .55rem;

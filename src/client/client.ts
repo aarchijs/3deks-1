@@ -258,7 +258,7 @@ emotions.forEach(function (emotion) {
             event.target.material.color.setHex(0x77A172);
         }
 
-        if(event.target.visible === true) {
+        if(event.target.visible === true && topView) {
             event.target.children[0].element.classList.add('fw-bold')
             $('.emotion-description .emotion-name').text(event.target.name)
             $('.emotion-description .emotion-text').html(event.target.userData.description)
@@ -268,14 +268,16 @@ emotions.forEach(function (emotion) {
     })
 
     item.addEventListener('mouseout', (event) => {
-        //removing highlight on mouseout
-        event.target.children[0].element.classList.remove('fw-bold')
-        event.target.material.color.setHex( 0xffffff );
+        if(event.target.visible === true && topView) {
+            //removing highlight on mouseout
+            event.target.children[0].element.classList.remove('fw-bold')
+            event.target.material.color.setHex( 0xffffff );
 
-        $('.emotion-description .emotion-name').text('')
-        $('.emotion-description .emotion-text').empty();
-        $('p.emotion-helper').removeClass('d-none');
-        $('img.emotion-info').removeClass('d-none');
+            $('.emotion-description .emotion-name').text('')
+            $('.emotion-description .emotion-text').empty();
+            $('p.emotion-helper').removeClass('d-none');
+            $('img.emotion-info').removeClass('d-none');
+        }
     })
 
     //adding 2D text label
@@ -395,7 +397,6 @@ $('.side-view').on('click', function () {
         })
     }
 
-    interactionManager.disable = true;
     $('img.emotion-info').addClass('d-none');
     $('p.emotion-helper').text('Uzzini emociju nozīmi "Skats no augšas"');
 
@@ -450,7 +451,6 @@ $('.top-view').on('click', function () {
     //puts camera on top of desk and looking to desk center
     camera.position.set(0, 17, 0)
     camera.lookAt(0, 0, 0)
-    interactionManager.disable = false;
 
     render()
 })
@@ -466,7 +466,6 @@ $('.person-view').on('click', function () {
     if (!personView) {
         personView = 1
     }
-    interactionManager.disable = true;
 
     $('img.emotion-info').addClass('d-none');
     $('p.emotion-helper').text('Uzzini emociju nozīmi "Skats no augšas"');

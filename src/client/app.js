@@ -276,22 +276,10 @@ $('#finish button').each(function () {
             if(sessionInProgress){
                 sessionInProgress = faqTabs = 0; // if user ends session variables set back to 0
             }
-            sessionStorage.reloadAfterPageLoad = true
             location.reload()
         }
     })
 })
-
-$( function () {
-        if ( sessionStorage.reloadAfterPageLoad ) {
-            $('#desk-intro').addClass('d-none')
-            $('#finish').removeClass('d-none')
-            $('#finish .close-session').addClass('d-none')
-            $('#finish .thank-you').removeClass('d-none')
-            sessionStorage.reloadAfterPageLoad = false
-        }
-    } 
-);
 
 // -------- Adding additional emotions --------
 $('#emotionForm input[name=emotion]').on('keyup', function (e) {
