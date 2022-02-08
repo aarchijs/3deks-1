@@ -13,13 +13,13 @@
 <div id="loadOverlay" style="display: none;">
     <!-- ########### NAVBAR ########### -->
     <section id="ibm-tab">
-        <div class="container d-flex justify-content-between" style="padding: 0 2rem;">
-            <img width="148" height="50" src="assets/3deks-horizontal.png" class="lazyload col-5" style="max-width: 148px;"/>
-            <ul class="ibm-tabs d-flex justify-content-between align-items-center ps-0 col-7" role="tablist">
-                <li class="col-2 active"><a aria-selected="true" role="tab" href="#desk-intro">Sākums</a></li>
-                <li class="col-2"><a role="tab" href="#desk-method">Par Metodi</a></li>
-                <li class="col-2"><a role="tab" href="#desk-emotions">Emocijas</a></li>
-                <li class="col-2"><a role="tab" href="#desk-contacts">Kontakti</a></li>
+        <div class="container d-flex justify-content-between" style="max-width: 90%;">
+            <img width="148" height="50" src="assets/3deks-horizontal.png" class="lazyload col-4 col-lg-5" style="max-width: 148px;"/>
+            <ul class="ibm-tabs d-flex justify-content-between align-items-center ps-0 col-8 col-lg-7" role="tablist">
+                <li class="col-2 active" style="flex-grow: 1"><a aria-selected="true" role="tab" href="#desk-intro">Sākums</a></li>
+                <li class="col-2" style="flex-grow: 2"><a role="tab" href="#desk-method">Par Metodi</a></li>
+                <li class="col-2" style="flex-grow: 1"><a role="tab" href="#desk-emotions">Emocijas</a></li>
+                <li class="col-2" style="flex-grow: 1"><a role="tab" href="#desk-contacts">Kontakti</a></li>
             </ul>
         </div>
     </section>
@@ -35,9 +35,11 @@
 
         <div class="container">
             <h4 class="text-center" style="font-size: 40px; margin-bottom:54px;">3D Emociju kompozīcija Supervīzijā </h4>
-            <div class="d-flex justify-content-evenly">
-                <img id="introPhoto" class="col-5 mx-3" src="assets/intro-1.png" alt="Sākuma bilde"/>
-                <div class="d-flex flex-column align-items-center justify-content-between col-5 mx-3" style="font-size: 22px;">
+            <div class="d-flex flex-column flex-lg-row justify-content-evenly">
+                <div class="col-12 col-lg-5 mx-3">
+                    <img id="introPhoto" class="img-fluid lazyload" src="assets/intro-1.png" alt="Sākuma bilde"/>
+                </div>
+                <div class="d-flex flex-column align-items-center justify-content-between col-12 col-lg-5 mx-3" style="font-size: 22px;">
                     <p class="mb-4" style="text-align: justify;">3DEKS digitālā metode paredzēta darbam attālinātā supervīzijā, ar mērķi veicināt
                         emociju apzināšanos, to izpratni, pašrefleksiju un sniegt atbalstu. <br/><br/>Metode tiek veikta saskaņā
                         ar instrukciju un sekojot precīziem soļiem.</p>
@@ -52,7 +54,7 @@
     </section>
     <!-- ########### About method page ########### -->
     <section id="desk-method" class="ibm-tabs-content d-none">
-        <div class="container" style="max-width: 1200px; text-align: justify;">
+        <div class="container col-11" style="max-width: 1200px; text-align: justify;">
             <h4 style="text-align:center; margin-bottom:32px;">“3D emociju kompozīcija Supervīzijā”</h4>
             <p style="text-indent: 1cm;" class="mb-0"><strong>“3D emociju kompozīcija Supervīzijā”</strong> (3DEKS ) ir vizuāla digitāla
                 metode darbam attālinātā supervīzijā, ar mērķi veicināt emociju apzināšanos, to izpratni un
@@ -83,10 +85,10 @@
                 </li>
             </ol>
             <div class="d-flex justify-content-evenly">
-                <button type="submit" class="btn btn-secondary btn-lg col-3 text-uppercase rounded-0 download"
+                <button type="submit" class="btn btn-secondary btn-lg col-4 text-uppercase rounded-0 download"
                         onclick="window.open('assets/instruction.pdf')">Instrukcija
                 </button>
-                <a class="btn btn-success btn-lg col-3 text-uppercase rounded-0">Sākt metodi
+                <a class="btn btn-success btn-lg col-4 text-uppercase rounded-0">Sākt metodi
                     "3deks"
                 </a>
             </div>
@@ -95,7 +97,7 @@
 
     <!-- ########### About emotions page ########### -->
     <section id="desk-emotions" class="ibm-tabs-content d-none">
-        <div class="container d-flex flex-column" style="max-width: 1200px; text-align: justify;">
+        <div class="container d-flex flex-column col-11" style="max-width: 1200px; text-align: justify;">
             <h4 class="text-center" style="font-size: 40px; margin-bottom:54px;">Emociju nozīme</h4>
 
             <div id="anger">
@@ -454,7 +456,7 @@
 
     <!-- ########### Contacts page ########### -->
     <section id="desk-contacts" class="ibm-tabs-content d-none">
-        <div class="container" style="max-width: 1200px; text-align: justify;">
+        <div class="container col-11" style="max-width: 1200px; text-align: justify;">
             <p style="margin-bottom: 4rem;">
                 Metode izstrādāta Rīgas Stradiņa universitātes maģistra studiju programmas “Supervīzija” maģistra darba
                 ietvaros, adaptēja un pielāgoja tiešsaistes supervīzjai: Marta Fjodorova, Laura Millere, Inese
@@ -474,14 +476,13 @@
                     <img width="211" height="60" src="assets/graduates_assoc.png" class="img-fluid lazyload" alt="RSU AA logo">
                     <img width="78" height="60" src="assets/spig.png" class="img-fluid lazyload" alt="SPIG logo">
                 </div>
-                <a class="btn btn-success btn-lg col-3 text-uppercase rounded-0 mx-auto" style="margin-bottom: 2rem;">Sākt
+                <a class="btn btn-success btn-lg col-4 text-uppercase rounded-0 mx-auto" style="margin-bottom: 2rem;">Sākt
                     metodi "3deks"</a>
                 <p class="fw-bolder" style="font-size:14px; font-style: italic;">Darba reproducēšana vai jebkāda cita
                     neatļauta izmantošana ir autortiesību pārkāpums.</p>
             </div>
         </div>
     </section>
-
 
     <!-- ########### Some intro info ########### -->
     <section id="desk-intro-prepare" class="d-none" style="font-size:16px;">
@@ -717,8 +718,8 @@
                     sesiju”. <br/><br/>Ja tomēr vēlies vēl apskatīt savu izkārtojumu vai uzņemt “ekrānšāviņu”, spied
                     pogu “atpakaļ”.</p>
                 <div class="d-flex justify-content-evenly">
-                    <button class="btn btn-secondary btn-lg col-2 text-uppercase rounded-0 back">Atpakaļ</button>
-                    <button class="btn btn-success btn-lg col-2 text-uppercase rounded-0 continue">Beigt sesiju
+                    <button class="btn btn-secondary btn-lg col-3 text-uppercase rounded-0 back">Atpakaļ</button>
+                    <button class="btn btn-success btn-lg col-3 text-uppercase rounded-0 continue">Beigt sesiju
                     </button>
                 </div>
             </div>
