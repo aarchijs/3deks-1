@@ -21,7 +21,7 @@ const reflectionTwoQuestions = [
 let addingEmotion = 0 //variable need for additional emotion adding
 $("span.emotion-tooltip, button.btn-desk").tooltip(); //initiating tooltips
 //NAVBAR tab switcher
-$('.ibm-tabs li a, #goToMethod, #goToIntro').each(function () {
+$('.ibm-tabs li a, #goToMethod, #goToIntro, a#logo').each(function () {
     $(this).on('click', function (e) {
         e.preventDefault()
 
@@ -48,7 +48,7 @@ $('.ibm-tabs li a, #goToMethod, #goToIntro').each(function () {
 
         newActiveTabId = $(this).attr('href')
         $(newActiveTabId).removeClass('d-none')
-        $(this).parent('li').addClass('active')
+        $('ul.ibm-tabs a[href*="'+ newActiveTabId +'"]').parent('li').addClass('active')
     })
 })
 //NAVBAR tab switcher end
