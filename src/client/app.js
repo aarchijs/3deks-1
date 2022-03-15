@@ -165,7 +165,6 @@ $('#desk-progress.anger a').each(function () {
                     $('#sightDirection').removeClass('d-none')
                 }
             } else {
-                console.log(section);
                 section.addClass('d-none')
                 $('#desk-intro-self').removeClass('d-none')
             }
