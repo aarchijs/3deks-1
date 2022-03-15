@@ -60,7 +60,7 @@ scene.add(desk)
 const sightGeometry = new THREE.CircleGeometry(1.25, 24, Math.PI / 4, Math.PI / 4 * 2);
 const sightMaterial = new THREE.MeshBasicMaterial({color: 0xbababa})
 const sight = new THREE.Mesh(sightGeometry, sightMaterial)
-sight.position.y = 0.501;
+sight.position.y = 0.55;
 sight.rotation.set(Math.PI / 2, Math.PI, Math.PI / 2)
 sight.visible = false //becomes visible only on step where self sight direction is set
 scene.add(sight)
@@ -571,7 +571,9 @@ $('#slider').on('slide', function (e, ui) {
     arrow.children[0].rotation.y = Math.PI * 2 * (ui.value / 360) - Math.PI / 2
 
     if (personView) {
-        camera.rotation.y = arrowHelper.rotation.y - Math.PI / 2
+        camera.rotation.set(0, arrowHelper.rotation.y - Math.PI / 2, 0)
+        camera.updateProjectionMatrix()
+        camera.updateMatrix()
     }
 })
 
