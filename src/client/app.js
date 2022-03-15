@@ -26,8 +26,8 @@ $('.ibm-tabs li a, #goToMethod, #goToIntro, a#logo').each(function () {
         e.preventDefault()
 
         //if not already opened at any of top tabs sections and already started session
-        if(!faqTabs && sessionInProgress){
-            if(!confirm('Vai saglabāt izkārtojumu?\n' +
+        if (!faqTabs && sessionInProgress) {
+            if (!confirm('Vai saglabāt izkārtojumu?\n' +
                 '"Turpināt" vai "Sākt jaunu" sesiju vari sadaļā "Sākums". :)')) {
                 return;
             } else {
@@ -48,7 +48,7 @@ $('.ibm-tabs li a, #goToMethod, #goToIntro, a#logo').each(function () {
 
         newActiveTabId = $(this).attr('href')
         $(newActiveTabId).removeClass('d-none')
-        $('ul.ibm-tabs a[href*="'+ newActiveTabId +'"]').parent('li').addClass('active')
+        $('ul.ibm-tabs a[href*="' + newActiveTabId + '"]').parent('li').addClass('active')
     })
 })
 //NAVBAR tab switcher end
@@ -65,7 +65,7 @@ beginBtns.each(function () {
 
         let parent = $(this).parents('section')
         parent.addClass('d-none')
-        if($('#desk-intro').hasClass('in-progress')) {
+        if ($('#desk-intro').hasClass('in-progress')) {
             $('.last-attended').removeClass('d-none').removeClass('last-attended')
         } else {
             $('#desk-intro-prepare').removeClass('d-none')
@@ -94,6 +94,18 @@ $('#desk-intro-prepare a').each(function () {
     })
 })
 
+let section = $('#desk-progress');
+const emotionMapping = {
+    'anger': 'Dusmas',
+    'fear': 'Bailes',
+    'interest': 'Interese',
+    'shame': 'Kauns',
+    'guilt': 'Vaina',
+    'happiness': 'Prieks',
+    'disgust': 'Riebums',
+    'sadness': 'Skumjas'
+};
+
 //from Choose Self Size step to actual Desk step
 $('#desk-intro-self a').each(function () {
     $(this).on('click', function (e) {
@@ -102,8 +114,10 @@ $('#desk-intro-self a').each(function () {
         if ($(this).hasClass('back')) {
             $('#desk-intro-prepare').removeClass('d-none')
         } else if ($(this).hasClass('continue')) {
+            let emotionClass = section.attr("class").split(/\s+/)[0];
+
             $('#desk-progress').removeClass('d-none')
-            $('input[name=emotion]').val('DUSMAS')
+            $('input[name=emotion]').val(emotionMapping[emotionClass].toUpperCase())
         }
     })
 })
@@ -112,7 +126,6 @@ $('#desk-intro-self a').each(function () {
 $('#desk-progress.anger a').each(function () {
     $(this).on('click', function (e) {
         e.preventDefault()
-        let section = $('#desk-progress')
 
         if ($(this).hasClass('back')) {
             if (section.hasClass('direction')) {
@@ -142,7 +155,7 @@ $('#desk-progress.anger a').each(function () {
                 section.removeClass('explanations').addClass('reflection')
                 $('#emotionExplanations').addClass('d-none')
                 $('#reflectionsOne').removeClass('d-none')
-            }  else if (section.hasClass('reflection')) {
+            } else if (section.hasClass('reflection')) {
                 reflection--
                 if (reflection >= 0) {
                     $('#reflectionsOne .reflection-question').text(reflectionQuestions[reflection])
@@ -152,6 +165,7 @@ $('#desk-progress.anger a').each(function () {
                     $('#sightDirection').removeClass('d-none')
                 }
             } else {
+                console.log(section);
                 section.addClass('d-none')
                 $('#desk-intro-self').removeClass('d-none')
             }
@@ -246,16 +260,16 @@ $('#desk-progress.anger a').each(function () {
 
             //Highlight when proceeding to next step with adding emotion
             $('input[name=emotion]').addClass('input-highlight')
-            setTimeout(function(){
+            setTimeout(function () {
                 $('input[name=emotion]').removeClass('input-highlight')
-            },700)
+            }, 700)
         }
     })
 })
 
 // ---- Button to start new session is pressed ----
-$('a.start-new').on('click', function(){
-    if(!confirm('Vai tiešām vēlies pabeigt sesiju?')) {
+$('a.start-new').on('click', function () {
+    if (!confirm('Vai tiešām vēlies pabeigt sesiju?')) {
         return;
     } else {
         sessionInProgress = faqTabs = 0;
@@ -268,12 +282,12 @@ $('#finish button').each(function () {
         e.preventDefault()
         // -------- If user decides to go back --------
         if ($(this).hasClass('back')) {
-            reflectionTwo = reflectionTwoQuestions.length-1;
+            reflectionTwo = reflectionTwoQuestions.length - 1;
             $('#finish').addClass('d-none')
             $('#desk-progress').removeClass('d-none')
-        // -------- If user decides to proceed with next step --------
+            // -------- If user decides to proceed with next step --------
         } else if ($(this).hasClass('continue')) {
-            if(sessionInProgress){
+            if (sessionInProgress) {
                 sessionInProgress = faqTabs = 0; // if user ends session variables set back to 0
             }
             location.reload()
@@ -330,15 +344,15 @@ $(document).ready(function () { //.ready is deprecated but dont touch :D
 })
 
 // -------- Intro picture click slider remove after decided --------
-let images = ['intro-1','intro-2','intro-3','intro-4','intro-5'];
+let images = ['intro-1', 'intro-2', 'intro-3', 'intro-4', 'intro-5'];
 let imgIndex = 0;
-$('#introPhoto').on('click', function(){
-    if(imgIndex === images.length-1){
+$('#introPhoto').on('click', function () {
+    if (imgIndex === images.length - 1) {
         imgIndex = 0;
     } else {
         imgIndex++;
     }
 
-    $(this).attr('src', 'assets/'+ images[imgIndex] +'.png')
+    $(this).attr('src', 'assets/' + images[imgIndex] + '.png')
 
 });

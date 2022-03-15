@@ -115,6 +115,12 @@ arrowHelper.scale.set(2, 1, 1)
 arrowHelper.visible = false
 scene.add(arrowHelper)
 
+$('#selfForm input[name=self]').each(function(){
+    $(this).on('click', function(){
+        $('#desk-intro-self a.continue').removeClass('not-active')
+    })
+});
+
 //change Self model/object size according to user choosed size by checking radio button on size choice step
 $('#desk-intro-self a.continue').on('click', function (e) {
     e.preventDefault()
@@ -449,9 +455,11 @@ $('.top-view').on('click', function () {
     dragControls.forEach((dragControl) => (dragControl.enabled = true))
 
     //puts camera on top of desk and looking to desk center
+    camera.zoom = 21
     camera.position.set(0, 17, 0)
     camera.lookAt(0, 0, 0)
-
+    camera.updateProjectionMatrix()
+    camera.updateMatrix()
     render()
 })
 
@@ -472,11 +480,12 @@ $('.person-view').on('click', function () {
 
     pawn.visible = false //in self view Self model should not be visible
     let self = pawn.children[0]
-    camera.position.set(self.position.x, self.scale.y, self.position.z)
+    camera.position.set(self.position.x * pawn.scale.x, self.scale.y, self.position.z * pawn.scale.z)
     camera.lookAt(self.position.x + arrowHelper.cone.position.y, self.scale.y, self.position.z)
     camera.rotation.y = arrowHelper.rotation.y - Math.PI / 2
     controls.forEach((control) => (control.enabled = false))
-
+    camera.updateProjectionMatrix()
+    camera.updateMatrix()
     render()
 })
 
