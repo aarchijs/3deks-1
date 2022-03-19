@@ -482,11 +482,13 @@ $('.person-view').on('click', function () {
     let self = pawn.children[0]
     camera.position.set(self.position.x * pawn.scale.x, self.scale.y, self.position.z * pawn.scale.z)
     camera.lookAt(self.position.x + arrowHelper.cone.position.y, self.scale.y, self.position.z)
-    camera.rotation.y = arrowHelper.rotation.y - Math.PI / 2
+    camera.rotation.set(0, arrowHelper.rotation.y - Math.PI / 2, 0)
     controls.forEach((control) => (control.enabled = false))
     camera.updateProjectionMatrix()
     camera.updateMatrix()
     render()
+    console.log(camera.rotation)
+
 })
 
 $('#desk-progress.anger a.back').on('click', function () {
@@ -566,6 +568,7 @@ $('#emotionForm .emotion-size').on('click', function (e) {
 
 //To rotate camera view in person view, sight direction arrow and radius together with dragging button on slider
 $('#slider').on('slide', function (e, ui) {
+
     arrowHelper.rotation.y = pawn.children[0].rotation.y = Math.PI * 2 * (ui.value / 360)
     sight.rotation.z = Math.PI * 2 * (ui.value / 360) + Math.PI / 2
     arrow.children[0].rotation.y = Math.PI * 2 * (ui.value / 360) - Math.PI / 2
@@ -575,6 +578,7 @@ $('#slider').on('slide', function (e, ui) {
         camera.updateProjectionMatrix()
         camera.updateMatrix()
     }
+    console.log(camera.rotation)
 })
 
 function init() {}

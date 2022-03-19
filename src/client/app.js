@@ -1,7 +1,7 @@
 $("input").attr("autocomplete", "off");
 
 let sessionInProgress = 0;
-let faqTabs = 0;
+let faqTabs = 1;
 let reflection = 0
 //There are two reflection steps during the session
 const reflectionQuestions = [
@@ -36,7 +36,7 @@ $('.ibm-tabs li a, #goToMethod, #goToIntro, a#logo').each(function () {
             }
         }
 
-        $('section:not(#ibm-tab,#desk-intro,#desk-method,#desk-emotions,#desk-contacts').each(
+        $('section:not(#ibm-tab,#desk-intro,#desk-method,#desk-emotions,#desk-contacts)').each(
             function () {
                 $(this).hasClass('d-none') ? true : $(this).addClass('d-none')
             }
@@ -82,13 +82,14 @@ beginBtns.each(function () {
 // ---------Back-forth buttons---------
 
 //from Prepare step to Choose Self Size step
-$('#desk-intro-prepare a').each(function () {
+$('#desk-intro-prepare a:not(#goToMethod)').each(function () {
     $(this).on('click', function (e) {
         e.preventDefault()
         $('#desk-intro-prepare').addClass('d-none')
         if ($(this).hasClass('back')) {
             $('#desk-intro').removeClass('d-none')
         } else if ($(this).hasClass('continue')) {
+            $('#selfForm input[name=self]:checked').prop('checked', false);
             $('#desk-intro-self').removeClass('d-none')
         }
     })
