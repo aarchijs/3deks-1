@@ -65,11 +65,13 @@ beginBtns.each(function () {
 
         let parent = $(this).parents('section')
         parent.addClass('d-none')
-        if ($('#desk-intro').hasClass('in-progress')) {
-            $('.last-attended').removeClass('d-none').removeClass('last-attended')
+        let intro = $('#desk-intro')
+
+        if (intro.hasClass('in-progress')) {
+            $('.last-attended').removeClass('d-none last-attended')
         } else {
             $('#desk-intro-prepare').removeClass('d-none')
-            $('#desk-intro').addClass('in-progress')
+            intro.addClass('in-progress')
         }
 
         beginBtns.each(function(){
@@ -85,8 +87,12 @@ beginBtns.each(function () {
 $('#desk-intro-prepare a:not(#goToMethod)').each(function () {
     $(this).on('click', function (e) {
         e.preventDefault()
-        $('#desk-intro-prepare').addClass('d-none')
+
+        let prepare = $('#desk-intro-prepare')
+        prepare.addClass('d-none')
+
         if ($(this).hasClass('back')) {
+            prepare.addClass('last-attended')
             $('#desk-intro').removeClass('d-none')
         } else if ($(this).hasClass('continue')) {
             $('#selfForm input[name=self]:checked').prop('checked', false);
