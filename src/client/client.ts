@@ -388,6 +388,15 @@ dragControls.forEach((dragControl) => {
 //View switcher events by 90 grades with every click
 var sideView = 0
 $('.side-view').on('click', function () {
+
+    //try out side view changing view angle notification
+    $(".try-directions")
+        .css("display", "flex").hide().fadeIn(500)
+        .animate({ left: '-=12' }, 300)
+        .animate({ left: '+=24' }, 600)
+        .animate({ left: '-=12' }, 300)
+        .fadeOut(3000)
+
     //switch to perspective camera
     camera = pCamera
     //restrict dragging objects in sideView with dragControls, only rotating around scene center is allowed

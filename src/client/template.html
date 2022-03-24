@@ -511,7 +511,7 @@
         <div class="container">
             <h3 class="text-center" style="font-size: 40px; margin-bottom:54px;">Sagatavošanās</h3>
 
-            <div style="height: 378px;">
+            <div style="height: 358px;">
                 <div style="margin-bottom:12px;">
                     <div class="dropdown-block d-flex flex-column align-items-center col-12">
                         <button class="btn btn-success rounded-0 d-flex align-items-center justify-content-center"
@@ -585,7 +585,7 @@
             <h3 class="text-center mb-4" style="font-size: 40px; margin-bottom:32px;">Izvēlies simboliskā «Es» izmēru</h3>
             <p class="text-center mb-0">Figūra attēlo Tevi kā izjūti un piedzīvo pieteikto situāciju</p>
 
-            <form id="selfForm" class="col-8 mx-auto d-flex justify-content-between" style="height: 380px;">
+            <form id="selfForm" class="col-8 mx-auto d-flex justify-content-between" style="height: 360px;">
                 <div class="d-flex flex-column align-items-center">
                     <img src="assets/self-small.png"  alt="Simboliskais ES mazs"/>
                     <input type="radio" id="smaller" name="self" value="1" style="width:40px;height:40px;">
@@ -630,6 +630,12 @@
 
                     <a class="back btn btn-secondary btn-lg col-9 text-uppercase rounded-0 align-self-center">Atpakaļ</a>
                 </div>
+                <div class="try-directions">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-arrow-left-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5zm14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5z"/>
+                    </svg>
+                    <p class="fw-bold" style="margin-left: .5rem;">Izmēģini! Ar kursoru vari mainīt skata leņķi!</p>
+                </div>
 
                 <div class="desk-canvas"></div>
 
@@ -644,9 +650,9 @@
 
                     <div id="emotionForm" class="d-flex flex-column justify-content-between d-none"
                          style="height:80%;">
-                        <p class="add-continue fw-bolder invisible" style="margin:.25rem 0;">Vari pievienot emociju vai doties "Tālāk"</p>
+                        <p class="add-continue fw-bold invisible" style="margin:.25rem 0;">Vari pievienot emociju vai doties "Tālāk"</p>
 
-                        <button type="button" class="btn-desk d-flex align-items-center invisible" title="Vari iepazīties ar emociju un garastāvokļa sarakstu" data-bs-toggle="modal" data-bs-target="#emotionsModal" style="max-width: 80%;">
+                        <button type="button" class="btn-desk d-flex align-items-center invisible" title="Vari iepazīties ar emociju un garastāvokļu sarakstu" data-bs-toggle="modal" data-bs-target="#emotionsModal" style="max-width: 80%;margin:.25rem 0;">
                             <img width="24" height="24" src="assets/view-emotions.svg" class="img-fluid lazyload" alt="Emocijas" style="margin-right: 1rem;"/>
                             <p class="mb-0">Emociju saraksts</p>
                         </button>
@@ -746,8 +752,9 @@
         <div class="container">
             <div class='close-session'>
                 <p style="font-size:24px; margin-bottom: 2rem;">Lai noslēgtu sesiju spied “Beigt
-                    sesiju”. <br/><br/>Ja tomēr vēlies vēl apskatīt savu izkārtojumu vai uzņemt “ekrānšāviņu”, spied
-                    pogu “atpakaļ”.</p>
+                    sesiju”. <br/><br/>Ja tomēr vēlies vēl apskatīt savu izkārtojumu vai uzņemt ekrānuzņēmumu, spied
+                    pogu “atpakaļ”.
+                </p>
                 <div class="d-flex justify-content-evenly">
                     <button class="btn btn-secondary btn-lg col-3 text-uppercase rounded-0 back">Atpakaļ</button>
                     <button class="btn btn-success btn-lg col-3 text-uppercase rounded-0 continue">Beigt sesiju
@@ -756,8 +763,8 @@
             </div>
 
             <div class='thank-you d-none'>
-                <p style="font-size:24px;">Paldies, ka veltīji laiku sev! <br/><br/>Noslēguma sarunai
-                    un refleksijai, apturi iespēju kopīgot ekrānu.</p>
+                <p style="font-size:24px;">Paldies, ka veltīji laiku sev! <br/><br/>
+                    Noslēguma sarunai un refleksijai, aicinām beigt kopīgot ekrānu.</p>
             </div>
         </div>
     </section>

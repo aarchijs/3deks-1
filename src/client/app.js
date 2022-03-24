@@ -21,9 +21,18 @@ const reflectionTwoQuestions = [
 let addingEmotion = 0 //variable need for additional emotion adding
 $("span.emotion-tooltip, button.btn-desk").tooltip(); //initiating tooltips
 //NAVBAR tab switcher
-$('.ibm-tabs li a, #goToIntro, a#logo').each(function () {
+$('.ibm-tabs li a, a#logo').each(function () {
     $(this).on('click', function (e) {
         e.preventDefault()
+
+        if($(this).attr('href') === '#desk-intro' &&
+            !$('#finish .thank-you').hasClass('d-none'))
+        {
+            if (sessionInProgress) {
+                sessionInProgress = faqTabs = 0; // if user ends session variables set back to 0
+            }
+            location.reload()
+        }
 
         //if not already opened at any of top tabs sections and already started session
         if (!faqTabs && sessionInProgress) {
@@ -130,6 +139,7 @@ $('#desk-intro-self a').each(function () {
             let emotionClass = section.attr("class").split(/\s+/)[0];
 
             $('#desk-progress').removeClass('d-none')
+            $('.try-directions').css('top', $('#desk-progress a.continue').offset().top)
 
             if(emotionMapping[emotionClass]) {
                 $('input[name=emotion]').val(emotionMapping[emotionClass].toUpperCase())
@@ -197,6 +207,7 @@ $('#desk-progress.blank a').each(function () {
                 section.removeClass('blank').addClass('anger')
                 $('#entrance').addClass('d-none')
                 $('#emotionForm').removeClass('d-none')
+                $('input[name=emotion]').val('DUSMAS')
             } else if (section.hasClass('anger')) {
                 section.removeClass('anger').addClass('fear')
                 $('input[name=emotion]').val('BAILES')
@@ -322,10 +333,11 @@ $('#finish button').each(function () {
             $('#desk-progress').removeClass('d-none')
             // -------- If user decides to proceed with next step --------
         } else if ($(this).hasClass('continue')) {
+            $('#finish .close-session').addClass('d-none')
+            $('#finish .thank-you').removeClass('d-none')
             if (sessionInProgress) {
                 sessionInProgress = faqTabs = 0; // if user ends session variables set back to 0
             }
-            location.reload()
         }
     })
 })

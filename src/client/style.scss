@@ -114,6 +114,16 @@ section:not(#ibm-tab,#finish) {
     font-size: 18px;
 }
 
+#desk-progress {
+    .try-directions{
+        display: none;
+        position: absolute;
+        z-index: 900;
+        left:48%;
+        transform: translate(-50%);
+        font-size: 20px;
+    }
+}
 .dropdown-info {
     background-color: #e8e2e2;
     padding: 8px 8px 8px 48px;
