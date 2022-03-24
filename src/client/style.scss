@@ -172,11 +172,12 @@ button {
     background: #cfcfcf;
 }
 
-#introPhoto {
-    cursor: pointer;
-}
-
 .mx-6 {
     margin-right: 3.5rem !important;
     margin-left: 3.5rem !important;
+}
+
+.muted {
+    opacity: .5 !important;
+    cursor: unset !important;
 }

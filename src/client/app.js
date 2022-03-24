@@ -8,20 +8,20 @@ const reflectionQuestions = [
     'Kāds ir iemesls tieši šī simboliskā “Es” izmēra izvēlei?',
     'Kā kompozīcijā jūtas simboliskais “Es”?',
     'Ko simboliskais “Es” redz un ko neredz?',
-    'Kādu izjūtu kompozīcija sniedz kopumā?',
+    'Kādas izjūtas sniedz kompozīcija kopumā?',
     'Varbūt ir kāda cita vieta uz plaknes, kur Tu vēlētos pārvietot savu simbolisko “Es” figūru?',
 ]
 
 let reflectionTwo = 0
 const reflectionTwoQuestions = [
-    'Vai kompozīcijā ir kas lieks vai dīvains? Pastāsti, lūdzu, par to.',
+    'Vai kompozīcijā ir kaut kas lieks vai dīvains? Pastāsti, lūdzu, par to.',
     'Ko Tev nozīmē tālu novietotās emocijas?',
-    'Kā tu jūties tagad par pieteikto gadījumu, kas ir mainījies?',
+    'Kā Tu jūties tagad par pieteikto gadījumu, kas ir mainījies?',
 ]
 let addingEmotion = 0 //variable need for additional emotion adding
 $("span.emotion-tooltip, button.btn-desk").tooltip(); //initiating tooltips
 //NAVBAR tab switcher
-$('.ibm-tabs li a, #goToMethod, #goToIntro, a#logo').each(function () {
+$('.ibm-tabs li a, #goToIntro, a#logo').each(function () {
     $(this).on('click', function (e) {
         e.preventDefault()
 
@@ -81,10 +81,16 @@ beginBtns.each(function () {
     })
 })
 
+$('a.continue').each(function(){
+    $(this).on('click', function (e) {
+        window.scrollTo(0, 0);
+    })
+})
+
 // ---------Back-forth buttons---------
 
 //from Prepare step to Choose Self Size step
-$('#desk-intro-prepare a:not(#goToMethod)').each(function () {
+$('#desk-intro-prepare a').each(function () {
     $(this).on('click', function (e) {
         e.preventDefault()
 
@@ -124,20 +130,27 @@ $('#desk-intro-self a').each(function () {
             let emotionClass = section.attr("class").split(/\s+/)[0];
 
             $('#desk-progress').removeClass('d-none')
-            $('input[name=emotion]').val(emotionMapping[emotionClass].toUpperCase())
+
+            if(emotionMapping[emotionClass]) {
+                $('input[name=emotion]').val(emotionMapping[emotionClass].toUpperCase())
+            }
         }
     })
 })
 
 //since we have not implemented any of routing its all done by hiding/unhiding blocks by pressing back/continue buttons
-$('#desk-progress.anger a').each(function () {
+$('#desk-progress.blank a').each(function () {
     $(this).on('click', function (e) {
         e.preventDefault()
 
         if ($(this).hasClass('back')) {
             if (section.hasClass('direction')) {
                 $('input[name=emotion]').val('').attr('placeholder', 'IEVADI EMOCIJU')
-                $('.emotion-intensity, button.person-view').addClass('not-active')
+                $('.emotion-intensity, button.person-view')
+                    .addClass('muted')
+                    .prop('title', '”Es skatu” varēsi pielietot, kad visas emocijas būs izliktas digitālajā plaknē.')
+                    .data('blocked', 1)
+
                 if (addingEmotion) {
                     addingEmotion = 0
                 }
@@ -166,6 +179,9 @@ $('#desk-progress.anger a').each(function () {
                 reflection--
                 if (reflection >= 0) {
                     $('#reflectionsOne .reflection-question').text(reflectionQuestions[reflection])
+                    if (reflection == 5) {
+                        $('.reflection-direction').addClass('d-none');
+                    }
                 } else {
                     section.removeClass('reflection').addClass('direction')
                     $('#reflectionsOne').addClass('d-none')
@@ -177,7 +193,11 @@ $('#desk-progress.anger a').each(function () {
             }
         } else if ($(this).hasClass('continue')) { //if Continue button is pressed then
             //Dusmas, Bailes, Interese, Kauns, Vaina, Prieks, Riebums, Skumjas
-            if (section.hasClass('anger')) {
+            if (section.hasClass('blank')) {
+                section.removeClass('blank').addClass('anger')
+                $('#entrance').addClass('d-none')
+                $('#emotionForm').removeClass('d-none')
+            } else if (section.hasClass('anger')) {
                 section.removeClass('anger').addClass('fear')
                 $('input[name=emotion]').val('BAILES')
             } else if (section.hasClass('fear')) {
@@ -205,14 +225,19 @@ $('#desk-progress.anger a').each(function () {
                     .removeClass('not-active')
                     .attr('placeholder', 'IEVADI EMOCIJU')
                 $('.emotion-intensity').addClass('not-active')
-                $('span.emotion-tooltip, p.add-continue').removeClass('d-none');
+                $('span.emotion-tooltip').removeClass('d-none');
+                $('p.add-continue, #emotionForm button.btn-desk').removeClass('invisible');
             } else if (section.hasClass('additional')) {
                 $('input[name=emotion]').val('').attr('placeholder', 'IEVADI EMOCIJU')
                 $('.emotion-intensity').addClass('not-active')
                 if (!addingEmotion) {
                     section.removeClass('additional').addClass('direction')
                     $('#emotionForm').addClass('d-none')
-                    $('button.person-view').removeClass('not-active')
+                    $('button.person-view')
+                        .removeClass('muted')
+                        .prop('title', 'Izkārtojums tiks attēlots no simboliskā \'Es\' perspektīvas')
+                        .data('blocked', 0)
+
                     $('#sightDirection').removeClass('d-none')
                 }
                 addingEmotion = 0;
@@ -226,6 +251,9 @@ $('#desk-progress.anger a').each(function () {
                 //if all questions of 1st reflection are done proceed to emotion explanation view
                 if (reflection !== reflectionQuestions.length) {
                     $('#reflectionsOne .reflection-question').text(reflectionQuestions[reflection])
+                    if (reflection == 4) {
+                        $('.reflection-direction').removeClass('d-none');
+                    }
                 } else {
                     section.removeClass('reflection').addClass('explanations')
                     $('#reflectionsOne').addClass('d-none')
@@ -255,6 +283,7 @@ $('#desk-progress.anger a').each(function () {
 
             //Continue button should be disabled only on certain steps
             if (
+                !section.hasClass('blank') &&
                 !section.hasClass('additional') &&
                 !section.hasClass('direction') &&
                 !section.hasClass('reflection') &&
@@ -343,22 +372,10 @@ $('.dropdown-block button').each(function () {
 
 // -------- Initiate Slider for Sight Direction arrow rotation --------
 $(document).ready(function () { //.ready is deprecated but dont touch :D
-    $('#slider').slider({
-        min: 0,
-        max: 360,
+    $('.slider').each(function(){
+        $(this).slider({
+            min: 0,
+            max: 360,
+        })
     })
 })
-
-// -------- Intro picture click slider remove after decided --------
-let images = ['intro-1', 'intro-2', 'intro-3', 'intro-4', 'intro-5'];
-let imgIndex = 0;
-$('#introPhoto').on('click', function () {
-    if (imgIndex === images.length - 1) {
-        imgIndex = 0;
-    } else {
-        imgIndex++;
-    }
-
-    $(this).attr('src', 'assets/' + images[imgIndex] + '.png')
-
-});

@@ -465,6 +465,11 @@ $('.top-view').on('click', function () {
 
 //Self view
 $('.person-view').on('click', function () {
+
+    if($(this).data('blocked')) {
+        return;
+    }
+
     //switch to perspective camera
     camera = pCamera
 
@@ -491,7 +496,7 @@ $('.person-view').on('click', function () {
 
 })
 
-$('#desk-progress.anger a.back').on('click', function () {
+$('#desk-progress.blank a.back').on('click', function () {
     if ($('#desk-progress').hasClass('additional')) {
         if (!hasDirection) {
             sight.visible = false
@@ -504,7 +509,7 @@ $('#desk-progress.anger a.back').on('click', function () {
 
 let hasDirection = 1 //something was wrong with switching the steps
 //when Self direction step is on it makes arrow and radius visible
-$('#desk-progress.anger a.continue').on('click', function () {
+$('#desk-progress.blank a.continue').on('click', function () {
     if ($('#desk-progress').hasClass('direction')) {
         if (hasDirection) {
             sight.visible = true
@@ -567,18 +572,25 @@ $('#emotionForm .emotion-size').on('click', function (e) {
 })
 
 //To rotate camera view in person view, sight direction arrow and radius together with dragging button on slider
-$('#slider').on('slide', function (e, ui) {
+$('.slider').each(function(){
+    $(this).on('slide', function (e, ui) {
 
-    arrowHelper.rotation.y = pawn.children[0].rotation.y = Math.PI * 2 * (ui.value / 360)
-    sight.rotation.z = Math.PI * 2 * (ui.value / 360) + Math.PI / 2
-    arrow.children[0].rotation.y = Math.PI * 2 * (ui.value / 360) - Math.PI / 2
+        arrowHelper.rotation.y = pawn.children[0].rotation.y = Math.PI * 2 * (ui.value / 360)
+        sight.rotation.z = Math.PI * 2 * (ui.value / 360) + Math.PI / 2
+        arrow.children[0].rotation.y = Math.PI * 2 * (ui.value / 360) - Math.PI / 2
 
-    if (personView) {
-        camera.rotation.set(0, arrowHelper.rotation.y - Math.PI / 2, 0)
-        camera.updateProjectionMatrix()
-        camera.updateMatrix()
-    }
-    console.log(camera.rotation)
+        if (personView) {
+            camera.rotation.set(0, arrowHelper.rotation.y - Math.PI / 2, 0)
+            camera.updateProjectionMatrix()
+            camera.updateMatrix()
+        }
+
+        let sliderRotation = $(this).find('span.ui-slider-handle').css('left');
+
+        $('.slider').each(function(){
+            $(this).find('span.ui-slider-handle').css('left', sliderRotation)
+        })
+    })
 })
 
 function init() {}
