@@ -67,6 +67,15 @@ let beginBtns = $('button:contains("Sākt"), a:contains("Sākt")')
 beginBtns.each(function () {
     $(this).on('click', function (e) {
         e.preventDefault()
+
+        if(!$('#finish .thank-you').hasClass('d-none'))
+        {
+            if (sessionInProgress) {
+                sessionInProgress = faqTabs = 0; // if user ends session variables set back to 0
+            }
+            location.reload()
+        }
+
         sessionInProgress = 1;
         faqTabs = 0;
 
@@ -338,6 +347,10 @@ $('#finish button').each(function () {
             if (sessionInProgress) {
                 sessionInProgress = faqTabs = 0; // if user ends session variables set back to 0
             }
+            beginBtns.each(function(){
+                let updateBtnText = $(this).text().replace('Turpināt', 'Sākt');
+                $(this).text(updateBtnText);
+            })
         }
     })
 })
