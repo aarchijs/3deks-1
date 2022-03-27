@@ -36,7 +36,7 @@
     <section id="desk-intro" class="ibm-tabs-content" style="font-size:18px;">
 
         <div class="container">
-            <h4 class="text-center" style="font-size: 40px; margin-bottom:54px;">3D Emociju kompozīcija Supervīzijā </h4>
+            <h4 class="text-center" style="font-size: 40px; margin-bottom:54px;">3D Emociju kompozīcija supervīzijā </h4>
             <div class="d-flex flex-column flex-lg-row justify-content-evenly">
                 <div class="col-12 col-lg-5 mx-3">
                     <img class="img-fluid lazyload" src="assets/intro-4.png" alt="Sākuma bilde"/>
@@ -61,7 +61,7 @@
             <p style="text-indent: 1cm;" class="mb-0"><strong>“3D emociju kompozīcija Supervīzijā”</strong> (3DEKS ) ir
                 vizuāla digitāla metode attālinātam darbam supervīzijā ar mērķi veicināt emociju apzināšanos, to
                 izpratni un pašrefleksiju. Metode tiek veikta saskaņā ar instrukciju un sekojot precīziem soļiem
-                speciāli izveidotā digitālā rīkā <a href="http://www.3deks.rsu.lv/" target="_blank">www.3deks.rsu.lv</a>.</p>
+                speciāli izveidotā digitālā rīkā <a href="http://www.3deks.rsu.lv/" target="_blank">3deks.rsu.lv</a>.</p>
             <p style="text-indent: 1cm;" class="mb-0">Metode 3DEKS ir adaptēta vizuālās izvērtēšanas metode “3D emociju
                 kompozīcija” (Vanadziņa, Lejstrauta, Paiča un Mārtinsone, 2020), kas sākotnēji paredzēta klienta
                 emocionālās pieredzes un atsevišķu emociju regulācijas prasmju izvērtēšanai mākslas terapeitu
@@ -105,8 +105,14 @@
         <div class="container d-flex flex-column col-11" style="max-width: 1200px; text-align: justify;">
             <h4 class="text-center" style="font-size: 40px; margin-bottom:54px;">Emociju nozīme</h4>
 
-            <p class="mb-4">Šeit atradīsi skaidrojumu astoņām pamatemocijām - dusmām, bailēm, interesei, kaunam, vainai,
-                priekam, riebumam un skumjām. </p>
+            <p class="mb-4">Emocijas ir notikumu tiešs piedzīvojums, kas ir saistīts ar domām, vajadzībām, un to
+                pārdzīvojuma pieredze ir ikvienam. Emocijas dod nozīmi, virzību mūsu dzīvēm, bet ne
+                vienmēr tās ir viegli piedzīvot vai ar tām sadzīvot.<br /><br />
+                Katrai emocijai ir sava nozīme, piemēram, pasargāt, aizstāvēt, izdzīvot, iekļaut, regulēt,
+                motivēt. Tās arī palīdz labāk izprast sevi un citus. Šeit atradīsi skaidrojumu astoņām
+                pamatemocijām - dusmām, bailēm, interesei, kaunam, vainai, priekam, riebumam un
+                skumjām, un to kādas svarīgas funkcijas katra pilda, ko nodrošina, kam ir noderīga, kādas
+                situācijas ierosina, kā arī to, kā tās sajūtam savā ķermenī.</p>
 
             <div id="anger">
                 <div class="d-flex align-items-center mb-4">
@@ -652,9 +658,13 @@
                          style="height:80%;">
                         <p class="add-continue fw-bold invisible" style="margin:.25rem 0;">Vari pievienot emociju vai doties "Tālāk"</p>
 
+                        <div class="d-flex align-items-center">
+                            <input type="text" minlength="5" maxlength="25" name="emotion" value="DUSMAS" class="text-uppercase fw-bold mb-0 px-3 py-2 not-active" style="background: #DFDDDE; width: fit-content; opacity: 1;">
+                        </div>
+
                         <button type="button" class="btn-desk d-flex align-items-center invisible" title="Vari iepazīties ar emociju un garastāvokļu sarakstu" data-bs-toggle="modal" data-bs-target="#emotionsModal" style="max-width: 80%;margin:.25rem 0;">
                             <img width="24" height="24" src="assets/view-emotions.svg" class="img-fluid lazyload" alt="Emocijas" style="margin-right: 1rem;"/>
-                            <p class="mb-0">Emociju saraksts</p>
+                            <p class="mb-0" style="text-decoration:underline">Emociju saraksts</p>
                         </button>
 
                         <!-- Modal -->
@@ -671,12 +681,8 @@
                             </div>
                         </div>
 
-                        <div class="d-flex align-items-center">
-                            <input type="text" minlength="5" maxlength="25" name="emotion" value="DUSMAS" class="text-uppercase fw-bold mb-0 px-3 py-2 not-active" style="background: #DFDDDE; width: fit-content; opacity: 1;">
-                        </div>
-
                         <p class="mb-0">Izvēlies emocijas intensitāti:</p>
-                        <div class="d-flex justify-content-evenly text-center emotion-intensity">
+                        <div class="d-flex justify-content-evenly text-center emotion-intensity" style="margin-bottom: 1rem;">
                             <div class="emotion-size d-flex flex-column align-items-center col-3" style="width:24%;">
                                 <img width="60" height="128" src="assets/cube-1x.png" class="img-fluid lazyload mb-3" alt="Emocijas intensitāte"/>
                                 <p class="mb-0">Vāji izteikta</p>
@@ -720,7 +726,8 @@
                         <div class="reflection-direction d-none">
                             <p style="margin-bottom: 2.75rem;">NORĀDI VIRZIENU:</p>
                             <div class="slider"></div>
-                            <p style="margin-top: 1rem;">Ja izvēlējies pārvietot: Kā simboliskais “Es” jūtas jaunajā vietā? Kas ir mainījies?</p>
+                            <p style="margin-top: 1rem;">Ja izvēlējies pārvietot:</p>
+                            <p class="fw-bold">Kā simboliskais “Es” jūtas jaunajā vietā? Kas ir mainījies?</p>
                         </div>
                     </div>
 

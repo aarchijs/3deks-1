@@ -446,6 +446,8 @@ $('.side-view').on('click', function () {
 
 //Top view
 $('.top-view').on('click', function () {
+    $(".try-directions").stop(true).fadeOut(100)
+
     //switch to ortographic camera
     camera = oCamera
 
@@ -474,6 +476,7 @@ $('.top-view').on('click', function () {
 
 //Self view
 $('.person-view').on('click', function () {
+    $(".try-directions").stop(true).fadeOut(100)
 
     if($(this).data('blocked')) {
         return;
