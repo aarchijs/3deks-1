@@ -145,13 +145,13 @@ let emotions = [
             'funkcija ir sagatavot ķermeni un prātu cīņai, signalizēt par robežu pārkāpšanu un ierastās kārtības izjaukšanu.<br /><br />' +
             '<ul class="mb-0">' +
                 '<li>Dod enerģiju un drosmi rīkoties, veicināt pārmaiņas, pretoties nepatīkamajam</li>' +
-                '<li>Aizsargā arī no dziļākām, grūtāk izturamākām emocijām, tādām kā: vilšanās, skumjas, trauksme, izmisums, bailes</li>' +
+                '<li>Aizsargā arī no dziļākām, grūtāk izturamām emocijām, tādām kā vilšanās, skumjas, trauksme, izmisums, bailes</li>' +
             '</ul>'
     },
     {
         name: 'Bailes',
         description:
-            'funkcija ir izvairīties, izkļūt ārā no nepatīkamām un bīstamām situācijām.<br /><br />' +
+            'funkcija ir izvairīties, izkļūt no nepatīkamām un bīstamām situācijām.<br /><br />' +
             '<ul class="mb-0">' +
                 '<li>Ķermenis tiek sagatavots, lai pietiktu enerģijas un spēka bēgt vai uzbrukt</li>' +
                 '<li>Palīdz pārdzīvot draudu situācijas</li>' +
@@ -181,8 +181,7 @@ let emotions = [
                 '<li>Pasargā no neapdomīgas rīcības</li>' +
                 '<li>Veicina iejūtību pret apkārtējiem</li>' +
                 '<li>Aktualizē citu intereses, viedokli un kritiku</li>' +
-                '<li>Pasargā no neapdomīgas rīcības</li>' +
-                '<li>Nodrošina vietu sabiedrībā un tas ir grupas komforta glabātājs</li>' +
+                '<li>Nodrošina vietu sabiedrībā, un tas ir grupas komforta glabātājs</li>' +
             '</ul>'
     },
     {
@@ -202,8 +201,8 @@ let emotions = [
             'funkcija veido pieķeršanos un savstarpējo uzticēšanos, rada labu garastāvokli un vēlmi rīkoties. <br /><br />' +
             '<ul class="mb-0">' +
                 '<li>Veicina dzīves jēgas apzināšanos</li>' +
-                '<li>Pamanīt un baudīt skaisto ikdienas mirkļos </li>' +
-                '<li>Spēt pieņemt apkārtējo pasauli</li>' +
+                '<li>Iedvesmo pamanīt un baudīt skaisto ikdienas mirkļos</li>' +
+                '<li>Motivē pieņemt apkārtējo pasauli</li>' +
                 '<li>Piepilda ar enerģiju</li>' +
                 '<li>Ļauj ķermenim un prātam atslābināties</li>' +
                 '<li>Uzlabo ķermeņa fizioloģisko stāvokli</li>' +
@@ -216,11 +215,11 @@ let emotions = [
     {
         name: 'Riebums',
         description:
-            'funkcija ir nodrošināt organismam izdzīvošanu - adaptīva reakcija, kas ļauj izvairīties no nepatīkamām un veselībai kaitīgām situācijām. Veido robežas: mans – svešs. <br /><br />' +
+            'funkcija ir nodrošināt organismam izdzīvošanu — adaptīva reakcija, kas ļauj izvairīties no nepatīkamām un veselībai kaitīgām situācijām. Veido robežas: mans — svešs. <br /><br />' +
             '<ul class="mb-0">' +
-                '<li>Palīdz adaptēties ārējiem faktoriem, ļaujot apdomāt un izvēlēties, kā rīkoties</li>' +
+                '<li>Palīdz pielāgoties ārējiem faktoriem, ļaujot apdomāt un izvēlēties, kā rīkoties</li>' +
                 '<li>Mudina izolēties no šķietami nepieņemamā, piemēram, ziņo par kaitīgu, nevēlamu vidi</li>' +
-                '<li>Motivē pārtraukt nelabvēlīgas attiecības – atbrīvoties no objekta vai pašiem aiziet</li>' +
+                '<li>Motivē pārtraukt nelabvēlīgas attiecības —atbrīvoties no objekta vai pašiem aiziet</li>' +
             '</ul>'
     },
     {
@@ -230,7 +229,7 @@ let emotions = [
             '<ul class="mb-0">' +
                 '<li>Skumjas ir nepatīkamas un grūti izturamas</li>' +
                 '<li>Mudina rīkoties, motivē esošo situāciju mainīt un sasniegt jaunus mērķus</li>' +
-                '<li>Palīdz pārdomāt dzīvi, rosina uz attīstību</li>' +
+                '<li>Palīdz pārdomāt dzīvi, rosina attīstīties</li>' +
                 '<li>Padara vērīgākus attiecībā pret notiekošo un apkārtējiem cilvēkiem</li>' +
             '</ul>'
     }
