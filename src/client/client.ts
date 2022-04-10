@@ -293,7 +293,7 @@ emotions.forEach(function (emotion) {
 
     let annotationLabel = new CSS2DObject(annotationDiv)
     annotationLabel.visible = false //stay invisible until emotion is shown up
-    annotationLabel.position.set(0, 1, 0)
+    annotationLabel.position.set(0, -0.5, 0)
     item.add(annotationLabel)
     scene.add(item)
     interactionManager.add(item) //to add DOM events to object like clickable etc.
